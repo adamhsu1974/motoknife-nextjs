@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
 
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
-import type { Product } from "@/lib/payload-types";
+import type { Media, Product } from "@/lib/payload-types";
+import { populated } from "@/lib/relations";
 import { getSeriesInfo, FAMILY_TIER_LABELS } from "@/lib/series";
 import { keySpecRows, materialTags } from "@/lib/product-display";
 import { CompareBar, CompareModal } from "@/components/ProductCompare";
@@ -120,12 +122,8 @@ export default function ProductCatalog({ lang, dict, products }: ProductCatalogP
               {dict.products.compare}
             </button>
 
-            {/* Thumbnail placeholder */}
-            <div className="mb-5 flex h-40 items-center justify-center rounded bg-bg-card">
-              <span className="font-heading text-2xl font-bold text-text-secondary/20">
-                {product.model}
-              </span>
-            </div>
+            {/* Thumbnail：有產品圖用 next/image，否則佔位 */}
+            <ProductThumbnail product={product} />
 
             <div className="flex items-center gap-2">
               {product.cuttingMethod && (
@@ -200,6 +198,34 @@ export default function ProductCatalog({ lang, dict, products }: ProductCatalogP
           onClose={() => setIsCompareOpen(false)}
         />
       )}
+    </div>
+  );
+}
+
+function ProductThumbnail({ product }: { product: Product }) {
+  const cover = populated<Media>(product.images).find(
+    (m) => m.mimeType?.startsWith("image/") && m.url,
+  );
+
+  if (cover?.url) {
+    return (
+      <div className="relative mb-5 h-40 overflow-hidden rounded bg-bg-card">
+        <Image
+          src={cover.url}
+          alt={cover.alt}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
+          className="object-cover"
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="mb-5 flex h-40 items-center justify-center rounded bg-bg-card">
+      <span className="font-heading text-2xl font-bold text-text-secondary/20">
+        {product.model}
+      </span>
     </div>
   );
 }

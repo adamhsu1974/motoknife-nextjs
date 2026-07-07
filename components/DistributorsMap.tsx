@@ -46,6 +46,37 @@ export default function DistributorsMap({ lang, dict, countries }: DistributorsM
     <div className="grid gap-8 lg:grid-cols-3">
       {/* Map */}
       <div className="overflow-hidden rounded-lg bg-white shadow-sm lg:col-span-2">
+        {/* 手機提示 + 備用下拉（地圖縮小時難以點擊小國家） */}
+        <div className="border-b border-border px-5 py-4 md:hidden">
+          <p className="text-xs text-text-secondary">{dict.distributors.mobileHint}</p>
+          <select
+            aria-label={dict.distributors.selectCountry}
+            value={selected?.numericId ?? ""}
+            onChange={(e) => {
+              const country = countries.find(
+                (c) => numericIdForCountry(c.countryCode) === e.target.value,
+              );
+              if (country) {
+                setSelected({ numericId: e.target.value, name: country.countryName });
+              }
+            }}
+            className="mt-2 w-full rounded border border-border bg-white px-3 py-2.5 text-sm text-text-primary"
+          >
+            <option value="" disabled>
+              {dict.distributors.selectCountry}
+            </option>
+            {countries.map((country) => {
+              const numericId = numericIdForCountry(country.countryCode);
+              if (!numericId) return null;
+              return (
+                <option key={country.countryCode} value={numericId}>
+                  {country.countryName}
+                </option>
+              );
+            })}
+          </select>
+        </div>
+
         <ComposableMap projection="geoNaturalEarth1" aria-label="World distributor map">
           <ZoomableGroup minZoom={1} maxZoom={5}>
             <Geographies geography={worldData}>

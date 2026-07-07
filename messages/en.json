@@ -264,6 +264,8 @@
     "selectHint": "Click a country on the map to get started.",
     "authorizedDistributors": "Authorized distributors",
     "distributorCountriesLabel": "Countries with local distributors",
+    "mobileHint": "Tap a region or select below",
+    "selectCountry": "Select a country...",
     "sendInquiry": "Send Inquiry",
     "inquirySuccess": "Thank you! Your inquiry has been submitted — we will respond within 24–48 hours.",
     "inquiryError": "Submission failed. Please try again or email service@motoknife.com."

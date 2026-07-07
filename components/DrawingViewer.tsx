@@ -38,8 +38,16 @@ export default function DrawingViewer({
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const dragStart = useRef({ x: 0, y: 0, ox: 0, oy: 0 });
+  // pinch zoom：以 PointerEvent 追蹤雙指距離
+  const pointers = useRef(new Map<number, { x: number; y: number }>());
+  const pinch = useRef<{ startDist: number; startScale: number } | null>(null);
 
   const active = images[activeIndex];
+
+  function pointerDistance(): number {
+    const [a, b] = [...pointers.current.values()];
+    return Math.hypot(b.x - a.x, b.y - a.y);
+  }
 
   function reset() {
     setScale(1);
@@ -63,11 +71,28 @@ export default function DrawingViewer({
 
   function onPointerDown(e: React.PointerEvent<HTMLDivElement>) {
     e.currentTarget.setPointerCapture(e.pointerId);
-    setIsDragging(true);
-    dragStart.current = { x: e.clientX, y: e.clientY, ox: offset.x, oy: offset.y };
+    pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+    if (pointers.current.size === 2) {
+      // 進入雙指縮放模式，停止單指平移
+      pinch.current = { startDist: pointerDistance(), startScale: scale };
+      setIsDragging(false);
+    } else if (pointers.current.size === 1) {
+      setIsDragging(true);
+      dragStart.current = { x: e.clientX, y: e.clientY, ox: offset.x, oy: offset.y };
+    }
   }
 
   function onPointerMove(e: React.PointerEvent<HTMLDivElement>) {
+    if (!pointers.current.has(e.pointerId)) return;
+    pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+    if (pinch.current && pointers.current.size >= 2) {
+      const ratio = pointerDistance() / pinch.current.startDist;
+      setScale(Math.min(MAX_SCALE, Math.max(MIN_SCALE, pinch.current.startScale * ratio)));
+      return;
+    }
+
     if (!isDragging) return;
     setOffset({
       x: dragStart.current.ox + (e.clientX - dragStart.current.x),
@@ -75,8 +100,10 @@ export default function DrawingViewer({
     });
   }
 
-  function onPointerUp() {
-    setIsDragging(false);
+  function onPointerUp(e: React.PointerEvent<HTMLDivElement>) {
+    pointers.current.delete(e.pointerId);
+    if (pointers.current.size < 2) pinch.current = null;
+    if (pointers.current.size === 0) setIsDragging(false);
   }
 
   function toggleFullscreen() {

@@ -264,6 +264,8 @@
     "selectHint": "點選地圖上的國家開始。",
     "authorizedDistributors": "授權代理商",
     "distributorCountriesLabel": "有當地代理商的國家",
+    "mobileHint": "點選地圖區域，或使用下方選單",
+    "selectCountry": "選擇國家...",
     "sendInquiry": "送出詢價",
     "inquirySuccess": "感謝您！詢價已送出，我們將於 24–48 小時內回覆。",
     "inquiryError": "送出失敗，請重試或來信 service@motoknife.com。"

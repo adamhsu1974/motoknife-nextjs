@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -66,6 +67,9 @@ export default async function ProductModelPage({ params }: ProductModelPageProps
     ? (FAMILY_TIER_LABELS[product.familyTier] ?? product.familyTier)
     : undefined;
 
+  const heroImage = populated<Media>(product.images).find(
+    (m) => m.mimeType?.startsWith("image/") && m.url,
+  );
   const model3d = populatedOne<Media>(product.model3d);
   const drawings = populated<Media>(product.technicalDrawings)
     .filter((m) => m.mimeType?.startsWith("image/") && m.url)
@@ -111,11 +115,24 @@ export default async function ProductModelPage({ params }: ProductModelPageProps
             <div className="lg:col-span-2">
               {/* Product header */}
               <div className="rounded-lg bg-white p-6 shadow-sm md:p-8">
-                <div className="mb-6 flex h-56 items-center justify-center rounded bg-bg-card md:h-72">
-                  <span className="font-heading text-3xl font-bold text-text-secondary/20">
-                    {product.model}
-                  </span>
-                </div>
+                {heroImage?.url ? (
+                  <div className="relative mb-6 h-56 overflow-hidden rounded bg-bg-card md:h-72">
+                    <Image
+                      src={heroImage.url}
+                      alt={heroImage.alt}
+                      fill
+                      priority
+                      sizes="(max-width: 1024px) 100vw, 800px"
+                      className="object-contain"
+                    />
+                  </div>
+                ) : (
+                  <div className="mb-6 flex h-56 items-center justify-center rounded bg-bg-card md:h-72">
+                    <span className="font-heading text-3xl font-bold text-text-secondary/20">
+                      {product.model}
+                    </span>
+                  </div>
+                )}
 
                 <div className="flex flex-wrap items-center gap-2">
                   {series && (
