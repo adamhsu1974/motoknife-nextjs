@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
+import { whatsappHref } from "@/lib/whatsapp";
+import WhatsAppIcon from "@/components/WhatsAppIcon";
 
 interface FloatingCTAProps {
   lang: Locale;
@@ -18,14 +20,27 @@ export default function FloatingCTA({ lang, dict }: FloatingCTAProps) {
   if (pathname === `/${lang}/contact`) return null;
 
   return (
-    <Link
-      href={`/${lang}/contact`}
-      className="fixed bottom-6 right-6 z-40 flex items-center gap-2 rounded-lg bg-orange px-5 py-3 text-sm font-semibold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:bg-orange-hover hover:shadow-xl"
-    >
-      <SearchIcon />
-      <span className="hidden sm:inline">{dict.common.findTheRightSolution}</span>
-      <span className="sm:hidden">{dict.nav.getAQuote}</span>
-    </Link>
+    <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-3">
+      {/* WhatsApp 快速入口 */}
+      <a
+        href={whatsappHref()}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={dict.contact.whatsappCta}
+        className="flex h-12 w-12 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl"
+      >
+        <WhatsAppIcon size={22} />
+      </a>
+
+      <Link
+        href={`/${lang}/contact`}
+        className="flex items-center gap-2 rounded-lg bg-orange px-5 py-3 text-sm font-semibold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:bg-orange-hover hover:shadow-xl"
+      >
+        <SearchIcon />
+        <span className="hidden sm:inline">{dict.common.findTheRightSolution}</span>
+        <span className="sm:hidden">{dict.nav.getAQuote}</span>
+      </Link>
+    </div>
   );
 }
 

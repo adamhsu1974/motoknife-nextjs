@@ -3,38 +3,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import BrandTimeline from "@/components/BrandTimeline";
+import WhyMotoknife from "@/components/WhyMotoknife";
 import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import { isLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { pageMetadata } from "@/lib/i18n/metadata";
 import { EQUIPMENT, PATENTS } from "@/lib/about";
-
-const STRENGTHS = [
-  {
-    title: "Precision Manufacturing",
-    value: "±0.005mm",
-    description:
-      "Every knife holder is manufactured to ±0.005mm tolerance using MAZAK CNC multi-tasking turning centers.",
-  },
-  {
-    title: "35 Years Experience",
-    value: "Since 1990",
-    description:
-      "Three and a half decades of continuous innovation in slitting technology, serving customers worldwide.",
-  },
-  {
-    title: "Complete Product Line",
-    value: "100+",
-    description:
-      "Full range of Score Cut, Shear Cut, Half Cut, Hot Cut holders, blades, and guide bars.",
-  },
-  {
-    title: "Global Reach",
-    value: "50+ Countries",
-    description:
-      "Distribution network spanning Asia, Europe, and the Americas with local support.",
-  },
-] as const;
 
 const CAPABILITIES = [
   "MAZAK CNC Multi-Tasking Turning Centers",
@@ -139,33 +113,15 @@ export default async function AboutPage({ params }: AboutPageProps) {
         </div>
       </section>
 
-      {/* Strengths */}
-      <section className="bg-bg-warm py-16 md:py-24">
-        <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {STRENGTHS.map((s) => (
-              <div key={s.title} className="rounded-lg bg-white p-6 shadow-sm">
-                <p className="font-heading text-2xl font-bold text-orange">
-                  {s.value}
-                </p>
-                <h2 className="mt-2 text-lg font-bold text-text-primary">
-                  {s.title}
-                </h2>
-                <p className="mt-2 text-sm leading-relaxed text-text-secondary">
-                  {s.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Why MOTOKNIFE 信任數字（與首頁共用元件） */}
+      <WhyMotoknife dict={dict} />
 
       {/* Brand Story Timeline */}
       <section className="bg-navy py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
           <p className="eyebrow">Since 1990</p>
           <h2 className="mt-3 text-2xl font-bold text-white md:text-3xl">
-            Our Story
+            Innovation Milestones
           </h2>
           <div className="mt-10" data-timeline>
             <BrandTimeline />
@@ -249,8 +205,8 @@ export default async function AboutPage({ params }: AboutPageProps) {
             Multi-Country Patents
           </h2>
           <p className="mt-4 max-w-2xl text-text-secondary">
-            Original engineering protected in four countries — the difference
-            between a 35-year manufacturer and an imitation.
+            Innovation milestones registered across four countries — 35 years
+            of original engineering, never imitation.
           </p>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {PATENTS.map((patent) => (

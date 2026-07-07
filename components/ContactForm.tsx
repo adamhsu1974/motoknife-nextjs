@@ -8,6 +8,8 @@ import type { ContactFormData } from "@/lib/schemas/contact";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import type { DistributorCountryGroup } from "@/lib/cms-types";
+import { whatsappHref } from "@/lib/whatsapp";
+import WhatsAppIcon from "@/components/WhatsAppIcon";
 
 export const PRODUCT_TYPE_LABELS = [
   "Score Cut Knife Holder",
@@ -228,6 +230,22 @@ export default function ContactForm({
 
           {/* Right: Form */}
           <div className="rounded-lg bg-white p-6 shadow-sm md:p-8 lg:col-span-3">
+            {/* WhatsApp 快速通道 — 表單上方顯眼處 */}
+            <div className="mb-8">
+              <a
+                href={whatsappHref()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 rounded bg-[#25D366] px-6 py-3.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+              >
+                <WhatsAppIcon />
+                {dict.contact.whatsappCta}
+              </a>
+              <p className="mt-2 text-center text-xs text-text-secondary">
+                {dict.contact.whatsappNote}
+              </p>
+            </div>
+
             {prefill.hasPrefill && (
               <div className="mb-6 rounded border border-orange/30 bg-orange-soft px-4 py-3 text-sm text-text-primary">
                 {dict.contact.prefillNotice}

@@ -2,6 +2,7 @@
   "nav": {
     "products": "產品",
     "applications": "應用場景",
+    "services": "服務",
     "distributors": "全球代理",
     "about": "關於友聚",
     "contact": "聯絡我們",
@@ -62,6 +63,10 @@
     "news": {
       "title": "最新消息",
       "description": "MOTOKNIFE 產品消息、分條知識與展覽動態——1990 年創立的台灣精密分條刀具專家。"
+    },
+    "services": {
+      "title": "服務與支援",
+      "description": "免費材料測試 3 個工作天出具完整報告、刀片研磨、維修保養、技術諮詢——MOTOKNIFE 服務生態系統。"
     }
   },
   "contact": {
@@ -93,7 +98,9 @@
     "submitAnother": "再送出一筆詢價",
     "distributorNotice": "{country} 設有授權代理商：{companies}。如需最快的當地支援，也可直接與代理商聯繫——詳見代理商頁面。您也可以直接送出此表單，我們將與當地夥伴協調處理。",
     "distributorsPageLink": "查看代理商",
-    "prefillNotice": "已自動帶入選型器的資料，請確認並視需要調整。"
+    "prefillNotice": "已自動帶入選型器的資料，請確認並視需要調整。",
+    "whatsappCta": "WhatsApp 線上詢問",
+    "whatsappNote": "台灣上班時間（GMT+8）回覆最快"
   },
   "products": {
     "filterAll": "全部",
@@ -139,6 +146,54 @@
     "downloadsHeading": "下載",
     "catalogFile": "產品型錄（PDF）"
   },
+  "services": {
+    "test": {
+      "eyebrow": "旗艦服務",
+      "heading": "免費材料測試，3 個工作天出具報告",
+      "sub": "在投資任何設備之前，先確定哪款刀座最適合您的材料——在我們的設備上實測，以完整報告佐證。",
+      "steps": [
+        "寄送您的材料給我們",
+        "我們在自有設備上實測",
+        "3 個工作天內收到完整報告"
+      ],
+      "reportHeading": "每份報告包含",
+      "reportItems": [
+        "建議切割方式",
+        "建議刀座型號",
+        "切割樣品照片",
+        "測試影片"
+      ],
+      "cta": "申請材料測試"
+    },
+    "regrinding": {
+      "title": "刀片研磨服務",
+      "text": "恢復原廠刃口幾何、延長刀片壽命——壓切刀片、剪切刀與特殊刀片的專業研磨。",
+      "cta": "申請研磨服務"
+    },
+    "repair": {
+      "title": "維修保養",
+      "text": "刀座檢測、零件更換、性能校正——讓每個刀站維持出廠水準。",
+      "cta": "申請維修"
+    },
+    "consulting": {
+      "title": "技術諮詢",
+      "items": [
+        "評估現有機台能否導入氣動分條刀座系統",
+        "安裝與使用指導",
+        "切法與型號選型協助"
+      ],
+      "cta": "與工程師聯繫"
+    }
+  },
+  "why": {
+    "heading": "為什麼選擇 MOTOKNIFE",
+    "items": [
+      { "value": "Since 1990", "label": "36 年專注分條刀座" },
+      { "value": "50+ 國", "label": "全球加工客戶信任" },
+      { "value": "±0.005mm", "label": "自有計量設備驗證精度" },
+      { "value": "3 天", "label": "免費材料測試報告交付" }
+    ]
+  },
   "news": {
     "heading": "最新消息",
     "readMore": "閱讀更多",
@@ -169,7 +224,7 @@
     "heroLine1": "精密分條",
     "heroLine2": "解決方案",
     "heroSubtitle": "高性能分條刀座與刀片，服務全球 50+ 國軟性材料加工客戶。",
-    "advantagesHeading": "為什麼選擇 MOTOKNIFE",
+    "advantagesHeading": "MOTOKNIFE 的與眾不同",
     "advantages": [
       {
         "title": "35 年專業經驗",

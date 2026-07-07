@@ -3,6 +3,8 @@ import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import type { DistributorCountryGroup } from "@/lib/cms-types";
+import { whatsappHref, WHATSAPP_DISPLAY } from "@/lib/whatsapp";
+import WhatsAppIcon from "@/components/WhatsAppIcon";
 
 interface FooterProps {
   lang: Locale;
@@ -27,6 +29,7 @@ export default function Footer({ lang, dict, distributorCountries }: FooterProps
       title: dict.footer.companyTitle,
       links: [
         { href: `/${lang}/about`, label: dict.footer.aboutUs },
+        { href: `/${lang}/services`, label: dict.nav.services },
         { href: `/${lang}/applications`, label: dict.nav.applications },
         { href: `/${lang}/products/cutting-methods`, label: dict.common.cuttingMethods },
         { href: `/${lang}/news`, label: dict.news.heading },
@@ -58,6 +61,15 @@ export default function Footer({ lang, dict, distributorCountries }: FooterProps
                   <p>TEL +886-3-4753005</p>
                   <p>FAX +886-3-4754797</p>
                   <p>service@motoknife.com</p>
+                  <a
+                    href={whatsappHref()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 transition-colors hover:text-[#25D366]"
+                  >
+                    <WhatsAppIcon size={14} />
+                    {WHATSAPP_DISPLAY}
+                  </a>
                 </div>
               </div>
               <div>

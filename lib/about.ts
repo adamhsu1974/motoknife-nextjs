@@ -28,31 +28,33 @@ export const MILESTONES: Milestone[] = [
     description:
       "Shanghai branch opens in Jiading District, bringing local support to converters across China.",
   },
+  /* 專利條目採歷史事件敘述（innovation milestones 框架），
+     不使用暗示現行保護的措辭（patented technology / patent-protected） */
   {
     year: "2006",
-    title: "US Patent Granted",
+    title: "Pneumatic Holder Mechanism Patented (US)",
     description:
-      "First United States patent granted for MOTOKNIFE's pneumatic knife holder mechanism.",
+      "MOTOKNIFE's original pneumatic knife holder mechanism was patented in the United States — the company's first overseas innovation milestone.",
     yearTbc: true,
   },
   {
     year: "2009",
-    title: "German Patent Granted",
+    title: "Positioning System Patented (DE)",
     description:
-      "German patent secured — engineering recognized in the home market of the industry's leading manufacturers.",
+      "The knife holder positioning system was patented in Germany — an innovation recognized in the home market of the industry's leading manufacturers.",
     yearTbc: true,
   },
   {
     year: "2011",
-    title: "Taiwan Patent Granted",
-    description: "Taiwan patent granted for original knife holder design.",
+    title: "Holder Design Patented (TW)",
+    description: "Original slitting knife holder design patented in Taiwan.",
     yearTbc: true,
   },
   {
     year: "2013",
-    title: "China Patent Granted",
+    title: "Slitting Device Patented (CN)",
     description:
-      "China patent secured, protecting original designs in the world's largest converting market.",
+      "The pneumatic slitting device was patented in China as the company expanded in the world's largest converting market.",
     yearTbc: true,
   },
   {

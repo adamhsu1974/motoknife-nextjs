@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import CTAButton from "@/components/CTAButton";
 import Reveal from "@/components/gsap/Reveal";
+import WhyMotoknife from "@/components/WhyMotoknife";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { pageMetadata } from "@/lib/i18n/metadata";
@@ -109,6 +110,9 @@ export default async function Home({ params }: HomePageProps) {
           </div>
         </Reveal>
       </section>
+
+      {/* ── Section 1.5: Why MOTOKNIFE 信任數字 ─────────────── */}
+      <WhyMotoknife dict={dict} />
 
       {/* ── Section 2: 3 Core Advantages ────────────────────── */}
       <section className="bg-white py-20 md:py-28">

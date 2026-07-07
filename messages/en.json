@@ -2,6 +2,7 @@
   "nav": {
     "products": "Products",
     "applications": "Applications",
+    "services": "Services",
     "distributors": "Distributors",
     "about": "About",
     "contact": "Contact",
@@ -62,6 +63,10 @@
     "news": {
       "title": "News & Insights",
       "description": "Product news, slitting knowledge, and exhibition updates from MOTOKNIFE — Taiwan's precision slitting specialist since 1990."
+    },
+    "services": {
+      "title": "Services & Support",
+      "description": "Free material test with full report in 3 working days, blade regrinding, repair & maintenance, and technical consulting — MOTOKNIFE service ecosystem."
     }
   },
   "contact": {
@@ -93,7 +98,9 @@
     "submitAnother": "Submit Another Inquiry",
     "distributorNotice": "We have authorized distributors in {country}: {companies}. For the fastest local support you can also contact them directly — see our Distributors page. Submitting this form works too; we will coordinate with your local partner.",
     "distributorsPageLink": "View Distributors",
-    "prefillNotice": "Details from the selector have been filled in below — review and adjust if needed."
+    "prefillNotice": "Details from the selector have been filled in below — review and adjust if needed.",
+    "whatsappCta": "Chat on WhatsApp",
+    "whatsappNote": "Fastest response during Taiwan business hours (GMT+8)"
   },
   "products": {
     "filterAll": "All",
@@ -139,6 +146,54 @@
     "downloadsHeading": "Downloads",
     "catalogFile": "Product Catalog (PDF)"
   },
+  "services": {
+    "test": {
+      "eyebrow": "Flagship Service",
+      "heading": "Free Material Test & Report in 3 Working Days",
+      "sub": "Before you invest in anything, know exactly which holder cuts your material best — proven on our equipment, documented in a full report.",
+      "steps": [
+        "Send us your material",
+        "We test it on our equipment",
+        "Receive the full report in 3 working days"
+      ],
+      "reportHeading": "Every report includes",
+      "reportItems": [
+        "Recommended cutting method",
+        "Recommended knife holder model",
+        "Cut sample photos",
+        "Test video"
+      ],
+      "cta": "Start a Material Test"
+    },
+    "regrinding": {
+      "title": "Regrinding Service",
+      "text": "Restore factory edge geometry and extend blade life — professional regrinding for score blades, shear knives, and specialty blades.",
+      "cta": "Request Regrinding"
+    },
+    "repair": {
+      "title": "Repair & Maintenance",
+      "text": "Holder inspection, parts replacement, and performance recalibration — keep every knife station cutting like day one.",
+      "cta": "Request Service"
+    },
+    "consulting": {
+      "title": "Technical Consulting",
+      "items": [
+        "Assess whether your existing machine can adopt pneumatic knife holder systems",
+        "Installation and operation guidance",
+        "Cutting method and model selection support"
+      ],
+      "cta": "Talk to an Engineer"
+    }
+  },
+  "why": {
+    "heading": "Why MOTOKNIFE",
+    "items": [
+      { "value": "Since 1990", "label": "36 years dedicated to slitting knife holders" },
+      { "value": "50+ Countries", "label": "trusted by converters worldwide" },
+      { "value": "±0.005mm", "label": "precision verified by in-house metrology" },
+      { "value": "3 Days", "label": "free material test report turnaround" }
+    ]
+  },
   "news": {
     "heading": "News & Insights",
     "readMore": "Read More",
@@ -169,7 +224,7 @@
     "heroLine1": "PRECISION SLITTING",
     "heroLine2": "SOLUTIONS",
     "heroSubtitle": "High-performance knife holders and slitting knives for flexible material converting — trusted by converters in 50+ countries.",
-    "advantagesHeading": "Why MOTOKNIFE",
+    "advantagesHeading": "The MOTOKNIFE Difference",
     "advantages": [
       {
         "title": "35 Years Expertise",
