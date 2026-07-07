@@ -206,6 +206,35 @@ export const Products: CollectionConfig = {
       admin: { description: "PDF 型錄下載" },
     },
     {
+      name: "featureHighlights",
+      type: "array",
+      label: "Feature Highlights 圖文敘事",
+      maxRows: 6,
+      admin: {
+        description: "產品頁 Overview 的交錯圖文區塊，建議 3–6 個（奇偶交錯排版）",
+      },
+      fields: [
+        {
+          name: "image",
+          type: "upload",
+          relationTo: "media",
+        },
+        {
+          name: "heading",
+          type: "text",
+          required: true,
+          localized: true,
+          admin: { description: "例如 Patented Design — One Step Ahead" },
+        },
+        {
+          name: "body",
+          type: "textarea",
+          localized: true,
+          admin: { description: "2–3 句說明" },
+        },
+      ],
+    },
+    {
       name: "technicalDrawings",
       type: "upload",
       relationTo: "media",

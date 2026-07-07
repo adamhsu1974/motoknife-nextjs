@@ -248,6 +248,23 @@ export interface Product {
    */
   pdfCatalog?: (number | null) | Media;
   /**
+   * 產品頁 Overview 的交錯圖文區塊，建議 3–6 個（奇偶交錯排版）
+   */
+  featureHighlights?:
+    | {
+        image?: (number | null) | Media;
+        /**
+         * 例如 Patented Design — One Step Ahead
+         */
+        heading: string;
+        /**
+         * 2–3 句說明
+         */
+        body?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
    * 產品頁 Drawings tab 顯示，前台帶浮水印與防下載
    */
   technicalDrawings?: (number | Media)[] | null;
@@ -885,6 +902,14 @@ export interface ProductsSelect<T extends boolean = true> {
   applications?: T;
   images?: T;
   pdfCatalog?: T;
+  featureHighlights?:
+    | T
+    | {
+        image?: T;
+        heading?: T;
+        body?: T;
+        id?: T;
+      };
   technicalDrawings?: T;
   drawingNotes?: T;
   model3d?: T;

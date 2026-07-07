@@ -4,6 +4,9 @@ import { notFound } from "next/navigation";
 
 import CTAButton from "@/components/CTAButton";
 import DrawingViewer from "@/components/DrawingViewer";
+import FeatureHighlights, {
+  type FeatureHighlightItem,
+} from "@/components/FeatureHighlights";
 import LexicalContent from "@/components/LexicalContent";
 import ModelViewer from "@/components/ModelViewer";
 import PdfDownloadButton from "@/components/PdfDownloadButton";
@@ -313,9 +316,23 @@ function OverviewPanel({
   lang: Locale;
   dict: Dictionary;
 }) {
+  const highlights: FeatureHighlightItem[] = (product.featureHighlights ?? []).map(
+    (item, index) => {
+      const image = populatedOne<Media>(item.image);
+      return {
+        id: item.id ?? `highlight-${index}`,
+        heading: item.heading,
+        body: item.body,
+        image: image?.url ? { url: image.url, alt: image.alt } : null,
+      };
+    },
+  );
+
   return (
     <div className="space-y-8">
       {product.description && <LexicalContent data={product.description} />}
+
+      <FeatureHighlights items={highlights} />
 
       {relatedApplications.length > 0 && (
         <div>
