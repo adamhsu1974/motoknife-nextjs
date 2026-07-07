@@ -2,12 +2,39 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import gsap from "gsap";
 
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { PRODUCTS, PRODUCT_SERIES, type SeriesSlug } from "@/lib/data/products";
 
 const METHOD_FILTERS: SeriesSlug[] = ["score-cut", "shear-cut", "half-cut", "hot-cut"];
+
+function prefersReducedMotion(): boolean {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function cardEnter(e: React.MouseEvent<HTMLAnchorElement>) {
+  if (prefersReducedMotion()) return;
+  gsap.to(e.currentTarget, {
+    y: -6,
+    scale: 1.015,
+    boxShadow: "0 14px 30px rgba(13, 13, 20, 0.12)",
+    duration: 0.35,
+    ease: "power2.out",
+  });
+}
+
+function cardLeave(e: React.MouseEvent<HTMLAnchorElement>) {
+  if (prefersReducedMotion()) return;
+  gsap.to(e.currentTarget, {
+    y: 0,
+    scale: 1,
+    boxShadow: "0 1px 2px rgba(0, 0, 0, 0.05)",
+    duration: 0.45,
+    ease: "power2.out",
+  });
+}
 
 interface ProductCatalogProps {
   lang: Locale;
@@ -43,7 +70,9 @@ export default function ProductCatalog({ lang, dict }: ProductCatalogProps) {
           <Link
             key={product.slug}
             href={`/${lang}/products/model/${product.slug}`}
-            className="group flex flex-col rounded-lg bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
+            onMouseEnter={cardEnter}
+            onMouseLeave={cardLeave}
+            className="group flex flex-col rounded-lg bg-white p-6 shadow-sm will-change-transform"
           >
             {/* Thumbnail placeholder */}
             <div className="mb-5 flex h-40 items-center justify-center rounded bg-bg-card">

@@ -186,6 +186,11 @@ export const PRODUCTS: Product[] = [
     name: "Compact Score Cut Knife Holder",
     tier: "Light / Medium Duty",
     summary: "Compact holder for narrow-web slitting where mounting space is limited.",
+    description: [
+      "A compact body built around a Ø57mm blade brings the minimum slit width down to 8mm while keeping the same double-acting pneumatic system and tool-free blade change as the full-size holders. Machined to ±0.005mm on MAZAK CNC centers.",
+      "On narrow-web tape and label lines, full-size holders simply cannot be stacked densely enough — the holder body, not the blade, sets your minimum width. The MT-A130's slim footprint lets you mount more knives per meter of guide bar without sacrificing pressure control.",
+      "Suited to adhesive tapes, label stock, narrow film strips, and lightweight papers — the light-medium score cut family's answer to dense knife layouts.",
+    ],
     keySpecs: [
       { label: "Min. Slit Width", value: "8mm" },
       { label: "Air Pressure", value: "3–6 kg/cm²" },
@@ -208,6 +213,11 @@ export const PRODUCTS: Product[] = [
     name: "High-Speed Score Cut Knife Holder",
     tier: "Light / Medium Duty",
     summary: "Enhanced blade stability for high-speed paper and film lines.",
+    description: [
+      "Upgraded bearing assemblies and a stiffened blade mount hold the cutting edge steady at line speeds up to 600 M/min. The pneumatic pressure system is shared with the rest of the light-medium score family, so blades and spare parts stay interchangeable.",
+      "At high web speeds, blade chatter is what turns a clean score cut into fuzzy edges and paper dust. The MT-A160 suppresses vibration at the source, keeping edge quality consistent as your line runs at full rated speed instead of the compromise speed your holders can tolerate.",
+      "The first choice for high-speed lightweight paper converting — printing paper, release paper, masking paper — and fast film lines per the Paper & Board and Plastic Film application categories.",
+    ],
     keySpecs: [
       { label: "Max. Speed", value: "600 M/min" },
       { label: "Air Pressure", value: "3–6 kg/cm²" },
@@ -230,6 +240,11 @@ export const PRODUCTS: Product[] = [
     name: "Slim Score Cut Knife Holder",
     tier: "Light / Medium Duty",
     summary: "Slim-body economical holder for narrow-width tape and label slitting.",
+    description: [
+      "A simplified slim-profile body keeps the proven pneumatic scoring action in a lighter, more economical package. Manufactured to the same ±0.005mm tolerance as every MOTOKNIFE holder — economy comes from the simpler construction, not looser machining.",
+      "Tape slitting lines often run dozens of knife stations at once, so the cost and width of each station multiplies across the machine. The MT-B110 lowers the per-station investment for high knife-count layouts without giving up cut consistency.",
+      "Designed for adhesive tapes, medical plaster tape, label stock, and thin films — the Tape & Labels category's economical workhorse.",
+    ],
     keySpecs: [
       { label: "Body Width", value: "Slim profile" },
       { label: "Air Pressure", value: "3–6 kg/cm²" },
@@ -249,6 +264,11 @@ export const PRODUCTS: Product[] = [
     name: "Mini Score Cut Knife Holder",
     tier: "Light / Medium Duty",
     summary: "The smallest holder in the score cut range — for the narrowest slit widths.",
+    description: [
+      "The most compact format in the score cut family: a miniaturized pneumatic holder engineered for the narrowest slit widths and the densest knife arrangements the range supports.",
+      "Some products — hook-and-loop straps, narrow specialty tapes — need slit widths that ordinary holder bodies physically cannot reach. The MT-C121 exists for exactly these jobs, packing working pneumatic pressure control into the smallest possible envelope.",
+      "Suited to narrow adhesive tapes, hook-and-loop fasteners, and narrow film or label strips from the Tape & Labels application category.",
+    ],
     keySpecs: [
       { label: "Format", value: "Mini" },
       { label: "Air Pressure", value: "3–6 kg/cm²" },
@@ -270,6 +290,11 @@ export const PRODUCTS: Product[] = [
     name: "Heavy-Duty Score Cut Knife Holder",
     tier: "Heavy Duty",
     summary: "Controlled high-pressure score cutting for light rubber and thick flexible webs.",
+    description: [
+      "A reinforced holder body and a higher-force pneumatic cylinder (4–7 kg/cm²) deliver the blade pressure that thick, elastic webs demand — with the same fine pressure adjustability as the lighter holders in the range.",
+      "Rubber stretches and springs back: too little pressure and the cut does not go through; too much and the web deforms and the slit wanders. The MT-A140 holds a precisely set high force so elastic materials cut clean without stretching or tearing.",
+      "Built for light rubber sheet, rubber leather, and thick flexible webs — the entry point of the heavy-duty score family for the Rubber application category.",
+    ],
     keySpecs: [
       { label: "Duty", value: "Heavy" },
       { label: "Air Pressure", value: "4–7 kg/cm²" },
@@ -290,6 +315,11 @@ export const PRODUCTS: Product[] = [
     tier: "Heavy Duty",
     summary:
       "Large chip-clearance design keeps fibrous dust away from the cut — dust-free, lint-free slitting of nonwovens and rubber.",
+    description: [
+      "The MT-A170's defining feature is its large chip-clearance geometry: an open blade area that evacuates fibers, lint, and cutting debris away from the cut zone instead of letting them accumulate. Heavy-duty pneumatics (4–7 kg/cm²) handle thick fibrous webs.",
+      "Dust and loose fibers are the chronic complaint in nonwoven converting — they contaminate the product, clog the holder, and force cleaning stops. By clearing debris continuously, the MT-A170 keeps hygiene-critical and filtration products clean and lines running.",
+      "The recommended holder for nonwovens, synthetic leather, and textiles, and equally at home on rubber and heavy composites — the dust-free answer across three of Chapter 6's heavy material categories.",
+    ],
     keySpecs: [
       { label: "Duty", value: "Heavy" },
       { label: "Design", value: "Large chip clearance" },
@@ -310,6 +340,11 @@ export const PRODUCTS: Product[] = [
     tier: "Heavy Duty",
     summary:
       "The strongest score holder in the range — rubber magnetic sheet, fiberglass, and heavy composite webs.",
+    description: [
+      "The maximum-duty frame of the score cut family: the heaviest body casting, the highest-force cylinder (4–8 kg/cm²), and bearings sized for sustained cutting of dense, abrasive webs.",
+      "Heavy rubber magnetic sheet and reinforced composites simply stall lighter holders — the blade rides over the material instead of cutting through it. The MT-A510 delivers the sustained force these webs need while retaining score cut's simplicity and narrow-width economy.",
+      "Specified for rubber magnetic sheet, heavy rubber, fiberglass mat, roofing felt, and multi-layer composites — the top of the heavy-duty score range for the Rubber and Heavy Composites categories.",
+    ],
     keySpecs: [
       { label: "Duty", value: "Maximum" },
       { label: "Air Pressure", value: "4–8 kg/cm²" },
@@ -332,6 +367,11 @@ export const PRODUCTS: Product[] = [
     tier: "Precision",
     summary:
       "Precision shear holder for ultra-thin battery-grade copper and aluminum foils — burr-free edges at 6–20 µm.",
+    description: [
+      "Precision-ground spindles and fine adjustment of blade overlap and side force give the MT-A410 the control that 6–20 µm foils demand. Every rotating component is machined and matched in-house to ±0.005mm.",
+      "In lithium battery production, a single burr on the foil edge can pierce the separator and scrap the cell — edge quality is a safety specification, not a cosmetic one. The MT-A410's true shear action separates ultra-thin foil cleanly, without the deformation or burrs that disqualify material.",
+      "Purpose-built for battery-grade copper and aluminum foil — the precision end of the shear range serving Chapter 6's Metal Foils category for the battery and capacitor industries.",
+    ],
     keySpecs: [
       { label: "Foil Range", value: "6–20 µm" },
       { label: "Edge Quality", value: "Burr-free" },
@@ -352,6 +392,11 @@ export const PRODUCTS: Product[] = [
     tier: "Precision",
     summary:
       "Precision shear cutting for standard metal foils, high-quality films, and low-dust nonwoven lines.",
+    description: [
+      "The versatile half of the precision shear pair: adjustable blade overlap and cant angle let one holder be tuned across foils, films, and fibrous webs, while precision spindles maintain burr-free shear geometry at production speed.",
+      "When one line runs aluminum foil today and coated film or nonwoven tomorrow, dedicating a holder to each material is expensive. The MT-A450 covers the 20–100 µm foil range and doubles as the high-speed, low-dust shear option for demanding film and nonwoven work.",
+      "Recommended for standard aluminum and copper foils, high-quality plastic films, and the shear path of nonwoven converting — the most broadly applicable precision holder in the shear range.",
+    ],
     keySpecs: [
       { label: "Foil Range", value: "20–100 µm" },
       { label: "Edge Quality", value: "Burr-free" },
@@ -373,6 +418,11 @@ export const PRODUCTS: Product[] = [
     name: "General-Purpose Shear Cut Knife Holder",
     tier: "General Purpose",
     summary: "Versatile shear holder for medium-gauge films, laminates, and paper.",
+    description: [
+      "A robust general-purpose shear holder with straightforward setup: standard pneumatic pressure (3–6 kg/cm²), quick blade positioning, and the same ±0.005mm component tolerance as the precision line.",
+      "Most converting shops need a dependable shear workhorse more than they need a specialist — a holder that operators can set up quickly and trust across the day's changing job list. The MT-A650 is that holder: consistent scissor-action cutting without specialist adjustment.",
+      "The general-purpose choice for medium-gauge plastic films, laminates, and papers — the entry point of the A650/A850/A880 general shear family.",
+    ],
     keySpecs: [
       { label: "Duty", value: "Medium" },
       { label: "Air Pressure", value: "3–6 kg/cm²" },
@@ -392,6 +442,11 @@ export const PRODUCTS: Product[] = [
     name: "Heavy-Duty Shear Cut Knife Holder",
     tier: "General Purpose",
     summary: "Heavy shear cutting for board stock, thick films, and demanding nonwoven lines.",
+    description: [
+      "A heavier frame and higher-force pneumatics (4–7 kg/cm²) let the MT-A850 keep true shear geometry under loads that flex lighter holders. Reinforced spindle bearings sustain edge quality through long runs of dense material.",
+      "Heavy board and thick film punish shear holders: any deflection under load opens the blade gap and edge quality collapses. The MT-A850 stays rigid where it matters, so 200+ gsm board and heavy-gauge film cut as cleanly at the end of the shift as at the start.",
+      "Specified for heavy board stock, thick and laminated films, demanding nonwoven lines, and multi-layer composites — the mid-point of the general shear family and its most common heavy-duty pick.",
+    ],
     keySpecs: [
       { label: "Duty", value: "Heavy" },
       { label: "Air Pressure", value: "4–7 kg/cm²" },
@@ -411,6 +466,11 @@ export const PRODUCTS: Product[] = [
     name: "Maximum-Duty Shear Cut Knife Holder",
     tier: "General Purpose",
     summary: "The heaviest shear holder in the range — rigid sheet, roofing felt, reinforced composites.",
+    description: [
+      "The maximum-duty shear platform: the largest frame in the range, 4–8 kg/cm² cylinder force, and drivetrain components sized for continuous cutting of rigid and abrasive webs.",
+      "At the extreme end — rigid PVC sheet, roofing felt, glass-reinforced composites — the question is not edge finesse but whether the holder can push a true shear cut through at all. The MT-A880 delivers the force and rigidity these materials demand while keeping the cut a genuine shear, not a tear.",
+      "Built for rigid PVC and PS sheet, roofing felt, and reinforced multi-layer composites — the top of Chapter 6's Heavy Composites shear path.",
+    ],
     keySpecs: [
       { label: "Duty", value: "Maximum" },
       { label: "Air Pressure", value: "4–8 kg/cm²" },
@@ -461,6 +521,11 @@ export const PRODUCTS: Product[] = [
     name: "Half Cut Knife Holder — Multi-Layer",
     tier: "Medical",
     summary: "Enhanced depth control for complex multi-layer medical dressings.",
+    description: [
+      "The MT-A310H extends the A310 platform with an enhanced micrometer depth mechanism and added blade stability for thicker, more complex laminate stacks — cutting a chosen number of layers while the layers below stay untouched.",
+      "Multi-layer dressings combine foams, films, adhesives, and liners of different hardness in one web. A holder tuned for simple two-layer kiss-cutting drifts as it crosses these transitions; the A310H holds its set depth through the whole stack, protecting expensive medical material from scrap.",
+      "Purpose-built for multi-layer medical dressings, foam laminate constructions, and complex medical tapes — the specialist variant for Chapter 6's Medical Materials category.",
+    ],
     keySpecs: [
       { label: "Depth Control", value: "Micrometer ±0.01mm" },
       { label: "Layers", value: "Multi-layer" },

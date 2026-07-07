@@ -48,12 +48,56 @@ export async function generateMetadata({
       type: "website",
       siteName: "MOTOKNIFE",
       locale: ogLocale(locale),
+      images: [
+        {
+          url: "/og-default.png",
+          width: 1200,
+          height: 630,
+          alt: "MOTOKNIFE — Precision Slitting Solutions, Made in Taiwan",
+        },
+      ],
     },
     robots: {
       index: true,
       follow: true,
     },
   };
+}
+
+function OrganizationJsonLd() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "MOTOKNIFE",
+    legalName: "友聚工業股份有限公司",
+    url: SITE_URL,
+    logo: `${SITE_URL}/og-default.png`,
+    foundingDate: "1990",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "No. 155, Ln. 65, Xinjiang Rd., Yangmei Dist.",
+      addressLocality: "Taoyuan City",
+      postalCode: "32652",
+      addressCountry: "TW",
+    },
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        contactType: "sales",
+        telephone: "+886-3-4753005",
+        email: "service@motoknife.com",
+        areaServed: "Worldwide",
+        availableLanguage: ["en", "zh-TW"],
+      },
+    ],
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
 }
 
 export default async function RootLayout({
@@ -73,6 +117,7 @@ export default async function RootLayout({
       className={`${dmSans.variable} ${barlow.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans">
+        <OrganizationJsonLd />
         <Navbar lang={lang} dict={dict} />
         <main className="flex-1 pt-[56px]">{children}</main>
         <Footer lang={lang} dict={dict} />

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import CTAButton from "@/components/CTAButton";
+import Reveal from "@/components/gsap/Reveal";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { pageMetadata } from "@/lib/i18n/metadata";
@@ -71,7 +72,12 @@ export default async function Home({ params }: HomePageProps) {
               "radial-gradient(ellipse 80% 60% at 50% 110%, rgba(244,121,32,0.12), transparent 60%)",
           }}
         />
-        <div className="relative mx-auto flex min-h-[calc(100vh-56px)] max-w-7xl flex-col items-center justify-center px-4 py-20 text-center">
+        <Reveal
+          mode="mount"
+          stagger
+          y={28}
+          className="relative mx-auto flex min-h-[calc(100vh-56px)] max-w-7xl flex-col items-center justify-center px-4 py-20 text-center"
+        >
           <p className="eyebrow">{dict.home.heroEyebrow}</p>
           <h1 className="mt-5 font-heading text-5xl font-bold tracking-tight text-white md:text-7xl">
             {dict.home.heroLine1}
@@ -96,7 +102,7 @@ export default async function Home({ params }: HomePageProps) {
               Product Hero Image — 3D Render (Higgsfield, Phase 3)
             </span>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* ── Section 2: 3 Core Advantages ────────────────────── */}
@@ -105,7 +111,7 @@ export default async function Home({ params }: HomePageProps) {
           <h2 className="heading-accent text-3xl font-bold text-text-primary md:text-4xl">
             {dict.home.advantagesHeading}
           </h2>
-          <div className="mt-12 grid gap-10 md:grid-cols-3">
+          <Reveal stagger className="mt-12 grid gap-10 md:grid-cols-3">
             {dict.home.advantages.map((adv, i) => (
               <div key={adv.title} className="border-t-2 border-border pt-6">
                 <span className="font-heading text-4xl font-bold text-orange/25">
@@ -115,7 +121,7 @@ export default async function Home({ params }: HomePageProps) {
                 <p className="mt-3 leading-relaxed text-text-secondary">{adv.text}</p>
               </div>
             ))}
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -137,7 +143,7 @@ export default async function Home({ params }: HomePageProps) {
             </Link>
           </div>
 
-          <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <Reveal stagger className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {CUTTING_METHODS.map((method) => (
               <Link
                 key={method.slug}
@@ -157,7 +163,7 @@ export default async function Home({ params }: HomePageProps) {
                 </p>
               </Link>
             ))}
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -179,7 +185,7 @@ export default async function Home({ params }: HomePageProps) {
             </Link>
           </div>
 
-          <div className="mt-12 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-5">
+          <Reveal stagger className="mt-12 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-5">
             {APPLICATION_MATERIALS.map((app) => (
               <Link
                 key={app.slug}
@@ -194,14 +200,14 @@ export default async function Home({ params }: HomePageProps) {
                 </span>
               </Link>
             ))}
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {/* ── Section 5: Distributor Map Preview ──────────────── */}
       <section className="bg-navy-dark py-20 md:py-28">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          <div className="grid items-center gap-12 lg:grid-cols-2">
+          <Reveal stagger className="grid items-center gap-12 lg:grid-cols-2">
             <div>
               <p className="eyebrow">{dict.home.mapEyebrow}</p>
               <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">
@@ -234,13 +240,13 @@ export default async function Home({ params }: HomePageProps) {
                 ))}
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {/* ── Section 6: Quote CTA ────────────────────────────── */}
       <section className="bg-orange py-16 md:py-20">
-        <div className="mx-auto max-w-3xl px-4 text-center">
+        <Reveal className="mx-auto max-w-3xl px-4 text-center">
           <h2 className="text-2xl font-bold text-white md:text-3xl">
             {dict.home.ctaHeading}
           </h2>
@@ -250,7 +256,7 @@ export default async function Home({ params }: HomePageProps) {
               {dict.home.ctaButton}
             </CTAButton>
           </div>
-        </div>
+        </Reveal>
       </section>
     </div>
   );

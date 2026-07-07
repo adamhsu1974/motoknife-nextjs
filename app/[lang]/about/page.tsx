@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import BrandTimeline from "@/components/BrandTimeline";
 import { isLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { pageMetadata } from "@/lib/i18n/metadata";
+import { EQUIPMENT, PATENTS } from "@/lib/data/about";
 
 const STRENGTHS = [
   {
@@ -151,28 +153,34 @@ export default async function AboutPage({ params }: AboutPageProps) {
         </div>
       </section>
 
-      {/* Manufacturing */}
+      {/* Brand Story Timeline */}
+      <section className="bg-navy py-16 md:py-24">
+        <div className="mx-auto max-w-7xl px-4 lg:px-8">
+          <p className="eyebrow">Since 1990</p>
+          <h2 className="mt-3 text-2xl font-bold text-white md:text-3xl">
+            Our Story
+          </h2>
+          <div className="mt-10" data-timeline>
+            <BrandTimeline />
+          </div>
+        </div>
+      </section>
+
+      {/* Vertical Integration */}
       <section className="bg-white py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
           <div className="grid items-center gap-12 lg:grid-cols-2">
-            {/* Image placeholder */}
-            <div className="flex h-72 items-center justify-center rounded-lg bg-bg-card lg:h-96">
-              <span className="text-lg text-text-secondary/30">
-                Factory Photo
-              </span>
-            </div>
-
             <div>
-              <p className="text-sm font-semibold uppercase tracking-wider text-orange">
-                Manufacturing Excellence
-              </p>
+              <p className="eyebrow">Vertical Integration</p>
               <h2 className="mt-2 text-2xl font-bold text-text-primary md:text-3xl">
-                Made in Taiwan
+                All components designed, machined, and assembled in Taiwan
               </h2>
               <p className="mt-4 leading-relaxed text-text-secondary">
-                Our manufacturing facility is equipped with advanced CNC
-                machining centers from MAZAK, enabling us to produce knife
-                holders and blades with exceptional precision and consistency.
+                From raw bar stock to finished holder, every critical step
+                happens under one roof in our Taoyuan factory. No outsourced
+                machining, no drop-in imported parts — which is how we
+                guarantee ±0.005mm tolerance and consistent quality on every
+                delivery, year after year.
               </p>
 
               <div className="mt-8">
@@ -192,6 +200,85 @@ export default async function AboutPage({ params }: AboutPageProps) {
                 </ul>
               </div>
             </div>
+
+            {/* Image placeholder */}
+            <div className="flex h-72 items-center justify-center rounded-lg bg-bg-card lg:h-96">
+              <span className="text-lg text-text-secondary/30">
+                Factory Photo
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Factory Equipment Showcase */}
+      <section className="bg-bg-warm py-16 md:py-24">
+        <div className="mx-auto max-w-7xl px-4 lg:px-8">
+          <h2 className="heading-accent text-2xl font-bold text-text-primary md:text-3xl">
+            Inside the Factory
+          </h2>
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {EQUIPMENT.map((item) => (
+              <figure key={item.id} className="overflow-hidden rounded-lg bg-white shadow-sm">
+                <div className="flex h-52 items-center justify-center bg-bg-card">
+                  <span className="text-sm text-text-secondary/40">
+                    {item.name} Photo
+                  </span>
+                </div>
+                <figcaption className="p-5">
+                  <p className="font-semibold text-text-primary">{item.name}</p>
+                  <p className="mt-1 text-sm text-text-secondary">{item.caption}</p>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Patents */}
+      <section className="bg-white py-16 md:py-24">
+        <div className="mx-auto max-w-7xl px-4 lg:px-8">
+          <h2 className="heading-accent text-2xl font-bold text-text-primary md:text-3xl">
+            Multi-Country Patents
+          </h2>
+          <p className="mt-4 max-w-2xl text-text-secondary">
+            Original engineering protected in four countries — the difference
+            between a 35-year manufacturer and an imitation.
+          </p>
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {PATENTS.map((patent) => (
+              <div key={patent.countryCode} className="rounded-lg border border-border p-6">
+                <span className="font-heading text-3xl font-bold text-orange/30">
+                  {patent.countryCode}
+                </span>
+                <h3 className="mt-2 font-bold text-text-primary">{patent.country}</h3>
+                <p className="mt-1 text-sm text-text-secondary">{patent.title}</p>
+                <p className="mt-3 text-xs text-text-secondary/70">{patent.number}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Certifications */}
+      <section className="bg-bg-warm py-16 md:py-24">
+        <div className="mx-auto max-w-7xl px-4 lg:px-8">
+          <h2 className="heading-accent text-2xl font-bold text-text-primary md:text-3xl">
+            Certifications
+          </h2>
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {["Certification 1", "Certification 2", "Certification 3", "Certification 4"].map(
+              (label) => (
+                <div
+                  key={label}
+                  className="flex h-40 items-center justify-center rounded-lg border border-dashed border-border bg-white"
+                >
+                  <span className="text-sm text-text-secondary/40">
+                    {label} — document placeholder
+                  </span>
+                </div>
+              ),
+            )}
           </div>
         </div>
       </section>
