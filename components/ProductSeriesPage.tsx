@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import type { Locale } from "@/lib/i18n/config";
 import ProductJsonLd from "@/components/ProductJsonLd";
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import {
   PRODUCT_SERIES,
   getProductsBySeries,
@@ -19,6 +20,13 @@ export default function ProductSeriesPage({ series, lang }: ProductSeriesPagePro
   return (
     <>
       <ProductJsonLd series={series} />
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", path: `/${lang}` },
+          { name: "Products", path: `/${lang}/products` },
+          { name: series.name },
+        ]}
+      />
       <div className="bg-bg-warm py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
           {/* Breadcrumb */}

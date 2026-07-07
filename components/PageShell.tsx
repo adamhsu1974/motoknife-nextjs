@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
+
 interface PageShellProps {
   title: string;
   breadcrumbs: { label: string; href?: string }[];
@@ -13,6 +15,9 @@ export default function PageShell({
 }: PageShellProps) {
   return (
     <div className="bg-bg-warm py-16 md:py-24">
+      <BreadcrumbJsonLd
+        items={breadcrumbs.map((b) => ({ name: b.label, path: b.href }))}
+      />
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         {/* Breadcrumb */}
         <nav className="mb-8 text-sm text-text-secondary">

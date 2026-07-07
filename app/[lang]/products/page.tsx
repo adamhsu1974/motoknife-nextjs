@@ -2,8 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import FaqSection from "@/components/seo/FaqSection";
 import PageShell from "@/components/PageShell";
+import PdfDownloadButton from "@/components/PdfDownloadButton";
 import ProductCatalog from "@/components/ProductCatalog";
+import { PRODUCTS_FAQ } from "@/lib/data/faq";
 import { isLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { pageMetadata } from "@/lib/i18n/metadata";
@@ -67,6 +70,26 @@ export default async function ProductsPage({ params }: ProductsPageProps) {
         </div>
       </div>
 
+      {/* Full catalog PDF */}
+      <div className="mt-12 rounded-lg border border-border bg-white p-8">
+        <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
+          <div>
+            <h2 className="text-xl font-bold text-text-primary">
+              {dict.products.fullCatalogHeading}
+            </h2>
+            <p className="mt-2 max-w-xl text-sm text-text-secondary">
+              {dict.products.fullCatalogSub}
+            </p>
+          </div>
+          <PdfDownloadButton
+            label={dict.products.downloadFullCatalog}
+            generatingLabel={dict.products.generatingPdf}
+            errorLabel={dict.products.pdfFailed}
+            className="shrink-0 bg-orange px-6 py-3 text-sm text-white hover:bg-orange-hover"
+          />
+        </div>
+      </div>
+
       {/* Cutting Methods knowledge link */}
       <div className="mt-12 rounded-lg bg-navy p-8 text-white">
         <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
@@ -85,6 +108,8 @@ export default async function ProductsPage({ params }: ProductsPageProps) {
           </Link>
         </div>
       </div>
+
+      <FaqSection heading={dict.common.faqHeading} items={PRODUCTS_FAQ} />
     </PageShell>
   );
 }

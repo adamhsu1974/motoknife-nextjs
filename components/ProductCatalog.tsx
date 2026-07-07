@@ -7,6 +7,7 @@ import gsap from "gsap";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { PRODUCTS, PRODUCT_SERIES, type SeriesSlug } from "@/lib/data/products";
+import { CompareBar, CompareModal } from "@/components/ProductCompare";
 
 const METHOD_FILTERS: SeriesSlug[] = ["score-cut", "shear-cut", "half-cut", "hot-cut"];
 
@@ -43,15 +44,28 @@ interface ProductCatalogProps {
 
 export default function ProductCatalog({ lang, dict }: ProductCatalogProps) {
   const [filter, setFilter] = useState<SeriesSlug | "all">("all");
+  const [compareSlugs, setCompareSlugs] = useState<string[]>([]);
+  const [isCompareOpen, setIsCompareOpen] = useState(false);
 
   const holders = PRODUCTS.filter((p) => METHOD_FILTERS.includes(p.series));
   const visible = filter === "all" ? holders : holders.filter((p) => p.series === filter);
+  const compareProducts = compareSlugs.flatMap(
+    (slug) => holders.find((p) => p.slug === slug) ?? [],
+  );
 
   const filterLabel = (slug: SeriesSlug) =>
     PRODUCT_SERIES.find((s) => s.slug === slug)?.name ?? slug;
 
+  function toggleCompare(slug: string) {
+    setCompareSlugs((prev) => {
+      if (prev.includes(slug)) return prev.filter((s) => s !== slug);
+      if (prev.length >= 4) return prev;
+      return [...prev, slug];
+    });
+  }
+
   return (
-    <div>
+    <div className={compareSlugs.length > 0 ? "pb-24" : undefined}>
       {/* Filter chips */}
       <div className="flex flex-wrap gap-2">
         <FilterChip active={filter === "all"} onClick={() => setFilter("all")}>
@@ -72,8 +86,36 @@ export default function ProductCatalog({ lang, dict }: ProductCatalogProps) {
             href={`/${lang}/products/model/${product.slug}`}
             onMouseEnter={cardEnter}
             onMouseLeave={cardLeave}
-            className="group flex flex-col rounded-lg bg-white p-6 shadow-sm will-change-transform"
+            className="group relative flex flex-col rounded-lg bg-white p-6 shadow-sm will-change-transform"
           >
+            {/* Compare checkbox */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                toggleCompare(product.slug);
+              }}
+              aria-pressed={compareSlugs.includes(product.slug)}
+              aria-label={`${dict.products.compare} ${product.model}`}
+              className={`absolute right-4 top-4 z-10 flex items-center gap-1.5 rounded-sm px-2 py-1 text-xs font-medium transition-colors ${
+                compareSlugs.includes(product.slug)
+                  ? "bg-orange text-white"
+                  : "bg-bg-card text-text-secondary hover:text-text-primary"
+              }`}
+            >
+              <span
+                className={`flex h-3.5 w-3.5 items-center justify-center rounded-[2px] border text-[9px] leading-none ${
+                  compareSlugs.includes(product.slug)
+                    ? "border-white bg-white text-orange"
+                    : "border-text-secondary/50"
+                }`}
+              >
+                {compareSlugs.includes(product.slug) ? "✓" : ""}
+              </span>
+              {dict.products.compare}
+            </button>
+
             {/* Thumbnail placeholder */}
             <div className="mb-5 flex h-40 items-center justify-center rounded bg-bg-card">
               <span className="font-heading text-2xl font-bold text-text-secondary/20">
@@ -131,6 +173,23 @@ export default function ProductCatalog({ lang, dict }: ProductCatalogProps) {
           </Link>
         ))}
       </div>
+
+      {/* Compare bar + modal */}
+      <CompareBar
+        products={compareProducts}
+        dict={dict}
+        onRemove={toggleCompare}
+        onClear={() => setCompareSlugs([])}
+        onCompare={() => setIsCompareOpen(true)}
+      />
+      {isCompareOpen && compareProducts.length >= 2 && (
+        <CompareModal
+          products={compareProducts}
+          lang={lang}
+          dict={dict}
+          onClose={() => setIsCompareOpen(false)}
+        />
+      )}
     </div>
   );
 }

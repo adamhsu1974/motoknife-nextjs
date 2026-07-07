@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ApplicationMaterial } from "@/lib/data/applications";
 import type { Locale } from "@/lib/i18n/config";
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 
 interface ApplicationPageProps {
   material: ApplicationMaterial;
@@ -10,6 +11,13 @@ interface ApplicationPageProps {
 export default function ApplicationPage({ material, lang }: ApplicationPageProps) {
   return (
     <div className="bg-bg-warm py-16 md:py-24">
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", path: `/${lang}` },
+          { name: "Applications", path: `/${lang}/applications` },
+          { name: material.name },
+        ]}
+      />
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         {/* Breadcrumb */}
         <nav className="mb-8 text-sm text-text-secondary">

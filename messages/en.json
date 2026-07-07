@@ -13,7 +13,8 @@
     "learnMore": "Learn More",
     "viewSeries": "View Series",
     "exploreProducts": "Explore Products",
-    "cuttingMethods": "Cutting Methods"
+    "cuttingMethods": "Cutting Methods",
+    "faqHeading": "Frequently Asked Questions"
   },
   "footer": {
     "productsTitle": "Products",
@@ -57,6 +58,10 @@
     "contact": {
       "title": "Contact & Get a Quote",
       "description": "Request a quote for MOTOKNIFE slitting knife holders and blades. Tell us your material and cutting requirements — we respond within 24–48 hours."
+    },
+    "news": {
+      "title": "News & Insights",
+      "description": "Product news, slitting knowledge, and exhibition updates from MOTOKNIFE — Taiwan's precision slitting specialist since 1990."
     }
   },
   "contact": {
@@ -97,11 +102,42 @@
     "suitableMaterials": "Suitable Materials",
     "relatedApplications": "Related Applications",
     "relatedModels": "Related Models in This Series",
-    "downloadPdf": "Download PDF Catalog",
-    "pdfNote": "PDF catalog available on request — contact us.",
+    "downloadPdf": "Download Spec Sheet (PDF)",
+    "generatingPdf": "Generating PDF...",
+    "pdfFailed": "Failed — try again",
+    "fullCatalogHeading": "Complete Product Catalog",
+    "fullCatalogSub": "All knife holder series, models, and specifications in one PDF.",
+    "downloadFullCatalog": "Download Full Catalog (PDF)",
     "backToProducts": "All Products",
     "accessoriesHeading": "Blades & Guide Bars",
-    "accessoriesSub": "Precision blades and guide bars matched to every holder."
+    "accessoriesSub": "Precision blades and guide bars matched to every holder.",
+    "compare": "Compare",
+    "compareBarHint": "Select 2–4 products to compare",
+    "compareNow": "Compare Now",
+    "clearAll": "Clear",
+    "compareTitle": "Product Comparison",
+    "close": "Close",
+    "colModel": "Model",
+    "colMethod": "Cutting Method",
+    "colMinSlit": "Min. Slit Width",
+    "colSpeed": "Max. Line Speed",
+    "colMaterials": "Suitable Materials",
+    "colBlade": "Blade Diameter",
+    "bestValue": "Best",
+    "compareQuote": "Get a Quote for These Models",
+    "maxCompareNote": "Up to 4 products can be compared"
+  },
+  "news": {
+    "heading": "News & Insights",
+    "readMore": "Read More",
+    "backToNews": "All News",
+    "toc": "On This Page",
+    "related": "Related Articles",
+    "relatedProducts": "Products in This Article",
+    "categoryExhibition": "Exhibition",
+    "categoryProductNews": "Product News",
+    "categoryIndustryKnowledge": "Industry Knowledge",
+    "categoryCompanyNews": "Company News"
   },
   "selector": {
     "title": "Find the Right Tool",

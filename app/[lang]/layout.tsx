@@ -14,12 +14,18 @@ const dmSans = DM_Sans({
   variable: "--font-dm-sans",
   subsets: ["latin", "latin-ext"],
   weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+  preload: true,
+  fallback: ["system-ui", "PingFang TC", "Microsoft JhengHei", "sans-serif"],
 });
 
 const barlow = Barlow_Condensed({
   variable: "--font-barlow",
   subsets: ["latin", "latin-ext"],
   weight: ["400", "600", "700"],
+  display: "swap",
+  preload: true,
+  fallback: ["Arial Narrow", "system-ui", "sans-serif"],
 });
 
 const SITE_URL = process.env.NEXT_PUBLIC_SERVER_URL ?? "https://motoknife.com";

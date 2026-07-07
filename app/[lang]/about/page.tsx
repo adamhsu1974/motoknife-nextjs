@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import BrandTimeline from "@/components/BrandTimeline";
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import { isLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { pageMetadata } from "@/lib/i18n/metadata";
@@ -107,6 +108,12 @@ export default async function AboutPage({ params }: AboutPageProps) {
 
   return (
     <div>
+      <BreadcrumbJsonLd
+        items={[
+          { name: dict.common.home, path: `/${lang}` },
+          { name: dict.nav.about },
+        ]}
+      />
       {/* Hero */}
       <section className="bg-navy py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">

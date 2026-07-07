@@ -3,7 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import ApplicationSelector from "@/components/ApplicationSelector";
+import FaqSection from "@/components/seo/FaqSection";
 import PageShell from "@/components/PageShell";
+import { APPLICATIONS_FAQ } from "@/lib/data/faq";
 import { isLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { pageMetadata } from "@/lib/i18n/metadata";
@@ -60,6 +62,8 @@ export default async function ApplicationsPage({ params }: ApplicationsPageProps
           </Link>
         ))}
       </div>
+
+      <FaqSection heading={dict.common.faqHeading} items={APPLICATIONS_FAQ} />
     </PageShell>
   );
 }

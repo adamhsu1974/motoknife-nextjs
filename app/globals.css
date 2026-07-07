@@ -24,9 +24,9 @@
   --color-bg-card: #f1f1ed;
   --color-border: #e5e7eb;
 
-  /* Typography */
-  --font-sans: var(--font-dm-sans);
-  --font-heading: var(--font-barlow);
+  /* Typography（CJK fallback 供 zh-tw 內容） */
+  --font-sans: var(--font-dm-sans), "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+  --font-heading: var(--font-barlow), "Arial Narrow", system-ui, sans-serif;
 
   /* Spacing / layout accents */
   --spacing-section: 6rem;

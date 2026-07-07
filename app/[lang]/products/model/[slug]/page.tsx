@@ -3,6 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import CTAButton from "@/components/CTAButton";
+import PdfDownloadButton from "@/components/PdfDownloadButton";
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import { isLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { pageMetadata } from "@/lib/i18n/metadata";
@@ -51,6 +53,14 @@ export default async function ProductModelPage({ params }: ProductModelPageProps
   return (
     <>
       <ProductModelJsonLd product={product} />
+      <BreadcrumbJsonLd
+        items={[
+          { name: dict.common.home, path: `/${lang}` },
+          { name: dict.nav.products, path: `/${lang}/products` },
+          ...(series ? [{ name: series.name, path: `/${lang}/products/${series.slug}` }] : []),
+          { name: product.model },
+        ]}
+      />
       <div className="bg-bg-warm py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
           {/* Breadcrumb */}
@@ -187,15 +197,14 @@ export default async function ProductModelPage({ params }: ProductModelPageProps
                     >
                       {dict.nav.getAQuote}
                     </CTAButton>
-                    <CTAButton
-                      href={`/${lang}/contact?product=${product.model}&topic=pdf`}
-                      variant="outline-light"
-                      className="w-full"
-                    >
-                      {dict.products.downloadPdf}
-                    </CTAButton>
+                    <PdfDownloadButton
+                      product={product}
+                      label={dict.products.downloadPdf}
+                      generatingLabel={dict.products.generatingPdf}
+                      errorLabel={dict.products.pdfFailed}
+                      className="w-full border border-white/30 px-6 py-3 text-sm text-white hover:border-white/70"
+                    />
                   </div>
-                  <p className="mt-3 text-xs text-white/50">{dict.products.pdfNote}</p>
                 </div>
 
                 {/* Related models */}

@@ -28,6 +28,7 @@ export default function Footer({ lang, dict }: FooterProps) {
         { href: `/${lang}/about`, label: dict.footer.aboutUs },
         { href: `/${lang}/applications`, label: dict.nav.applications },
         { href: `/${lang}/products/cutting-methods`, label: dict.common.cuttingMethods },
+        { href: `/${lang}/news`, label: dict.news.heading },
         { href: `/${lang}/contact`, label: dict.nav.contact },
       ],
     },

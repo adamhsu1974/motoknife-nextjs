@@ -13,7 +13,8 @@
     "learnMore": "了解更多",
     "viewSeries": "查看系列",
     "exploreProducts": "探索產品",
-    "cuttingMethods": "切割方式"
+    "cuttingMethods": "切割方式",
+    "faqHeading": "常見問題"
   },
   "footer": {
     "productsTitle": "產品",
@@ -57,6 +58,10 @@
     "contact": {
       "title": "聯絡與詢價",
       "description": "詢價 MOTOKNIFE 分條刀座與刀片。告訴我們您的材料與切割需求，我們將於 24–48 小時內回覆。"
+    },
+    "news": {
+      "title": "最新消息",
+      "description": "MOTOKNIFE 產品消息、分條知識與展覽動態——1990 年創立的台灣精密分條刀具專家。"
     }
   },
   "contact": {
@@ -97,11 +102,42 @@
     "suitableMaterials": "適用材料",
     "relatedApplications": "相關應用",
     "relatedModels": "同系列其他型號",
-    "downloadPdf": "下載 PDF 型錄",
-    "pdfNote": "PDF 型錄可來信索取，歡迎聯繫我們。",
+    "downloadPdf": "下載規格表（PDF）",
+    "generatingPdf": "PDF 生成中...",
+    "pdfFailed": "生成失敗，請重試",
+    "fullCatalogHeading": "完整產品型錄",
+    "fullCatalogSub": "所有刀座系列、型號與規格，一份 PDF 完整下載。",
+    "downloadFullCatalog": "下載完整型錄（PDF）",
     "backToProducts": "所有產品",
     "accessoriesHeading": "刀片與導桿",
-    "accessoriesSub": "與每款刀座配套的精密刀片與導桿。"
+    "accessoriesSub": "與每款刀座配套的精密刀片與導桿。",
+    "compare": "比較",
+    "compareBarHint": "勾選 2–4 個產品進行比較",
+    "compareNow": "開始比較",
+    "clearAll": "清除",
+    "compareTitle": "產品比較",
+    "close": "關閉",
+    "colModel": "型號",
+    "colMethod": "切割方式",
+    "colMinSlit": "最小分切寬度",
+    "colSpeed": "分條速度",
+    "colMaterials": "適用材料",
+    "colBlade": "刀片直徑",
+    "bestValue": "最佳",
+    "compareQuote": "以這些型號詢價",
+    "maxCompareNote": "最多可比較 4 個產品"
+  },
+  "news": {
+    "heading": "最新消息",
+    "readMore": "閱讀更多",
+    "backToNews": "所有消息",
+    "toc": "本頁目錄",
+    "related": "相關文章",
+    "relatedProducts": "文中提及產品",
+    "categoryExhibition": "展覽",
+    "categoryProductNews": "新產品",
+    "categoryIndustryKnowledge": "產業知識",
+    "categoryCompanyNews": "公司動態"
   },
   "selector": {
     "title": "選型工具",

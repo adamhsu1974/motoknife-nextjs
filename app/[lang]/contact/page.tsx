@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import ContactForm from "@/components/ContactForm";
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import { isLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { pageMetadata } from "@/lib/i18n/metadata";
@@ -28,8 +29,16 @@ export default async function ContactPage({ params }: ContactPageProps) {
   if (!isLocale(lang)) notFound();
   const dict = getDictionary(lang);
   return (
-    <Suspense>
-      <ContactForm lang={lang} dict={dict} />
-    </Suspense>
+    <>
+      <BreadcrumbJsonLd
+        items={[
+          { name: dict.common.home, path: `/${lang}` },
+          { name: dict.nav.contact },
+        ]}
+      />
+      <Suspense>
+        <ContactForm lang={lang} dict={dict} />
+      </Suspense>
+    </>
   );
 }
