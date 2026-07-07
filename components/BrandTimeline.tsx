@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
-import { MILESTONES } from "@/lib/data/about";
+import { MILESTONES } from "@/lib/about";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 

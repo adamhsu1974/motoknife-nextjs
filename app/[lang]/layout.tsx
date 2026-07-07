@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { LOCALES, htmlLang, isLocale, ogLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
+import { fetchDistributorCountries } from "@/lib/cms";
 
 import "../globals.css";
 
@@ -116,6 +117,7 @@ export default async function RootLayout({
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
   const dict = getDictionary(lang);
+  const distributorCountries = await fetchDistributorCountries(lang);
 
   return (
     <html
@@ -126,7 +128,7 @@ export default async function RootLayout({
         <OrganizationJsonLd />
         <Navbar lang={lang} dict={dict} />
         <main className="flex-1 pt-[56px]">{children}</main>
-        <Footer lang={lang} dict={dict} />
+        <Footer lang={lang} dict={dict} distributorCountries={distributorCountries} />
         <FloatingCTA lang={lang} dict={dict} />
       </body>
     </html>

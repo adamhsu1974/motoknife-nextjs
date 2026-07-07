@@ -6,11 +6,13 @@ import FaqSection from "@/components/seo/FaqSection";
 import PageShell from "@/components/PageShell";
 import PdfDownloadButton from "@/components/PdfDownloadButton";
 import ProductCatalog from "@/components/ProductCatalog";
-import { PRODUCTS_FAQ } from "@/lib/data/faq";
 import { isLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { pageMetadata } from "@/lib/i18n/metadata";
-import { PRODUCT_SERIES } from "@/lib/data/products";
+import { fetchFaqs, fetchProducts } from "@/lib/cms";
+import { SERIES } from "@/lib/series";
+
+export const revalidate = 3600;
 
 interface ProductsPageProps {
   params: Promise<{ lang: string }>;
@@ -32,10 +34,12 @@ export default async function ProductsPage({ params }: ProductsPageProps) {
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
   const dict = getDictionary(lang);
+  const [products, faqs] = await Promise.all([
+    fetchProducts(lang),
+    fetchFaqs(lang, "products"),
+  ]);
 
-  const accessories = PRODUCT_SERIES.filter(
-    (s) => s.slug === "knives" || s.slug === "guide-bar",
-  );
+  const accessories = SERIES.filter((s) => s.slug === "knives" || s.slug === "guide-bar");
 
   return (
     <PageShell
@@ -45,7 +49,7 @@ export default async function ProductsPage({ params }: ProductsPageProps) {
         { label: dict.nav.products },
       ]}
     >
-      <ProductCatalog lang={lang} dict={dict} />
+      <ProductCatalog lang={lang} dict={dict} products={products} />
 
       {/* Blades & Guide Bars */}
       <div className="mt-16">
@@ -82,6 +86,7 @@ export default async function ProductsPage({ params }: ProductsPageProps) {
             </p>
           </div>
           <PdfDownloadButton
+            products={products}
             label={dict.products.downloadFullCatalog}
             generatingLabel={dict.products.generatingPdf}
             errorLabel={dict.products.pdfFailed}
@@ -109,7 +114,10 @@ export default async function ProductsPage({ params }: ProductsPageProps) {
         </div>
       </div>
 
-      <FaqSection heading={dict.common.faqHeading} items={PRODUCTS_FAQ} />
+      <FaqSection
+        heading={dict.common.faqHeading}
+        items={faqs.map((f) => ({ question: f.question, answer: f.answer }))}
+      />
     </PageShell>
   );
 }

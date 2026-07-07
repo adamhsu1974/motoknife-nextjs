@@ -1,7 +1,7 @@
-import type { ProductSeries } from "@/lib/data/products";
+import type { SeriesInfo } from "@/lib/series";
 
 interface ProductJsonLdProps {
-  series: ProductSeries;
+  series: SeriesInfo;
 }
 
 export default function ProductJsonLd({ series }: ProductJsonLdProps) {

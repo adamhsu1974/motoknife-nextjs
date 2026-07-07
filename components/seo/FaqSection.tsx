@@ -1,4 +1,7 @@
-import type { FaqItem } from "@/lib/data/faq";
+interface FaqItem {
+  question: string;
+  answer: string;
+}
 
 interface FaqSectionProps {
   heading: string;

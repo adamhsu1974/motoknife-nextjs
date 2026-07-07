@@ -8,6 +8,7 @@ import sharp from "sharp";
 
 import { Applications } from "./collections/Applications";
 import { Distributors } from "./collections/Distributors";
+import { Faqs } from "./collections/Faqs";
 import { Media } from "./collections/Media";
 import { News } from "./collections/News";
 import { Pages } from "./collections/Pages";
@@ -21,7 +22,7 @@ export default buildConfig({
   admin: {
     user: Users.slug,
   },
-  collections: [Products, Applications, Distributors, News, Pages, Media, Users],
+  collections: [Products, Applications, Distributors, News, Pages, Faqs, Media, Users],
   localization: {
     locales: [
       { label: "English", code: "en" },

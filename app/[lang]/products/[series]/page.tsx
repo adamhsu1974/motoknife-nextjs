@@ -4,20 +4,23 @@ import { notFound } from "next/navigation";
 import ProductSeriesPage from "@/components/ProductSeriesPage";
 import { isLocale } from "@/lib/i18n/config";
 import { pageMetadata } from "@/lib/i18n/metadata";
-import { PRODUCT_SERIES, getSeriesBySlug } from "@/lib/data/products";
+import { fetchProductsByMethod, fetchProductsBySeriesType } from "@/lib/cms";
+import { SERIES, getSeriesInfo } from "@/lib/series";
+
+export const revalidate = 3600;
 
 interface SeriesPageProps {
   params: Promise<{ lang: string; series: string }>;
 }
 
 export function generateStaticParams() {
-  return PRODUCT_SERIES.map((s) => ({ series: s.slug }));
+  return SERIES.map((s) => ({ series: s.slug }));
 }
 
 export async function generateMetadata({ params }: SeriesPageProps): Promise<Metadata> {
   const { lang, series: seriesSlug } = await params;
   if (!isLocale(lang)) return {};
-  const series = getSeriesBySlug(seriesSlug);
+  const series = getSeriesInfo(seriesSlug);
   if (!series) return {};
   return pageMetadata({
     lang,
@@ -30,7 +33,13 @@ export async function generateMetadata({ params }: SeriesPageProps): Promise<Met
 export default async function SeriesPage({ params }: SeriesPageProps) {
   const { lang, series: seriesSlug } = await params;
   if (!isLocale(lang)) notFound();
-  const series = getSeriesBySlug(seriesSlug);
+  const series = getSeriesInfo(seriesSlug);
   if (!series) notFound();
-  return <ProductSeriesPage series={series} lang={lang} />;
+
+  const products =
+    series.slug === "knives" || series.slug === "guide-bar"
+      ? await fetchProductsBySeriesType(lang, series.slug === "knives" ? "knife" : "guide-bar")
+      : await fetchProductsByMethod(lang, series.slug);
+
+  return <ProductSeriesPage series={series} products={products} lang={lang} />;
 }

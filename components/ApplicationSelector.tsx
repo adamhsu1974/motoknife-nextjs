@@ -5,28 +5,68 @@ import Link from "next/link";
 
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
-import {
-  CUTTING_METHOD_SERIES_SLUG,
-  SELECTOR_MATERIALS,
-  type SelectorMaterial,
-  type SelectorThicknessOption,
-} from "@/lib/data/selector";
+import { getSeriesInfo } from "@/lib/series";
+
+/* 由 applications 頁從 CMS Applications.selectorRules 組出的選型資料 */
+export interface SelectorProductRef {
+  model: string;
+  slug: string;
+  cuttingMethod?: string | null;
+}
+
+export interface SelectorOption {
+  id: string;
+  label: string;
+  note?: string | null;
+  products: SelectorProductRef[];
+}
+
+export interface SelectorMaterialData {
+  id: string;
+  name: string;
+  examples: string;
+  options: SelectorOption[];
+}
 
 interface ApplicationSelectorProps {
   lang: Locale;
   dict: Dictionary;
+  materials: SelectorMaterialData[];
 }
 
-export default function ApplicationSelector({ lang, dict }: ApplicationSelectorProps) {
-  const [material, setMaterial] = useState<SelectorMaterial | null>(null);
-  const [thickness, setThickness] = useState<SelectorThicknessOption | null>(null);
+interface Recommendation {
+  cuttingMethod: string;
+  methodLabel: string;
+  seriesSlug: string;
+  products: SelectorProductRef[];
+}
 
-  const step = thickness ? 3 : material ? 2 : 1;
+function groupByMethod(products: SelectorProductRef[]): Recommendation[] {
+  const groups = new Map<string, SelectorProductRef[]>();
+  for (const p of products) {
+    const method = p.cuttingMethod ?? "other";
+    groups.set(method, [...(groups.get(method) ?? []), p]);
+  }
+  return [...groups.entries()].map(([method, items]) => ({
+    cuttingMethod: method,
+    methodLabel: getSeriesInfo(method)?.cuttingMethod ?? method,
+    seriesSlug: method,
+    products: items,
+  }));
+}
+
+export default function ApplicationSelector({ lang, dict, materials }: ApplicationSelectorProps) {
+  const [material, setMaterial] = useState<SelectorMaterialData | null>(null);
+  const [option, setOption] = useState<SelectorOption | null>(null);
+
+  const step = option ? 3 : material ? 2 : 1;
 
   function reset() {
     setMaterial(null);
-    setThickness(null);
+    setOption(null);
   }
+
+  const recommendations = option ? groupByMethod(option.products) : [];
 
   return (
     <div className="rounded-lg bg-navy p-6 text-white md:p-8">
@@ -64,7 +104,7 @@ export default function ApplicationSelector({ lang, dict }: ApplicationSelectorP
         <div className="mt-6">
           <p className="text-sm font-semibold">{dict.selector.stepMaterial}</p>
           <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {SELECTOR_MATERIALS.map((m) => (
+            {materials.map((m) => (
               <button
                 key={m.id}
                 type="button"
@@ -96,15 +136,15 @@ export default function ApplicationSelector({ lang, dict }: ApplicationSelectorP
           </div>
           <p className="mt-5 text-sm font-semibold">{dict.selector.stepThickness}</p>
           <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {material.thicknessOptions.map((t) => (
+            {material.options.map((t) => (
               <button
                 key={t.id}
                 type="button"
-                onClick={() => setThickness(t)}
+                onClick={() => setOption(t)}
                 className="rounded-lg border border-white/15 p-4 text-left transition-all hover:border-orange hover:bg-white/5"
               >
                 <p className="font-semibold">{t.label}</p>
-                <p className="mt-1 text-xs text-white/50">{t.description}</p>
+                {t.note && <p className="mt-1 text-xs text-white/50">{t.note}</p>}
               </button>
             ))}
           </div>
@@ -112,12 +152,12 @@ export default function ApplicationSelector({ lang, dict }: ApplicationSelectorP
       )}
 
       {/* Step 3: Results */}
-      {step === 3 && material && thickness && (
+      {step === 3 && material && option && (
         <div className="mt-6">
           <div className="flex flex-wrap items-center gap-3">
             <button
               type="button"
-              onClick={() => setThickness(null)}
+              onClick={() => setOption(null)}
               className="rounded border border-white/30 px-3 py-1.5 text-xs text-white/70 transition-colors hover:text-white"
             >
               ← {dict.selector.back}
@@ -126,13 +166,13 @@ export default function ApplicationSelector({ lang, dict }: ApplicationSelectorP
               {material.name}
             </span>
             <span className="rounded-sm bg-white/10 px-2.5 py-1 text-xs font-medium text-white/70">
-              {thickness.label}
+              {option.label}
             </span>
           </div>
 
           <p className="mt-5 text-sm font-semibold">{dict.selector.stepResult}</p>
           <div className="mt-4 space-y-4">
-            {thickness.recommendations.map((rec) => (
+            {recommendations.map((rec) => (
               <div
                 key={rec.cuttingMethod}
                 className="rounded-lg bg-white p-5 text-text-primary"
@@ -140,24 +180,27 @@ export default function ApplicationSelector({ lang, dict }: ApplicationSelectorP
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                   <div>
                     <span className="inline-block rounded-sm bg-orange/10 px-2.5 py-1 text-xs font-semibold text-orange">
-                      {rec.cuttingMethod}
+                      {rec.methodLabel}
                     </span>
                     <div className="mt-3 flex flex-wrap gap-2">
-                      {rec.models.map((model) => (
-                        <span
-                          key={model}
-                          className="rounded bg-bg-card px-3 py-1.5 text-sm font-bold"
+                      {rec.products.map((p) => (
+                        <Link
+                          key={p.slug}
+                          href={`/${lang}/products/model/${p.slug}`}
+                          className="rounded bg-bg-card px-3 py-1.5 text-sm font-bold transition-colors hover:bg-orange-soft hover:text-orange"
                         >
-                          {model}
-                        </span>
+                          {p.model}
+                        </Link>
                       ))}
                     </div>
-                    <p className="mt-3 text-sm leading-relaxed text-text-secondary">
-                      {rec.note}
-                    </p>
+                    {option.note && (
+                      <p className="mt-3 text-sm leading-relaxed text-text-secondary">
+                        {option.note}
+                      </p>
+                    )}
                   </div>
                   <Link
-                    href={`/${lang}/products/${CUTTING_METHOD_SERIES_SLUG[rec.cuttingMethod]}`}
+                    href={`/${lang}/products/${rec.seriesSlug}`}
                     className="shrink-0 rounded border border-border px-4 py-2 text-center text-sm font-medium text-text-primary transition-colors hover:border-orange hover:text-orange"
                   >
                     {dict.selector.viewSeries}
@@ -172,8 +215,8 @@ export default function ApplicationSelector({ lang, dict }: ApplicationSelectorP
           </p>
 
           <Link
-            href={`/${lang}/contact?material=${encodeURIComponent(material.name)}&thickness=${encodeURIComponent(thickness.label)}&models=${encodeURIComponent(
-              thickness.recommendations.flatMap((r) => r.models).join(", "),
+            href={`/${lang}/contact?material=${encodeURIComponent(material.name)}&thickness=${encodeURIComponent(option.label)}&models=${encodeURIComponent(
+              option.products.map((p) => p.model).join(", "),
             )}`}
             className="mt-5 inline-block rounded bg-orange px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-hover"
           >

@@ -92,6 +92,7 @@ export const Applications: CollectionConfig = {
     {
       name: "productRecommendations",
       type: "array",
+      dbName: "app_recs",
       label: "對應刀組（依切割方式分組）",
       admin: {
         description: "矩陣「對應刀組」欄，例如紙類：Score → A110/A130/A160；Shear → A650/A850/A880",
@@ -101,6 +102,7 @@ export const Applications: CollectionConfig = {
           name: "cuttingMethod",
           type: "select",
           required: true,
+          dbName: "app_recs_method",
           options: [...CUTTING_METHOD_OPTIONS],
         },
         {
@@ -121,6 +123,7 @@ export const Applications: CollectionConfig = {
     {
       name: "selectorRules",
       type: "array",
+      dbName: "app_selector_rules",
       label: "選型器規則（材料 → 厚度 → 推薦型號）",
       admin: {
         description:

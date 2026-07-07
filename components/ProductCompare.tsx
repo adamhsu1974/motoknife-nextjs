@@ -5,18 +5,23 @@ import Link from "next/link";
 
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
-import { PRODUCT_SERIES, type Product } from "@/lib/data/products";
+import type { Product } from "@/lib/payload-types";
+import { getSeriesInfo, FAMILY_TIER_LABELS } from "@/lib/series";
+import { populated } from "@/lib/relations";
 
 /* ─── Spec extraction ─────────────────────────────────────── */
 
-function getSpec(product: Product, labels: string[]): string {
+function detailedSpec(product: Product, labels: string[]): string {
   for (const label of labels) {
-    const spec =
-      product.specs.find((s) => s.label === label) ??
-      product.keySpecs.find((s) => s.label === label);
+    const spec = product.detailedSpecs?.find((s) => s.label === label);
     if (spec) return spec.note ? `${spec.value} (${spec.note})` : spec.value;
   }
   return "—";
+}
+
+function withNote(value?: string | null, note?: string | null): string {
+  if (!value) return "—";
+  return note ? `${value} (${note})` : value;
 }
 
 function firstNumber(value: string): number | undefined {
@@ -50,19 +55,21 @@ interface CompareRow {
 }
 
 function buildRows(products: Product[], dict: Dictionary): CompareRow[] {
-  const methodOf = (p: Product) =>
-    PRODUCT_SERIES.find((s) => s.slug === p.series)?.cuttingMethod ?? "—";
-
-  const minSlit = products.map((p) => getSpec(p, ["Min. Slit Width"]));
-  const speed = products.map((p) =>
-    getSpec(p, ["Max. Line Speed", "Max. Speed", "Line Speed"]),
+  const minSlit = products.map((p) =>
+    withNote(p.keySpecs?.minSlitWidth?.standard, p.keySpecs?.minSlitWidth?.condition),
   );
-  const blade = products.map((p) => getSpec(p, ["Blade Diameter", "Blade"]));
+  const speed = products.map((p) =>
+    withNote(p.keySpecs?.maxSpeed?.standard, p.keySpecs?.maxSpeed?.condition),
+  );
+  const blade = products.map((p) => detailedSpec(p, ["Blade Diameter", "Blade"]));
+  const materialCounts = products.map((p) => populated(p.applications).length);
 
   return [
     {
       label: dict.products.colMethod,
-      values: products.map(methodOf),
+      values: products.map((p) =>
+        p.cuttingMethod ? (getSeriesInfo(p.cuttingMethod)?.cuttingMethod ?? p.cuttingMethod) : "—",
+      ),
       best: new Set<number>(),
     },
     {
@@ -82,8 +89,12 @@ function buildRows(products: Product[], dict: Dictionary): CompareRow[] {
     },
     {
       label: dict.products.colMaterials,
-      values: products.map((p) => p.materials.join(", ")),
-      best: bestIndexes(products.map((p) => p.materials.length), "max"),
+      values: products.map((p) =>
+        populated<{ title: string }>(p.applications)
+          .map((a) => a.title)
+          .join(", ") || "—",
+      ),
+      best: bestIndexes(materialCounts, "max"),
     },
   ];
 }
@@ -215,7 +226,9 @@ export function CompareModal({ products, lang, dict, onClose }: CompareModalProp
                     >
                       {p.model}
                     </Link>
-                    <p className="mt-0.5 text-xs font-normal text-text-secondary">{p.tier}</p>
+                    <p className="mt-0.5 text-xs font-normal text-text-secondary">
+                      {p.familyTier ? (FAMILY_TIER_LABELS[p.familyTier] ?? p.familyTier) : ""}
+                    </p>
                   </th>
                 ))}
               </tr>

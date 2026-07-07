@@ -181,3 +181,4 @@
 | 版本 | 日期 | 更新內容 |
 |-----|------|---------|
 | v1.0 | 2026-03-25 | 初始建立，整合競品研究與網站架構規劃 |
+| v1.1 | 2026-07-07 | Payload CMS 完整整合：admin 掛載（app/(payload)）、seed script（npm run seed）、前台改接 Local API + ISR（revalidate 3600）；Applications 改為 docs/PLANNING.md 第六章 9 分類（路由以 PLANNING.md 為準）；新增 Faqs collection；README 重寫 |

@@ -7,6 +7,9 @@ import PageShell from "@/components/PageShell";
 import { isLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { pageMetadata } from "@/lib/i18n/metadata";
+import { fetchDistributorCountries } from "@/lib/cms";
+
+export const revalidate = 3600;
 
 interface DistributorsPageProps {
   params: Promise<{ lang: string }>;
@@ -28,6 +31,7 @@ export default async function DistributorsPage({ params }: DistributorsPageProps
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
   const dict = getDictionary(lang);
+  const countries = await fetchDistributorCountries(lang);
 
   return (
     <PageShell
@@ -39,7 +43,7 @@ export default async function DistributorsPage({ params }: DistributorsPageProps
     >
       <p className="mb-10 max-w-2xl text-text-secondary">{dict.distributors.intro}</p>
 
-      <DistributorsMap lang={lang} dict={dict} />
+      <DistributorsMap lang={lang} dict={dict} countries={countries} />
 
       {/* Become a distributor */}
       <div className="mt-12 rounded-lg bg-navy p-8 text-white">

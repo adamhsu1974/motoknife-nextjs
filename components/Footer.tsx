@@ -2,14 +2,15 @@ import Link from "next/link";
 
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
-import { DISTRIBUTOR_COUNTRIES } from "@/lib/data/distributors";
+import type { DistributorCountryGroup } from "@/lib/cms-types";
 
 interface FooterProps {
   lang: Locale;
   dict: Dictionary;
+  distributorCountries: DistributorCountryGroup[];
 }
 
-export default function Footer({ lang, dict }: FooterProps) {
+export default function Footer({ lang, dict, distributorCountries }: FooterProps) {
   const footerNav = [
     {
       title: dict.footer.productsTitle,
@@ -100,7 +101,7 @@ export default function Footer({ lang, dict }: FooterProps) {
               {dict.footer.distributorsTitle}
             </h3>
             <ul className="mt-4 space-y-2">
-              {DISTRIBUTOR_COUNTRIES.map((country) => (
+              {distributorCountries.map((country) => (
                 <li key={country.countryCode}>
                   <Link
                     href={`/${lang}/distributors`}

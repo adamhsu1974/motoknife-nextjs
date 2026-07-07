@@ -2,13 +2,19 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import LexicalContent from "@/components/LexicalContent";
 import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { pageMetadata } from "@/lib/i18n/metadata";
-import { ARTICLES, getArticleBySlug, getSortedArticles, type Article } from "@/lib/data/news";
-import { PRODUCTS } from "@/lib/data/products";
+import { fetchArticleBySlug, fetchNews } from "@/lib/cms";
+import { populated } from "@/lib/relations";
+import { extractHeadings } from "@/lib/lexical";
 import { categoryLabel, formatDate } from "@/lib/format";
+import { FAMILY_TIER_LABELS } from "@/lib/series";
+import type { News, Product } from "@/lib/payload-types";
+
+export const revalidate = 3600;
 
 const SITE_URL = process.env.NEXT_PUBLIC_SERVER_URL ?? "https://motoknife.com";
 
@@ -16,34 +22,35 @@ interface ArticlePageProps {
   params: Promise<{ lang: string; slug: string }>;
 }
 
-export function generateStaticParams() {
-  return ARTICLES.map((a) => ({ slug: a.slug }));
+export async function generateStaticParams() {
+  const articles = await fetchNews("en");
+  return articles.map((a) => ({ slug: a.slug }));
 }
 
 export async function generateMetadata({ params }: ArticlePageProps): Promise<Metadata> {
   const { lang, slug } = await params;
   if (!isLocale(lang)) return {};
-  const article = getArticleBySlug(slug);
+  const article = await fetchArticleBySlug(lang, slug);
   if (!article) return {};
   return pageMetadata({
     lang,
     path: `/news/${article.slug}`,
     title: article.title,
-    description: article.excerpt,
+    description: article.excerpt ?? article.title,
   });
 }
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { lang, slug } = await params;
   if (!isLocale(lang)) notFound();
-  const article = getArticleBySlug(slug);
+  const article = await fetchArticleBySlug(lang, slug);
   if (!article) notFound();
   const dict = getDictionary(lang);
 
-  const related = getSortedArticles().filter((a) => a.slug !== article.slug).slice(0, 2);
-  const relatedProducts = article.relatedProductSlugs.flatMap(
-    (s) => PRODUCTS.find((p) => p.slug === s) ?? [],
-  );
+  const allArticles = await fetchNews(lang);
+  const related = allArticles.filter((a) => a.slug !== article.slug).slice(0, 2);
+  const relatedProducts = populated<Product>(article.relatedProducts);
+  const toc = extractHeadings(article.content);
 
   return (
     <>
@@ -84,36 +91,22 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 <h1 className="mt-4 text-2xl font-bold leading-tight text-text-primary md:text-3xl">
                   {article.title}
                 </h1>
-                <p className="mt-4 text-lg leading-relaxed text-text-secondary">
-                  {article.excerpt}
-                </p>
+                {article.excerpt && (
+                  <p className="mt-4 text-lg leading-relaxed text-text-secondary">
+                    {article.excerpt}
+                  </p>
+                )}
 
                 {/* Cover placeholder */}
                 <div className="mt-8 flex h-64 items-center justify-center rounded bg-bg-card md:h-80">
                   <span className="px-4 text-center text-sm text-text-secondary/40">
-                    {article.coverCaption}
+                    {article.title}
                   </span>
                 </div>
 
-                {/* Sections */}
-                <div className="mt-10 space-y-10">
-                  {article.sections.map((section) => (
-                    <section key={section.id} id={section.id} className="scroll-mt-24">
-                      <h2 className="text-xl font-bold text-text-primary">
-                        {section.heading}
-                      </h2>
-                      <div className="mt-4 space-y-4">
-                        {section.paragraphs.map((paragraph) => (
-                          <p
-                            key={paragraph.slice(0, 40)}
-                            className="leading-relaxed text-text-secondary"
-                          >
-                            {paragraph}
-                          </p>
-                        ))}
-                      </div>
-                    </section>
-                  ))}
+                {/* Content */}
+                <div className="mt-10">
+                  <LexicalContent data={article.content} className="space-y-5" />
                 </div>
               </div>
             </article>
@@ -122,23 +115,25 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             <aside className="lg:col-span-1">
               <div className="sticky top-20 space-y-6">
                 {/* TOC */}
-                <div className="rounded-lg bg-white p-6 shadow-sm">
-                  <h2 className="text-sm font-semibold uppercase tracking-wider text-text-secondary">
-                    {dict.news.toc}
-                  </h2>
-                  <ul className="mt-3 space-y-2">
-                    {article.sections.map((section) => (
-                      <li key={section.id}>
-                        <a
-                          href={`#${section.id}`}
-                          className="text-sm text-text-secondary transition-colors hover:text-orange"
-                        >
-                          {section.heading}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                {toc.length > 0 && (
+                  <div className="rounded-lg bg-white p-6 shadow-sm">
+                    <h2 className="text-sm font-semibold uppercase tracking-wider text-text-secondary">
+                      {dict.news.toc}
+                    </h2>
+                    <ul className="mt-3 space-y-2">
+                      {toc.map((entry) => (
+                        <li key={entry.id}>
+                          <a
+                            href={`#${entry.id}`}
+                            className="text-sm text-text-secondary transition-colors hover:text-orange"
+                          >
+                            {entry.text}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
 
                 {/* Related products */}
                 {relatedProducts.length > 0 && (
@@ -156,7 +151,11 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                             <span className="font-medium text-white transition-colors group-hover:text-orange">
                               {p.model}
                             </span>
-                            <span className="text-xs text-white/50">{p.tier}</span>
+                            <span className="text-xs text-white/50">
+                              {p.familyTier
+                                ? (FAMILY_TIER_LABELS[p.familyTier] ?? p.familyTier)
+                                : ""}
+                            </span>
                           </Link>
                         </li>
                       ))}
@@ -204,12 +203,12 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
 /* ─── Article JSON-LD ─────────────────────────────────────── */
 
-function ArticleJsonLd({ article, lang }: { article: Article; lang: Locale }) {
+function ArticleJsonLd({ article, lang }: { article: News; lang: Locale }) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: article.title,
-    description: article.excerpt,
+    description: article.excerpt ?? article.title,
     datePublished: article.publishedDate,
     image: `${SITE_URL}/og-default.png`,
     inLanguage: lang === "zh-tw" ? "zh-TW" : "en",

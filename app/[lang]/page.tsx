@@ -7,8 +7,9 @@ import Reveal from "@/components/gsap/Reveal";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { pageMetadata } from "@/lib/i18n/metadata";
-import { APPLICATION_MATERIALS } from "@/lib/data/applications";
-import { DISTRIBUTOR_COUNTRIES } from "@/lib/data/distributors";
+import { fetchApplications, fetchDistributorCountries } from "@/lib/cms";
+
+export const revalidate = 3600;
 
 const CUTTING_METHODS = [
   {
@@ -58,6 +59,10 @@ export default async function Home({ params }: HomePageProps) {
   if (!isLocale(lang)) notFound();
   const locale: Locale = lang;
   const dict = getDictionary(locale);
+  const [applications, distributorCountries] = await Promise.all([
+    fetchApplications(locale),
+    fetchDistributorCountries(locale),
+  ]);
 
   return (
     <div>
@@ -186,7 +191,7 @@ export default async function Home({ params }: HomePageProps) {
           </div>
 
           <Reveal stagger className="mt-12 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-5">
-            {APPLICATION_MATERIALS.map((app) => (
+            {applications.map((app) => (
               <Link
                 key={app.slug}
                 href={`/${locale}/applications/${app.slug}`}
@@ -196,7 +201,7 @@ export default async function Home({ params }: HomePageProps) {
                   <MaterialIcon slug={app.slug} />
                 </div>
                 <span className="text-sm font-medium text-white/80 transition-colors group-hover:text-orange">
-                  {app.name}
+                  {app.title}
                 </span>
               </Link>
             ))}
@@ -223,7 +228,7 @@ export default async function Home({ params }: HomePageProps) {
 
             <div className="rounded-lg border border-white/10 bg-white/[0.03] p-8">
               <div className="grid grid-cols-2 gap-4">
-                {DISTRIBUTOR_COUNTRIES.map((country) => (
+                {distributorCountries.map((country) => (
                   <Link
                     key={country.countryCode}
                     href={`/${locale}/distributors`}
@@ -313,7 +318,7 @@ function MaterialIcon({ slug }: { slug: string }) {
         <path d="M2 9h20" />
       </svg>
     ),
-    "metallic-foil": (
+    "metal-foil": (
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <path d="M12 2L2 7l10 5 10-5-10-5z" />
         <path d="M2 17l10 5 10-5" />
@@ -343,6 +348,43 @@ function MaterialIcon({ slug }: { slug: string }) {
         <path d="M15 3v18" />
       </svg>
     ),
+    "tape-labels": (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="10" cy="12" r="7" />
+        <circle cx="10" cy="12" r="2.5" />
+        <path d="M17 12h5" />
+      </svg>
+    ),
+    medical: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="3" />
+        <path d="M12 8v8" />
+        <path d="M8 12h8" />
+      </svg>
+    ),
+    "heavy-composites": (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M3 6h18" />
+        <path d="M3 11h18" />
+        <path d="M3 16h18" />
+        <path d="M3 21h18" />
+      </svg>
+    ),
+    "heat-sealed": (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 3c2 3 5 5 5 9a5 5 0 0 1-10 0c0-4 3-6 5-9z" />
+        <path d="M12 21v-4" />
+      </svg>
+    ),
   };
-  return <span className="text-white/60">{iconMap[slug]}</span>;
+
+  const fallback = (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v10" />
+      <path d="M7 12h10" />
+    </svg>
+  );
+
+  return <span className="text-white/60">{iconMap[slug] ?? fallback}</span>;
 }

@@ -1,22 +1,19 @@
 import Link from "next/link";
 
 import type { Locale } from "@/lib/i18n/config";
+import type { Product } from "@/lib/payload-types";
+import { SERIES, FAMILY_TIER_LABELS, type SeriesInfo } from "@/lib/series";
 import ProductJsonLd from "@/components/ProductJsonLd";
 import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
-import {
-  PRODUCT_SERIES,
-  getProductsBySeries,
-  type ProductSeries,
-} from "@/lib/data/products";
+import { keySpecRows } from "@/lib/product-display";
 
 interface ProductSeriesPageProps {
-  series: ProductSeries;
+  series: SeriesInfo;
+  products: Product[];
   lang: Locale;
 }
 
-export default function ProductSeriesPage({ series, lang }: ProductSeriesPageProps) {
-  const products = getProductsBySeries(series.slug);
-
+export default function ProductSeriesPage({ series, products, lang }: ProductSeriesPageProps) {
   return (
     <>
       <ProductJsonLd series={series} />
@@ -111,12 +108,14 @@ export default function ProductSeriesPage({ series, lang }: ProductSeriesPagePro
                             <h3 className="font-heading text-lg font-bold text-text-primary">
                               {product.model}
                             </h3>
-                            <span className="rounded-sm bg-bg-card px-2 py-0.5 text-xs text-text-secondary">
-                              {product.tier}
-                            </span>
+                            {product.familyTier && (
+                              <span className="rounded-sm bg-bg-card px-2 py-0.5 text-xs text-text-secondary">
+                                {FAMILY_TIER_LABELS[product.familyTier] ?? product.familyTier}
+                              </span>
+                            )}
                           </div>
                           <p className="mt-1 text-sm text-text-secondary">
-                            {product.summary}
+                            {product.tagline}
                           </p>
                         </div>
                         <div className="flex shrink-0 gap-2">
@@ -137,7 +136,7 @@ export default function ProductSeriesPage({ series, lang }: ProductSeriesPagePro
 
                       {/* Key specs row */}
                       <div className="mt-4 flex flex-wrap gap-x-8 gap-y-2 border-t border-border pt-4 text-sm">
-                        {product.keySpecs.map((spec) => (
+                        {keySpecRows(product).map((spec) => (
                           <div key={spec.label}>
                             <span className="text-text-secondary">{spec.label}: </span>
                             <span className="font-medium text-text-primary">
@@ -178,7 +177,7 @@ export default function ProductSeriesPage({ series, lang }: ProductSeriesPagePro
                     Other Series
                   </h3>
                   <ul className="mt-3 space-y-2">
-                    {PRODUCT_SERIES.filter((s) => s.slug !== series.slug).map((s) => (
+                    {SERIES.filter((s) => s.slug !== series.slug).map((s) => (
                       <li key={s.slug}>
                         <Link
                           href={`/${lang}/products/${s.slug}`}

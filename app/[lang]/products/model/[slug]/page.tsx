@@ -3,52 +3,65 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import CTAButton from "@/components/CTAButton";
+import LexicalContent from "@/components/LexicalContent";
 import PdfDownloadButton from "@/components/PdfDownloadButton";
 import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import { isLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { pageMetadata } from "@/lib/i18n/metadata";
-import {
-  PRODUCTS,
-  getProductBySlug,
-  getProductsBySeries,
-  getSeriesBySlug,
-  type Product,
-} from "@/lib/data/products";
-import { APPLICATION_MATERIALS } from "@/lib/data/applications";
+import { fetchProductBySlug, fetchProducts } from "@/lib/cms";
+import { populated } from "@/lib/relations";
+import { getSeriesInfo, seriesForProductType, FAMILY_TIER_LABELS } from "@/lib/series";
+import type { Application, Product } from "@/lib/payload-types";
+
+export const revalidate = 3600;
 
 interface ProductModelPageProps {
   params: Promise<{ lang: string; slug: string }>;
 }
 
-export function generateStaticParams() {
-  return PRODUCTS.map((p) => ({ slug: p.slug }));
+export async function generateStaticParams() {
+  const products = await fetchProducts("en");
+  return products.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: ProductModelPageProps): Promise<Metadata> {
   const { lang, slug } = await params;
   if (!isLocale(lang)) return {};
-  const product = getProductBySlug(slug);
+  const product = await fetchProductBySlug(lang, slug);
   if (!product) return {};
   return pageMetadata({
     lang,
     path: `/products/model/${product.slug}`,
-    title: `${product.model} — ${product.name}`,
-    description: product.summary,
+    title: `${product.model} — ${product.title}`,
+    description: product.tagline ?? product.title,
   });
 }
 
 export default async function ProductModelPage({ params }: ProductModelPageProps) {
   const { lang, slug } = await params;
   if (!isLocale(lang)) notFound();
-  const product = getProductBySlug(slug);
+  const product = await fetchProductBySlug(lang, slug);
   if (!product) notFound();
   const dict = getDictionary(lang);
-  const series = getSeriesBySlug(product.series);
-  const related = getProductsBySeries(product.series).filter((p) => p.slug !== product.slug);
-  const relatedApplications = APPLICATION_MATERIALS.filter((m) =>
-    product.applicationSlugs.includes(m.slug),
+
+  const series = product.cuttingMethod
+    ? getSeriesInfo(product.cuttingMethod)
+    : seriesForProductType(product.productType);
+
+  const allProducts = await fetchProducts(lang);
+  const related = allProducts.filter(
+    (p) =>
+      p.slug !== product.slug &&
+      (product.cuttingMethod
+        ? p.cuttingMethod === product.cuttingMethod
+        : p.productType === product.productType),
   );
+
+  const relatedApplications = populated<Application>(product.applications);
+  const tierLabel = product.familyTier
+    ? (FAMILY_TIER_LABELS[product.familyTier] ?? product.familyTier)
+    : undefined;
 
   return (
     <>
@@ -99,86 +112,72 @@ export default async function ProductModelPage({ params }: ProductModelPageProps
                       {series.cuttingMethod}
                     </span>
                   )}
-                  <span className="rounded-sm bg-bg-card px-2.5 py-1 text-xs text-text-secondary">
-                    {product.tier}
-                  </span>
+                  {tierLabel && (
+                    <span className="rounded-sm bg-bg-card px-2.5 py-1 text-xs text-text-secondary">
+                      {tierLabel}
+                    </span>
+                  )}
                 </div>
                 <h1 className="mt-3 font-heading text-3xl font-bold text-text-primary md:text-4xl">
                   {product.model}
                 </h1>
-                <p className="mt-1 text-lg text-text-secondary">{product.name}</p>
-                <p className="mt-4 leading-relaxed text-text-secondary">{product.summary}</p>
+                <p className="mt-1 text-lg text-text-secondary">{product.title}</p>
+                {product.tagline && (
+                  <p className="mt-4 leading-relaxed text-text-secondary">{product.tagline}</p>
+                )}
 
                 {product.description && (
-                  <div className="mt-6 space-y-4 border-t border-border pt-6">
-                    {product.description.map((paragraph) => (
-                      <p key={paragraph.slice(0, 40)} className="leading-relaxed text-text-secondary">
-                        {paragraph}
-                      </p>
-                    ))}
+                  <div className="mt-6 border-t border-border pt-6">
+                    <LexicalContent data={product.description} />
                   </div>
                 )}
               </div>
 
               {/* Specifications */}
-              <div className="rounded-lg bg-white p-6 shadow-sm md:p-8">
-                <h2 className="text-lg font-bold text-text-primary">
-                  {dict.products.specifications}
-                </h2>
-                <table className="mt-4 w-full text-sm">
-                  <tbody>
-                    {product.specs.map((spec, i) => (
-                      <tr key={spec.label} className={i % 2 === 0 ? "bg-bg-card" : ""}>
-                        <td className="px-3 py-2.5 font-medium text-text-secondary">
-                          {spec.label}
-                        </td>
-                        <td className="px-3 py-2.5 text-text-primary">
-                          {spec.value}
-                          {spec.note && (
-                            <span className="ml-2 text-xs text-orange">({spec.note})</span>
-                          )}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
-              {/* Suitable materials + related applications */}
-              <div className="rounded-lg bg-white p-6 shadow-sm md:p-8">
-                <h2 className="text-lg font-bold text-text-primary">
-                  {dict.products.suitableMaterials}
-                </h2>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {product.materials.map((mat) => (
-                    <span
-                      key={mat}
-                      className="rounded-sm bg-bg-card px-3 py-1.5 text-sm text-text-primary"
-                    >
-                      {mat}
-                    </span>
-                  ))}
-                </div>
-
-                {relatedApplications.length > 0 && (
-                  <>
-                    <h3 className="mt-6 text-sm font-semibold uppercase tracking-wider text-text-secondary">
-                      {dict.products.relatedApplications}
-                    </h3>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {relatedApplications.map((app) => (
-                        <Link
-                          key={app.slug}
-                          href={`/${lang}/applications/${app.slug}`}
-                          className="rounded-sm bg-orange-soft px-3 py-1.5 text-sm font-medium text-orange transition-colors hover:bg-orange hover:text-white"
-                        >
-                          {app.name} →
-                        </Link>
+              {product.detailedSpecs && product.detailedSpecs.length > 0 && (
+                <div className="rounded-lg bg-white p-6 shadow-sm md:p-8">
+                  <h2 className="text-lg font-bold text-text-primary">
+                    {dict.products.specifications}
+                  </h2>
+                  <table className="mt-4 w-full text-sm">
+                    <tbody>
+                      {product.detailedSpecs.map((spec, i) => (
+                        <tr key={spec.id ?? spec.label} className={i % 2 === 0 ? "bg-bg-card" : ""}>
+                          <td className="px-3 py-2.5 font-medium text-text-secondary">
+                            {spec.label}
+                          </td>
+                          <td className="px-3 py-2.5 text-text-primary">
+                            {spec.value}
+                            {spec.note && (
+                              <span className="ml-2 text-xs text-orange">({spec.note})</span>
+                            )}
+                          </td>
+                        </tr>
                       ))}
-                    </div>
-                  </>
-                )}
-              </div>
+                    </tbody>
+                  </table>
+                </div>
+              )}
+
+              {/* Related applications */}
+              {relatedApplications.length > 0 && (
+                <div className="rounded-lg bg-white p-6 shadow-sm md:p-8">
+                  <h2 className="text-lg font-bold text-text-primary">
+                    {dict.products.relatedApplications}
+                  </h2>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {relatedApplications.map((app) => (
+                      <Link
+                        key={app.slug}
+                        href={`/${lang}/applications/${app.slug}`}
+                        className="rounded-sm bg-orange-soft px-3 py-1.5 text-sm font-medium text-orange transition-colors hover:bg-orange hover:text-white"
+                      >
+                        {app.title} →
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Sidebar */}
@@ -223,7 +222,11 @@ export default async function ProductModelPage({ params }: ProductModelPageProps
                             <span className="font-medium text-text-primary transition-colors group-hover:text-orange">
                               {p.model}
                             </span>
-                            <span className="text-xs text-text-secondary">{p.tier}</span>
+                            <span className="text-xs text-text-secondary">
+                              {p.familyTier
+                                ? (FAMILY_TIER_LABELS[p.familyTier] ?? p.familyTier)
+                                : ""}
+                            </span>
                           </Link>
                         </li>
                       ))}
@@ -245,7 +248,7 @@ function ProductModelJsonLd({ product }: { product: Product }) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
-    name: `${product.model} ${product.name}`,
+    name: `${product.model} ${product.title}`,
     sku: product.model,
     brand: { "@type": "Brand", name: "MOTOKNIFE" },
     manufacturer: {
@@ -253,7 +256,7 @@ function ProductModelJsonLd({ product }: { product: Product }) {
       name: "友聚工業股份有限公司",
       url: "https://motoknife.com",
     },
-    description: product.summary,
+    description: product.tagline ?? product.title,
     category: "Industrial Slitting Equipment",
     offers: {
       "@type": "Offer",

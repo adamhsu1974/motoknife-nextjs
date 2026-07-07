@@ -6,10 +6,13 @@ import gsap from "gsap";
 
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
-import { PRODUCTS, PRODUCT_SERIES, type SeriesSlug } from "@/lib/data/products";
+import type { Product } from "@/lib/payload-types";
+import { getSeriesInfo, FAMILY_TIER_LABELS } from "@/lib/series";
+import { keySpecRows, materialTags } from "@/lib/product-display";
 import { CompareBar, CompareModal } from "@/components/ProductCompare";
 
-const METHOD_FILTERS: SeriesSlug[] = ["score-cut", "shear-cut", "half-cut", "hot-cut"];
+const METHOD_FILTERS = ["score-cut", "shear-cut", "half-cut", "hot-cut"] as const;
+type MethodFilter = (typeof METHOD_FILTERS)[number];
 
 function prefersReducedMotion(): boolean {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -40,21 +43,22 @@ function cardLeave(e: React.MouseEvent<HTMLAnchorElement>) {
 interface ProductCatalogProps {
   lang: Locale;
   dict: Dictionary;
+  products: Product[];
 }
 
-export default function ProductCatalog({ lang, dict }: ProductCatalogProps) {
-  const [filter, setFilter] = useState<SeriesSlug | "all">("all");
+export default function ProductCatalog({ lang, dict, products }: ProductCatalogProps) {
+  const [filter, setFilter] = useState<MethodFilter | "all">("all");
   const [compareSlugs, setCompareSlugs] = useState<string[]>([]);
   const [isCompareOpen, setIsCompareOpen] = useState(false);
 
-  const holders = PRODUCTS.filter((p) => METHOD_FILTERS.includes(p.series));
-  const visible = filter === "all" ? holders : holders.filter((p) => p.series === filter);
+  const holders = products.filter((p) => p.productType === "knife-holder");
+  const visible =
+    filter === "all" ? holders : holders.filter((p) => p.cuttingMethod === filter);
   const compareProducts = compareSlugs.flatMap(
     (slug) => holders.find((p) => p.slug === slug) ?? [],
   );
 
-  const filterLabel = (slug: SeriesSlug) =>
-    PRODUCT_SERIES.find((s) => s.slug === slug)?.name ?? slug;
+  const filterLabel = (slug: MethodFilter) => getSeriesInfo(slug)?.name ?? slug;
 
   function toggleCompare(slug: string) {
     setCompareSlugs((prev) => {
@@ -73,7 +77,7 @@ export default function ProductCatalog({ lang, dict }: ProductCatalogProps) {
         </FilterChip>
         {METHOD_FILTERS.map((slug) => (
           <FilterChip key={slug} active={filter === slug} onClick={() => setFilter(slug)}>
-            {filterLabel(slug)} ({holders.filter((p) => p.series === slug).length})
+            {filterLabel(slug)} ({holders.filter((p) => p.cuttingMethod === slug).length})
           </FilterChip>
         ))}
       </div>
@@ -124,22 +128,26 @@ export default function ProductCatalog({ lang, dict }: ProductCatalogProps) {
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="rounded-sm bg-orange-soft px-2 py-0.5 text-xs font-semibold text-orange">
-                {filterLabel(product.series)}
-              </span>
-              <span className="rounded-sm bg-bg-card px-2 py-0.5 text-xs text-text-secondary">
-                {product.tier}
-              </span>
+              {product.cuttingMethod && (
+                <span className="rounded-sm bg-orange-soft px-2 py-0.5 text-xs font-semibold text-orange">
+                  {filterLabel(product.cuttingMethod)}
+                </span>
+              )}
+              {product.familyTier && (
+                <span className="rounded-sm bg-bg-card px-2 py-0.5 text-xs text-text-secondary">
+                  {FAMILY_TIER_LABELS[product.familyTier] ?? product.familyTier}
+                </span>
+              )}
             </div>
 
             <h3 className="mt-3 font-heading text-xl font-bold text-text-primary">
               {product.model}
             </h3>
-            <p className="mt-1 text-sm text-text-secondary">{product.name}</p>
+            <p className="mt-1 text-sm text-text-secondary">{product.title}</p>
 
             {/* Key specs */}
             <div className="mt-4 space-y-1.5 border-t border-border pt-4">
-              {product.keySpecs.map((spec) => (
+              {keySpecRows(product).map((spec) => (
                 <div key={spec.label} className="flex items-baseline justify-between gap-3 text-sm">
                   <span className="text-text-secondary">{spec.label}</span>
                   <span className="text-right font-medium text-text-primary">
@@ -152,16 +160,18 @@ export default function ProductCatalog({ lang, dict }: ProductCatalogProps) {
               ))}
             </div>
 
-            {/* Material tags */}
+            {/* Material tags（相關應用分類） */}
             <div className="mt-4 flex flex-wrap gap-1.5">
-              {product.materials.slice(0, 4).map((mat) => (
-                <span
-                  key={mat}
-                  className="rounded-sm bg-bg-card px-2 py-0.5 text-xs text-text-secondary"
-                >
-                  {mat}
-                </span>
-              ))}
+              {materialTags(product)
+                .slice(0, 4)
+                .map((mat) => (
+                  <span
+                    key={mat}
+                    className="rounded-sm bg-bg-card px-2 py-0.5 text-xs text-text-secondary"
+                  >
+                    {mat}
+                  </span>
+                ))}
             </div>
 
             <span className="mt-auto inline-flex items-center gap-1 pt-4 text-sm font-medium text-orange">

@@ -1,21 +1,33 @@
 import Link from "next/link";
-import type { ApplicationMaterial } from "@/lib/data/applications";
+
 import type { Locale } from "@/lib/i18n/config";
+import type { Application, Product } from "@/lib/payload-types";
+import { getSeriesInfo } from "@/lib/series";
+import { populated } from "@/lib/relations";
 import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
+import LexicalContent from "@/components/LexicalContent";
 
 interface ApplicationPageProps {
-  material: ApplicationMaterial;
+  application: Application;
+  otherApplications: { slug: string; title: string }[];
   lang: Locale;
 }
 
-export default function ApplicationPage({ material, lang }: ApplicationPageProps) {
+export default function ApplicationPage({
+  application,
+  otherApplications,
+  lang,
+}: ApplicationPageProps) {
+  const coverage = application.coverage ?? [];
+  const recommendations = application.productRecommendations ?? [];
+
   return (
     <div className="bg-bg-warm py-16 md:py-24">
       <BreadcrumbJsonLd
         items={[
           { name: "Home", path: `/${lang}` },
           { name: "Applications", path: `/${lang}/applications` },
-          { name: material.name },
+          { name: application.title },
         ]}
       />
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
@@ -25,7 +37,7 @@ export default function ApplicationPage({ material, lang }: ApplicationPageProps
           <span className="mx-2">/</span>
           <Link href={`/${lang}/applications`} className="hover:text-orange">Applications</Link>
           <span className="mx-2">/</span>
-          <span className="text-text-primary">{material.name}</span>
+          <span className="text-text-primary">{application.title}</span>
         </nav>
 
         <div className="grid gap-10 lg:grid-cols-3">
@@ -34,104 +46,100 @@ export default function ApplicationPage({ material, lang }: ApplicationPageProps
             {/* Header */}
             <div className="rounded-lg bg-white p-6 shadow-sm md:p-8">
               <h1 className="text-2xl font-bold text-text-primary md:text-3xl">
-                {material.name}
+                {application.title}
               </h1>
-              <p className="mt-1 text-text-secondary">{material.tagline}</p>
-              <p className="mt-4 leading-relaxed text-text-secondary">
-                {material.description}
-              </p>
 
-              {/* Recommended Method */}
-              <div className="mt-6 flex flex-wrap items-center gap-3">
-                <span className="text-sm font-medium text-text-secondary">
-                  Recommended:
-                </span>
-                <Link
-                  href={`/${lang}/products/cutting-methods`}
-                  className="rounded-sm bg-orange/10 px-3 py-1.5 text-sm font-semibold text-orange"
-                >
-                  {material.recommendedMethod}
-                </Link>
-                {material.alternativeMethod && (
-                  <>
-                    <span className="text-xs text-text-secondary">or</span>
-                    <Link
-                      href={`/${lang}/products/cutting-methods`}
-                      className="rounded-sm bg-navy/5 px-3 py-1.5 text-sm font-medium text-navy"
+              {/* Coverage 材料範圍 */}
+              {coverage.length > 0 && (
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {coverage.map((c) => (
+                    <span
+                      key={c.id ?? c.material}
+                      className="rounded-sm bg-bg-card px-3 py-1.5 text-sm text-text-primary"
                     >
-                      {material.alternativeMethod}
+                      {c.material}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              {/* Cutting methods */}
+              {application.cuttingMethods && application.cuttingMethods.length > 0 && (
+                <div className="mt-6 flex flex-wrap items-center gap-3">
+                  <span className="text-sm font-medium text-text-secondary">
+                    Recommended:
+                  </span>
+                  {application.cuttingMethods.map((method) => (
+                    <Link
+                      key={method}
+                      href={`/${lang}/products/${method}`}
+                      className="rounded-sm bg-orange/10 px-3 py-1.5 text-sm font-semibold text-orange"
+                    >
+                      {getSeriesInfo(method)?.cuttingMethod ?? method}
                     </Link>
-                  </>
-                )}
-              </div>
+                  ))}
+                </div>
+              )}
             </div>
 
-            {/* Material Characteristics */}
-            <div className="rounded-lg bg-white p-6 shadow-sm md:p-8">
-              <h2 className="text-lg font-bold text-text-primary">
-                Material Characteristics
-              </h2>
-              <ul className="mt-4 space-y-2">
-                {material.characteristics.map((char) => (
-                  <li key={char} className="flex items-start gap-2 text-sm text-text-secondary">
-                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-orange" />
-                    {char}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {/* Pain points 痛點敘事 */}
+            {application.painPoints && (
+              <div className="rounded-lg bg-white p-6 shadow-sm md:p-8">
+                <h2 className="text-lg font-bold text-text-primary">
+                  Material Challenges
+                </h2>
+                <div className="mt-4">
+                  <LexicalContent data={application.painPoints} />
+                </div>
+              </div>
+            )}
+
+            {/* Selection logic 選擇邏輯 */}
+            {application.selectionLogic && (
+              <div className="rounded-lg bg-white p-6 shadow-sm md:p-8">
+                <h2 className="text-lg font-bold text-text-primary">
+                  Choosing the Cutting Method
+                </h2>
+                <div className="mt-4">
+                  <LexicalContent data={application.selectionLogic} />
+                </div>
+              </div>
+            )}
 
             {/* Recommended Products */}
-            <div className="rounded-lg bg-white p-6 shadow-sm md:p-8">
-              <h2 className="text-lg font-bold text-text-primary">
-                Recommended Products
-              </h2>
-              <div className="mt-4 space-y-4">
-                {material.products.map((product) => (
-                  <div
-                    key={product.name}
-                    className="flex flex-col gap-3 rounded border border-border p-4 sm:flex-row sm:items-center sm:justify-between"
-                  >
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2">
-                        <span className="font-bold text-text-primary">
-                          {product.name}
-                        </span>
-                        <span className="rounded-sm bg-bg-card px-2 py-0.5 text-xs text-text-secondary">
-                          {product.series}
-                        </span>
-                      </div>
-                      <p className="mt-1 text-sm text-text-secondary">
-                        {product.reason}
-                      </p>
-                    </div>
-                    <Link
-                      href={`/${lang}${product.href}`}
-                      className="shrink-0 rounded bg-orange px-4 py-2 text-center text-sm font-semibold text-white transition-colors hover:bg-orange-hover"
+            {recommendations.length > 0 && (
+              <div className="rounded-lg bg-white p-6 shadow-sm md:p-8">
+                <h2 className="text-lg font-bold text-text-primary">
+                  Recommended Products
+                </h2>
+                <div className="mt-4 space-y-4">
+                  {recommendations.map((rec) => (
+                    <div
+                      key={rec.id ?? rec.cuttingMethod}
+                      className="rounded border border-border p-4"
                     >
-                      View Product
-                    </Link>
-                  </div>
-                ))}
+                      <span className="inline-block rounded-sm bg-orange/10 px-2.5 py-1 text-xs font-semibold text-orange">
+                        {getSeriesInfo(rec.cuttingMethod)?.cuttingMethod ?? rec.cuttingMethod}
+                      </span>
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {populated<Product>(rec.products).map((p) => (
+                          <Link
+                            key={p.slug}
+                            href={`/${lang}/products/model/${p.slug}`}
+                            className="rounded bg-bg-card px-3 py-1.5 text-sm font-bold text-text-primary transition-colors hover:bg-orange-soft hover:text-orange"
+                          >
+                            {p.model}
+                          </Link>
+                        ))}
+                      </div>
+                      {rec.note && (
+                        <p className="mt-3 text-sm text-text-secondary">{rec.note}</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-
-            {/* Industries */}
-            <div className="rounded-lg bg-white p-6 shadow-sm md:p-8">
-              <h2 className="text-lg font-bold text-text-primary">
-                Common Industries
-              </h2>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {material.industries.map((ind) => (
-                  <span
-                    key={ind}
-                    className="rounded-sm bg-bg-card px-3 py-1.5 text-sm text-text-primary"
-                  >
-                    {ind}
-                  </span>
-                ))}
-              </div>
-            </div>
+            )}
           </div>
 
           {/* Sidebar */}
@@ -140,14 +148,14 @@ export default function ApplicationPage({ material, lang }: ApplicationPageProps
               {/* Quote CTA */}
               <div className="rounded-lg bg-navy p-6 text-white">
                 <h3 className="text-lg font-bold">
-                  Cutting {material.name}?
+                  Cutting {application.title}?
                 </h3>
                 <p className="mt-2 text-sm text-white/70">
                   Tell us your specifications and we&apos;ll recommend the
-                  optimal setup for your {material.name.toLowerCase()} application.
+                  optimal setup for your application.
                 </p>
                 <Link
-                  href={`/${lang}/contact`}
+                  href={`/${lang}/contact?material=${encodeURIComponent(application.title)}`}
                   className="mt-5 block rounded bg-orange py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-orange-hover"
                 >
                   Get a Recommendation
@@ -157,24 +165,19 @@ export default function ApplicationPage({ material, lang }: ApplicationPageProps
               {/* Other Materials */}
               <div className="rounded-lg bg-white p-6 shadow-sm">
                 <h3 className="text-sm font-semibold uppercase tracking-wider text-text-secondary">
-                  Other Materials
+                  Other Applications
                 </h3>
                 <ul className="mt-3 space-y-2">
-                  {["plastic-film", "metallic-foil", "rubber", "paper", "nonwoven"]
-                    .filter((s) => s !== material.slug)
-                    .map((slug) => (
-                      <li key={slug}>
-                        <Link
-                          href={`/${lang}/applications/${slug}`}
-                          className="text-sm text-text-secondary transition-colors hover:text-orange"
-                        >
-                          {slug
-                            .split("-")
-                            .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-                            .join(" ")}
-                        </Link>
-                      </li>
-                    ))}
+                  {otherApplications.map((app) => (
+                    <li key={app.slug}>
+                      <Link
+                        href={`/${lang}/applications/${app.slug}`}
+                        className="text-sm text-text-secondary transition-colors hover:text-orange"
+                      >
+                        {app.title}
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>

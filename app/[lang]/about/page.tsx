@@ -7,7 +7,7 @@ import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import { isLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { pageMetadata } from "@/lib/i18n/metadata";
-import { EQUIPMENT, PATENTS } from "@/lib/data/about";
+import { EQUIPMENT, PATENTS } from "@/lib/about";
 
 const STRENGTHS = [
   {

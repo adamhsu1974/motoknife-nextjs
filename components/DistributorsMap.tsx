@@ -8,11 +8,8 @@ import worldData from "world-atlas/countries-110m.json";
 
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
-import {
-  DISTRIBUTOR_COUNTRIES,
-  getDistributorCountryById,
-  type DistributorCountry,
-} from "@/lib/data/distributors";
+import type { DistributorCountryGroup } from "@/lib/cms-types";
+import { numericIdForCountry } from "@/lib/iso-numeric";
 
 const COLORS = {
   default: "#d9dee4",
@@ -30,14 +27,20 @@ interface SelectedCountry {
 interface DistributorsMapProps {
   lang: Locale;
   dict: Dictionary;
+  countries: DistributorCountryGroup[];
 }
 
-export default function DistributorsMap({ lang, dict }: DistributorsMapProps) {
+export default function DistributorsMap({ lang, dict, countries }: DistributorsMapProps) {
   const [selected, setSelected] = useState<SelectedCountry | null>(null);
 
-  const selectedDistributor = selected
-    ? getDistributorCountryById(selected.numericId)
-    : undefined;
+  const byNumericId = new Map(
+    countries.flatMap((c) => {
+      const id = numericIdForCountry(c.countryCode);
+      return id ? ([[id, c]] as const) : [];
+    }),
+  );
+
+  const selectedDistributor = selected ? byNumericId.get(selected.numericId) : undefined;
 
   return (
     <div className="grid gap-8 lg:grid-cols-3">
@@ -51,7 +54,7 @@ export default function DistributorsMap({ lang, dict }: DistributorsMapProps) {
                   .filter((geo) => String(geo.id) !== "010") // hide Antarctica
                   .map((geo) => {
                     const id = String(geo.id);
-                    const hasDistributor = Boolean(getDistributorCountryById(id));
+                    const hasDistributor = byNumericId.has(id);
                     const isSelected = selected?.numericId === id;
                     const baseFill = hasDistributor ? COLORS.distributor : COLORS.default;
                     const hoverFill = hasDistributor
@@ -102,22 +105,23 @@ export default function DistributorsMap({ lang, dict }: DistributorsMapProps) {
             {dict.distributors.distributorCountriesLabel}
           </p>
           <div className="mt-2 flex flex-wrap gap-2">
-            {DISTRIBUTOR_COUNTRIES.map((country) => (
-              <button
-                key={country.countryCode}
-                type="button"
-                onClick={() =>
-                  setSelected({ numericId: country.numericId, name: country.countryName })
-                }
-                className={`rounded-sm px-3 py-1.5 text-xs font-medium transition-colors ${
-                  selected?.numericId === country.numericId
-                    ? "bg-orange text-white"
-                    : "bg-bg-card text-text-secondary hover:text-text-primary"
-                }`}
-              >
-                {country.countryName}
-              </button>
-            ))}
+            {countries.map((country) => {
+              const numericId = numericIdForCountry(country.countryCode) ?? country.countryCode;
+              return (
+                <button
+                  key={country.countryCode}
+                  type="button"
+                  onClick={() => setSelected({ numericId, name: country.countryName })}
+                  className={`rounded-sm px-3 py-1.5 text-xs font-medium transition-colors ${
+                    selected?.numericId === numericId
+                      ? "bg-orange text-white"
+                      : "bg-bg-card text-text-secondary hover:text-text-primary"
+                  }`}
+                >
+                  {country.countryName}
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -149,7 +153,7 @@ function DistributorPanel({
   lang,
   dict,
 }: {
-  country: DistributorCountry;
+  country: DistributorCountryGroup;
   lang: Locale;
   dict: Dictionary;
 }) {

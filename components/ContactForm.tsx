@@ -7,20 +7,16 @@ import { useSearchParams } from "next/navigation";
 import type { ContactFormData } from "@/lib/schemas/contact";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
-import { DISTRIBUTOR_COUNTRIES, type DistributorCountry } from "@/lib/data/distributors";
-import { PRODUCTS, type SeriesSlug } from "@/lib/data/products";
-import { SELECTOR_MATERIALS } from "@/lib/data/selector";
+import type { DistributorCountryGroup } from "@/lib/cms-types";
 
-const PRODUCT_TYPE_BY_SERIES: Record<SeriesSlug, string> = {
-  "score-cut": "Score Cut Knife Holder",
-  "shear-cut": "Shear Cut Knife Holder",
-  "half-cut": "Half Cut Knife Holder",
-  "hot-cut": "Hot Cut Knife Holder",
-  knives: "Slitting Knives & Blades",
-  "guide-bar": "Guide Bars",
-};
-
-const PRODUCT_TYPES = Object.values(PRODUCT_TYPE_BY_SERIES);
+export const PRODUCT_TYPE_LABELS = [
+  "Score Cut Knife Holder",
+  "Shear Cut Knife Holder",
+  "Half Cut Knife Holder",
+  "Hot Cut Knife Holder",
+  "Slitting Knives & Blades",
+  "Guide Bars",
+] as const;
 
 const COUNTRY_ALIASES: Record<string, string> = {
   korea: "KR",
@@ -37,11 +33,14 @@ const COUNTRY_ALIASES: Record<string, string> = {
   "russian federation": "RU",
 };
 
-function detectDistributor(input: string): DistributorCountry | undefined {
+function detectDistributor(
+  input: string,
+  countries: DistributorCountryGroup[],
+): DistributorCountryGroup | undefined {
   const value = input.trim().toLowerCase();
   if (value.length < 3) return undefined;
   const aliasCode = COUNTRY_ALIASES[value];
-  return DISTRIBUTOR_COUNTRIES.find((c) => {
+  return countries.find((c) => {
     if (aliasCode) return c.countryCode === aliasCode;
     const name = c.countryName.toLowerCase();
     return name === value || (value.length >= 4 && name.startsWith(value));
@@ -54,22 +53,33 @@ type FormStatus = "idle" | "submitting" | "success" | "error";
 interface ContactFormProps {
   lang: Locale;
   dict: Dictionary;
+  /** CMS 材料選項（Applications titles） */
+  materialOptions: string[];
+  /** CMS 代理商國家（詢價通路判斷用） */
+  distributorCountries: DistributorCountryGroup[];
+  /** 型號 → 產品類型標籤（?product= 反推下拉用） */
+  productTypeByModel: Record<string, string>;
 }
 
-export default function ContactForm({ lang, dict }: ContactFormProps) {
+export default function ContactForm({
+  lang,
+  dict,
+  materialOptions: cmsMaterialOptions,
+  distributorCountries,
+  productTypeByModel,
+}: ContactFormProps) {
   const searchParams = useSearchParams();
 
   const prefill = useMemo(() => {
     const product = searchParams.get("product") ?? "";
     const models = searchParams.get("models") ?? "";
     const modelValue = product || models;
-    const firstModel = modelValue.split(",")[0]?.trim();
-    const matchedProduct = PRODUCTS.find((p) => p.model === firstModel);
+    const firstModel = modelValue.split(",")[0]?.trim() ?? "";
     const isPdfRequest = searchParams.get("topic") === "pdf";
 
     return {
       modelValue,
-      productType: matchedProduct ? PRODUCT_TYPE_BY_SERIES[matchedProduct.series] : "",
+      productType: productTypeByModel[firstModel] ?? "",
       material: searchParams.get("material") ?? "",
       thickness: searchParams.get("thickness") ?? "",
       country: searchParams.get("country") ?? "",
@@ -77,14 +87,14 @@ export default function ContactForm({ lang, dict }: ContactFormProps) {
       message: isPdfRequest && product ? `Please send the PDF catalog for ${product}.` : "",
       hasPrefill: Boolean(modelValue || searchParams.get("material")),
     };
-  }, [searchParams]);
+  }, [searchParams, productTypeByModel]);
 
   const [requestType, setRequestType] = useState<RequestType>(prefill.requestType);
   const [country, setCountry] = useState(prefill.country);
   const [status, setStatus] = useState<FormStatus>("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const distributor = detectDistributor(country);
+  const distributor = detectDistributor(country, distributorCountries);
 
   const requestTypes = [
     { value: "info" as const, label: dict.contact.requestInfo },
@@ -92,7 +102,7 @@ export default function ContactForm({ lang, dict }: ContactFormProps) {
     { value: "order" as const, label: dict.contact.requestOrder },
   ];
 
-  const materialOptions = [...SELECTOR_MATERIALS.map((m) => m.name), "Other"];
+  const materialOptions = [...cmsMaterialOptions, "Other"];
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -311,7 +321,7 @@ export default function ContactForm({ lang, dict }: ContactFormProps) {
                       className="w-full rounded border border-border bg-white px-3 py-2.5 text-sm text-text-primary"
                     >
                       <option value="">{dict.contact.notSure}</option>
-                      {PRODUCT_TYPES.map((t) => (
+                      {PRODUCT_TYPE_LABELS.map((t) => (
                         <option key={t} value={t}>
                           {t}
                         </option>

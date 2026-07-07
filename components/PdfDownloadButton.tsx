@@ -3,13 +3,14 @@
 import { createElement, useState, type ReactElement } from "react";
 import type { DocumentProps } from "@react-pdf/renderer";
 
-import type { Product } from "@/lib/data/products";
+import type { Product } from "@/lib/payload-types";
 
 type DownloadState = "idle" | "generating" | "error";
 
 interface PdfDownloadButtonProps {
-  /** 給定 product 時生成單品規格 PDF；未給定時生成全產品目錄 */
+  /** 給定 product 時生成單品規格 PDF；給定 products 時生成全產品目錄 */
   product?: Product;
+  products?: Product[];
   label: string;
   generatingLabel: string;
   errorLabel: string;
@@ -18,6 +19,7 @@ interface PdfDownloadButtonProps {
 
 export default function PdfDownloadButton({
   product,
+  products,
   label,
   generatingLabel,
   errorLabel,
@@ -38,7 +40,7 @@ export default function PdfDownloadButton({
       const doc = (
         product
           ? createElement(docs.ProductSpecDocument, { product })
-          : createElement(docs.FullCatalogDocument)
+          : createElement(docs.FullCatalogDocument, { products: products ?? [] })
       ) as ReactElement<DocumentProps>;
 
       const blob = await pdf(doc).toBlob();

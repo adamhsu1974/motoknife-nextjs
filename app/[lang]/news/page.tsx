@@ -6,8 +6,10 @@ import PageShell from "@/components/PageShell";
 import { isLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { pageMetadata } from "@/lib/i18n/metadata";
-import { getSortedArticles } from "@/lib/data/news";
+import { fetchNews } from "@/lib/cms";
 import { categoryLabel, formatDate } from "@/lib/format";
+
+export const revalidate = 3600;
 
 interface NewsPageProps {
   params: Promise<{ lang: string }>;
@@ -29,7 +31,7 @@ export default async function NewsPage({ params }: NewsPageProps) {
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
   const dict = getDictionary(lang);
-  const articles = getSortedArticles();
+  const articles = await fetchNews(lang);
 
   return (
     <PageShell
@@ -49,7 +51,7 @@ export default async function NewsPage({ params }: NewsPageProps) {
             {/* Thumbnail placeholder */}
             <div className="flex h-44 items-center justify-center bg-bg-card">
               <span className="px-4 text-center text-sm text-text-secondary/40">
-                {article.coverCaption}
+                {article.title}
               </span>
             </div>
 
@@ -65,9 +67,11 @@ export default async function NewsPage({ params }: NewsPageProps) {
               <h2 className="mt-3 text-lg font-bold leading-snug text-text-primary transition-colors group-hover:text-orange">
                 {article.title}
               </h2>
-              <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-text-secondary">
-                {article.excerpt}
-              </p>
+              {article.excerpt && (
+                <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-text-secondary">
+                  {article.excerpt}
+                </p>
+              )}
               <span className="mt-auto inline-flex items-center gap-1 pt-4 text-sm font-medium text-orange">
                 {dict.news.readMore}
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

@@ -1,15 +1,12 @@
 /**
  * PDF 文件定義 — 僅由 PdfDownloadButton 動態 import（client 端生成，不進主 bundle）。
- * 內建字型不支援 CJK，因此 PDF 內容維持英文。
+ * 內建字型不支援 CJK，因此 PDF 內容維持英文。資料來源：Payload products（由呼叫端傳入）。
  */
 import { Document, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 
-import {
-  PRODUCTS,
-  PRODUCT_SERIES,
-  getProductsBySeries,
-  type Product,
-} from "@/lib/data/products";
+import type { Application, Product } from "@/lib/payload-types";
+import { getSeriesInfo, seriesForProductType, FAMILY_TIER_LABELS } from "@/lib/series";
+import { populated } from "@/lib/relations";
 
 const COLORS = {
   orange: "#F47920",
@@ -162,18 +159,30 @@ function PdfFooter() {
   );
 }
 
+function methodLabel(product: Product): string {
+  if (product.cuttingMethod) {
+    return getSeriesInfo(product.cuttingMethod)?.cuttingMethod ?? product.cuttingMethod;
+  }
+  return seriesForProductType(product.productType)?.cuttingMethod ?? "";
+}
+
+function materials(product: Product): string[] {
+  return populated<Application>(product.applications).map((a) => a.title);
+}
+
 function ProductBlock({ product }: { product: Product }) {
-  const series = PRODUCT_SERIES.find((s) => s.slug === product.series);
+  const tier = product.familyTier
+    ? (FAMILY_TIER_LABELS[product.familyTier] ?? product.familyTier)
+    : "";
 
   return (
     <View style={styles.body}>
       <Text style={styles.tierBadge}>
-        {series ? `${series.cuttingMethod} · ` : ""}
-        {product.tier}
+        {[methodLabel(product), tier].filter(Boolean).join(" · ")}
       </Text>
       <Text style={styles.model}>{product.model}</Text>
-      <Text style={styles.name}>{product.name}</Text>
-      <Text style={styles.summary}>{product.summary}</Text>
+      <Text style={styles.name}>{product.title}</Text>
+      {product.tagline ? <Text style={styles.summary}>{product.tagline}</Text> : null}
 
       <View style={styles.imageBox}>
         <Text style={styles.imageText}>{product.model} Product Image</Text>
@@ -181,9 +190,9 @@ function ProductBlock({ product }: { product: Product }) {
 
       <Text style={styles.sectionTitle}>Specifications</Text>
       <View>
-        {product.specs.map((spec, i) => (
+        {(product.detailedSpecs ?? []).map((spec, i) => (
           <View
-            key={spec.label}
+            key={spec.id ?? spec.label}
             style={i % 2 === 0 ? [styles.specRow, styles.specRowAlt] : styles.specRow}
           >
             <Text style={styles.specLabel}>{spec.label}</Text>
@@ -195,14 +204,18 @@ function ProductBlock({ product }: { product: Product }) {
         ))}
       </View>
 
-      <Text style={styles.sectionTitle}>Suitable Materials</Text>
-      <View style={styles.materialsRow}>
-        {product.materials.map((mat) => (
-          <Text key={mat} style={styles.materialChip}>
-            {mat}
-          </Text>
-        ))}
-      </View>
+      {materials(product).length > 0 && (
+        <>
+          <Text style={styles.sectionTitle}>Applications</Text>
+          <View style={styles.materialsRow}>
+            {materials(product).map((mat) => (
+              <Text key={mat} style={styles.materialChip}>
+                {mat}
+              </Text>
+            ))}
+          </View>
+        </>
+      )}
     </View>
   );
 }
@@ -212,7 +225,7 @@ function ProductBlock({ product }: { product: Product }) {
 export function ProductSpecDocument({ product }: { product: Product }) {
   return (
     <Document
-      title={`MOTOKNIFE ${product.model} — ${product.name}`}
+      title={`MOTOKNIFE ${product.model} — ${product.title}`}
       author="MOTOKNIFE (友聚工業股份有限公司)"
     >
       <Page size="A4" style={styles.page}>
@@ -224,9 +237,18 @@ export function ProductSpecDocument({ product }: { product: Product }) {
   );
 }
 
-export function FullCatalogDocument() {
-  const holderSeries = PRODUCT_SERIES.filter((s) =>
-    ["score-cut", "shear-cut", "half-cut", "hot-cut"].includes(s.slug),
+const METHOD_ORDER = ["score-cut", "shear-cut", "half-cut", "hot-cut"];
+
+export function FullCatalogDocument({ products }: { products: Product[] }) {
+  const holders = products
+    .filter((p) => p.productType === "knife-holder")
+    .sort(
+      (a, b) =>
+        METHOD_ORDER.indexOf(a.cuttingMethod ?? "") - METHOD_ORDER.indexOf(b.cuttingMethod ?? "") ||
+        (a.displayOrder ?? 0) - (b.displayOrder ?? 0),
+    );
+  const accessories = products.filter(
+    (p) => p.productType === "knife" || p.productType === "guide-bar",
   );
 
   return (
@@ -247,40 +269,40 @@ export function FullCatalogDocument() {
         </Text>
       </Page>
 
-      {/* One page per knife holder model, grouped by series */}
-      {holderSeries.flatMap((series) =>
-        getProductsBySeries(series.slug).map((product) => (
-          <Page key={product.slug} size="A4" style={styles.page}>
-            <PdfHeader />
-            <ProductBlock product={product} />
-            <PdfFooter />
-          </Page>
-        )),
-      )}
+      {/* One page per knife holder model */}
+      {holders.map((product) => (
+        <Page key={product.slug} size="A4" style={styles.page}>
+          <PdfHeader />
+          <ProductBlock product={product} />
+          <PdfFooter />
+        </Page>
+      ))}
 
       {/* Accessories summary page */}
-      <Page size="A4" style={styles.page}>
-        <PdfHeader />
-        <View style={styles.body}>
-          <Text style={styles.model}>Blades & Guide Bars</Text>
-          <Text style={styles.summary}>
-            Precision slitting knives, score blades, and guide bars matched to
-            every MOTOKNIFE holder. Contact us for the full accessory range and
-            custom sizes.
-          </Text>
-          {PRODUCTS.filter((p) => p.series === "knives" || p.series === "guide-bar").map(
-            (product) => (
+      {accessories.length > 0 && (
+        <Page size="A4" style={styles.page}>
+          <PdfHeader />
+          <View style={styles.body}>
+            <Text style={styles.model}>Blades & Guide Bars</Text>
+            <Text style={styles.summary}>
+              Precision slitting knives, score blades, and guide bars matched to
+              every MOTOKNIFE holder. Contact us for the full accessory range and
+              custom sizes.
+            </Text>
+            {accessories.map((product) => (
               <View key={product.slug} style={{ marginTop: 14 }}>
                 <Text style={{ fontSize: 12, fontFamily: "Helvetica-Bold", color: COLORS.navy }}>
-                  {product.model} — {product.name}
+                  {product.model} — {product.title}
                 </Text>
-                <Text style={[styles.summary, { marginTop: 2 }]}>{product.summary}</Text>
+                {product.tagline ? (
+                  <Text style={[styles.summary, { marginTop: 2 }]}>{product.tagline}</Text>
+                ) : null}
               </View>
-            ),
-          )}
-        </View>
-        <PdfFooter />
-      </Page>
+            ))}
+          </View>
+          <PdfFooter />
+        </Page>
+      )}
     </Document>
   );
 }

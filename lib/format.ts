@@ -1,9 +1,9 @@
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
-import type { NewsCategory } from "@/lib/data/news";
+import type { News } from "@/lib/payload-types";
 
-export function categoryLabel(category: NewsCategory, dict: Dictionary): string {
-  const map: Record<NewsCategory, string> = {
+export function categoryLabel(category: News["category"], dict: Dictionary): string {
+  const map: Record<News["category"], string> = {
     exhibition: dict.news.categoryExhibition,
     "product-news": dict.news.categoryProductNews,
     "industry-knowledge": dict.news.categoryIndustryKnowledge,
