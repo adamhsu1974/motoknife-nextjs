@@ -1,12 +1,14 @@
 import Link from "next/link";
 import type { ProductSeries } from "@/lib/data/products";
+import type { Locale } from "@/lib/i18n/config";
 import ProductJsonLd from "@/components/ProductJsonLd";
 
 interface ProductSeriesPageProps {
   series: ProductSeries;
+  lang: Locale;
 }
 
-export default function ProductSeriesPage({ series }: ProductSeriesPageProps) {
+export default function ProductSeriesPage({ series, lang }: ProductSeriesPageProps) {
   return (
     <>
       <ProductJsonLd series={series} />
@@ -14,9 +16,9 @@ export default function ProductSeriesPage({ series }: ProductSeriesPageProps) {
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
           {/* Breadcrumb */}
         <nav className="mb-8 text-sm text-text-secondary">
-          <Link href="/" className="hover:text-orange">Home</Link>
+          <Link href={`/${lang}`} className="hover:text-orange">Home</Link>
           <span className="mx-2">/</span>
-          <Link href="/products" className="hover:text-orange">Products</Link>
+          <Link href={`/${lang}/products`} className="hover:text-orange">Products</Link>
           <span className="mx-2">/</span>
           <span className="text-text-primary">{series.name}</span>
         </nav>
@@ -97,7 +99,7 @@ export default function ProductSeriesPage({ series }: ProductSeriesPageProps) {
                         </p>
                       </div>
                       <Link
-                        href={`/contact?product=${product.model}`}
+                        href={`/${lang}/contact?product=${product.model}`}
                         className="shrink-0 rounded bg-orange px-4 py-2 text-center text-sm font-semibold text-white transition-colors hover:bg-orange-hover"
                       >
                         Get a Quote
@@ -139,7 +141,7 @@ export default function ProductSeriesPage({ series }: ProductSeriesPageProps) {
                   the right {series.name} holder for you.
                 </p>
                 <Link
-                  href="/contact"
+                  href={`/${lang}/contact`}
                   className="mt-5 block rounded bg-orange py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-orange-hover"
                 >
                   Get a Quote
@@ -157,7 +159,7 @@ export default function ProductSeriesPage({ series }: ProductSeriesPageProps) {
                     .map((slug) => (
                       <li key={slug}>
                         <Link
-                          href={`/products/${slug}`}
+                          href={`/${lang}/products/${slug}`}
                           className="text-sm text-text-secondary transition-colors hover:text-orange"
                         >
                           {slug

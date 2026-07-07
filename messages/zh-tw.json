@@ -1,0 +1,89 @@
+{
+  "nav": {
+    "products": "產品",
+    "applications": "應用場景",
+    "distributors": "全球代理",
+    "about": "關於友聚",
+    "contact": "聯絡我們",
+    "getAQuote": "立即詢價"
+  },
+  "common": {
+    "home": "首頁",
+    "findTheRightSolution": "找到合適的解決方案",
+    "learnMore": "了解更多",
+    "viewSeries": "查看系列",
+    "exploreProducts": "探索產品",
+    "cuttingMethods": "切割方式"
+  },
+  "footer": {
+    "productsTitle": "產品",
+    "applicationsTitle": "應用場景",
+    "companyTitle": "公司",
+    "aboutUs": "關於我們",
+    "companyLegalName": "友聚工業股份有限公司",
+    "allRightsReserved": "版權所有"
+  },
+  "meta": {
+    "home": {
+      "title": "MOTOKNIFE 友聚工業 — 台灣精密分條刀具專家",
+      "description": "高性能分條刀座與刀片，適用軟性材料加工。壓切、剪切、半切、熱切系統，±0.005mm 精度。1990 年創立於台灣。"
+    },
+    "products": {
+      "title": "產品總覽",
+      "description": "MOTOKNIFE 分條刀座：壓切、剪切、半切、熱切系統、精密刀片與導桿。±0.005mm 精度。"
+    },
+    "cuttingMethods": {
+      "title": "切割方式",
+      "description": "認識壓切、剪切、半切與熱切四種分條切割方式，為您的材料選擇正確的切割技術。"
+    },
+    "applications": {
+      "title": "應用場景",
+      "description": "依材料找到合適的切割方案：塑膠薄膜、金屬箔、橡膠、紙類、不織布。MOTOKNIFE 應用指南。"
+    },
+    "distributors": {
+      "title": "全球代理商",
+      "description": "尋找您所在地區的 MOTOKNIFE 授權代理商，遍佈歐洲、亞洲與美洲——無代理商地區可直接與台灣總部聯繫。"
+    },
+    "about": {
+      "title": "關於友聚工業",
+      "description": "35 年台灣精密分條刀具製造。±0.005mm 精度、垂直整合製造、多國專利、全球銷售網絡。"
+    },
+    "contact": {
+      "title": "聯絡與詢價",
+      "description": "詢價 MOTOKNIFE 分條刀座與刀片。告訴我們您的材料與切割需求，我們將於 24–48 小時內回覆。"
+    }
+  },
+  "selector": {
+    "title": "選型工具",
+    "subtitle": "回答兩個問題，我們將為您的應用推薦合適的刀座型號。",
+    "stepMaterial": "1. 您要切割什麼材料？",
+    "stepThickness": "2. 材料厚度是多少？",
+    "stepResult": "3. 推薦型號",
+    "back": "上一步",
+    "restart": "重新開始",
+    "recommendedModels": "推薦型號",
+    "viewSeries": "查看系列",
+    "quoteCta": "以這些型號詢價",
+    "disclaimer": "推薦結果僅為起點——我們的工程師將依據您的線速、幅寬與品質要求確認最終選型。"
+  },
+  "home": {
+    "heroLine1": "精密分條",
+    "heroLine2": "解決方案",
+    "heroSubtitle": "1990 年創立於台灣——您在高性能軟性材料加工的可靠夥伴。"
+  },
+  "distributors": {
+    "heading": "全球銷售網絡",
+    "intro": "在地圖上選擇您的國家。若該地區有授權代理商，將顯示其聯絡資訊；若無代理商，可直接向台灣總部詢價，我們將於 24–48 小時內回覆。",
+    "hasDistributor": "您的當地代理商",
+    "noDistributor": "此國家目前沒有代理商——請直接與我們聯繫，由台灣總部為您服務。",
+    "becomeDistributor": "有興趣成為 MOTOKNIFE 代理商嗎？",
+    "applyNow": "立即申請",
+    "contactDirectly": "直接詢價",
+    "selectHint": "點選地圖上的國家開始。",
+    "authorizedDistributors": "授權代理商",
+    "distributorCountriesLabel": "有當地代理商的國家",
+    "sendInquiry": "送出詢價",
+    "inquirySuccess": "感謝您！詢價已送出，我們將於 24–48 小時內回覆。",
+    "inquiryError": "送出失敗，請重試或來信 service@motoknife.com。"
+  }
+}

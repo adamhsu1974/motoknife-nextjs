@@ -2,26 +2,33 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-const NAV_LINKS = [
-  { href: "/products", label: "Products" },
-  { href: "/applications", label: "Applications" },
-  { href: "/cutting-methods", label: "Cutting Methods" },
-  { href: "/services", label: "Services" },
-  { href: "/about", label: "About" },
-] as const;
+import { LOCALES, type Locale } from "@/lib/i18n/config";
+import type { Dictionary } from "@/lib/i18n/dictionaries";
 
-const LANGUAGES = [
-  { code: "en", label: "EN" },
-  { code: "zh-tw", label: "繁中" },
-  { code: "de", label: "DE" },
-] as const;
+const LANGUAGE_LABELS: Record<Locale, string> = {
+  en: "EN",
+  "zh-tw": "繁中",
+};
 
-export default function Navbar() {
+interface NavbarProps {
+  lang: Locale;
+  dict: Dictionary;
+}
+
+export default function Navbar({ lang, dict }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
-  const [currentLang, setCurrentLang] = useState<string>("en");
+  const pathname = usePathname();
+
+  const navLinks = [
+    { href: `/${lang}/products`, label: dict.nav.products },
+    { href: `/${lang}/applications`, label: dict.nav.applications },
+    { href: `/${lang}/distributors`, label: dict.nav.distributors },
+    { href: `/${lang}/about`, label: dict.nav.about },
+  ];
 
   useEffect(() => {
     function handleScroll() {
@@ -47,8 +54,10 @@ export default function Navbar() {
     setIsMobileMenuOpen(false);
   }, []);
 
-  const currentLangLabel =
-    LANGUAGES.find((l) => l.code === currentLang)?.label ?? "EN";
+  function switchLocaleHref(target: Locale): string {
+    const rest = pathname.replace(new RegExp(`^/${lang}(?=/|$)`), "");
+    return `/${target}${rest}`;
+  }
 
   return (
     <header
@@ -61,7 +70,7 @@ export default function Navbar() {
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 lg:px-8">
         {/* Logo */}
         <Link
-          href="/"
+          href={`/${lang}`}
           className="flex items-center gap-2 text-white"
           onClick={closeMobileMenu}
         >
@@ -70,7 +79,7 @@ export default function Navbar() {
 
         {/* Desktop Navigation */}
         <div className="hidden items-center gap-1 lg:flex">
-          {NAV_LINKS.map((link) => (
+          {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -93,27 +102,24 @@ export default function Navbar() {
               aria-label="Switch language"
             >
               <GlobeIcon />
-              <span>{currentLangLabel}</span>
+              <span>{LANGUAGE_LABELS[lang]}</span>
               <ChevronDownIcon />
             </button>
             {isLangOpen && (
               <div className="absolute right-0 top-full mt-1 min-w-[80px] rounded bg-navy-dark py-1 shadow-lg">
-                {LANGUAGES.map((lang) => (
-                  <button
-                    key={lang.code}
-                    type="button"
-                    onClick={() => {
-                      setCurrentLang(lang.code);
-                      setIsLangOpen(false);
-                    }}
+                {LOCALES.map((locale) => (
+                  <Link
+                    key={locale}
+                    href={switchLocaleHref(locale)}
+                    onClick={() => setIsLangOpen(false)}
                     className={`block w-full px-4 py-1.5 text-left text-sm transition-colors ${
-                      currentLang === lang.code
+                      lang === locale
                         ? "text-orange"
                         : "text-white/70 hover:text-white"
                     }`}
                   >
-                    {lang.label}
-                  </button>
+                    {LANGUAGE_LABELS[locale]}
+                  </Link>
                 ))}
               </div>
             )}
@@ -121,21 +127,21 @@ export default function Navbar() {
 
           {/* CTA Button */}
           <Link
-            href="/contact"
+            href={`/${lang}/contact`}
             className="rounded bg-orange px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-orange-hover"
           >
-            Get a Quote
+            {dict.nav.getAQuote}
           </Link>
         </div>
 
         {/* Mobile: CTA + Hamburger */}
         <div className="flex items-center gap-3 lg:hidden">
           <Link
-            href="/contact"
+            href={`/${lang}/contact`}
             className="rounded bg-orange px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-orange-hover"
             onClick={closeMobileMenu}
           >
-            Get a Quote
+            {dict.nav.getAQuote}
           </Link>
           <button
             type="button"
@@ -158,7 +164,7 @@ export default function Navbar() {
       >
         <div className="flex h-full flex-col px-6 py-8">
           <div className="flex flex-col gap-1">
-            {NAV_LINKS.map((link) => (
+            {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
@@ -172,30 +178,30 @@ export default function Navbar() {
 
           {/* Mobile Language Switcher */}
           <div className="mt-8 flex gap-3">
-            {LANGUAGES.map((lang) => (
-              <button
-                key={lang.code}
-                type="button"
-                onClick={() => setCurrentLang(lang.code)}
+            {LOCALES.map((locale) => (
+              <Link
+                key={locale}
+                href={switchLocaleHref(locale)}
+                onClick={closeMobileMenu}
                 className={`rounded-sm px-4 py-2 text-sm font-medium transition-colors ${
-                  currentLang === lang.code
+                  lang === locale
                     ? "bg-orange text-white"
                     : "bg-white/10 text-white/70 hover:text-white"
                 }`}
               >
-                {lang.label}
-              </button>
+                {LANGUAGE_LABELS[locale]}
+              </Link>
             ))}
           </div>
 
           {/* Mobile Bottom CTA */}
           <div className="mt-auto pb-8">
             <Link
-              href="/contact"
+              href={`/${lang}/contact`}
               onClick={closeMobileMenu}
               className="block w-full rounded bg-orange py-4 text-center text-base font-semibold text-white transition-colors hover:bg-orange-hover"
             >
-              Get a Quote
+              {dict.nav.getAQuote}
             </Link>
           </div>
         </div>

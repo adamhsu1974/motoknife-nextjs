@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 
+import type { Locale } from "@/lib/i18n/config";
+
 const METHODS = [
   {
     id: "score",
@@ -38,7 +40,7 @@ const METHODS = [
   },
 ] as const;
 
-export default function HomeMethodTabs() {
+export default function HomeMethodTabs({ lang }: { lang: Locale }) {
   const [activeTab, setActiveTab] = useState("score");
   const active = METHODS.find((m) => m.id === activeTab) ?? METHODS[0];
 
@@ -97,7 +99,7 @@ export default function HomeMethodTabs() {
           </div>
 
           <Link
-            href={active.productLink}
+            href={`/${lang}${active.productLink}`}
             className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-orange hover:text-orange-hover"
           >
             View {active.name} Products

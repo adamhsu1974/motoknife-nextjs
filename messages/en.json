@@ -1,0 +1,89 @@
+{
+  "nav": {
+    "products": "Products",
+    "applications": "Applications",
+    "distributors": "Distributors",
+    "about": "About",
+    "contact": "Contact",
+    "getAQuote": "Get a Quote"
+  },
+  "common": {
+    "home": "Home",
+    "findTheRightSolution": "Find the Right Solution",
+    "learnMore": "Learn More",
+    "viewSeries": "View Series",
+    "exploreProducts": "Explore Products",
+    "cuttingMethods": "Cutting Methods"
+  },
+  "footer": {
+    "productsTitle": "Products",
+    "applicationsTitle": "Applications",
+    "companyTitle": "Company",
+    "aboutUs": "About Us",
+    "companyLegalName": "友聚工業股份有限公司",
+    "allRightsReserved": "All Rights Reserved."
+  },
+  "meta": {
+    "home": {
+      "title": "MOTOKNIFE — Precision Slitting Solutions, Made in Taiwan",
+      "description": "High-performance knife holders and slitting knives for flexible material converting. Score Cut, Shear Cut, Half Cut, Hot Cut systems with ±0.005mm precision. Made in Taiwan since 1990."
+    },
+    "products": {
+      "title": "Products",
+      "description": "MOTOKNIFE slitting knife holders: Score Cut, Shear Cut, Half Cut, Hot Cut systems, precision blades, and guide bars. ±0.005mm tolerance."
+    },
+    "cuttingMethods": {
+      "title": "Cutting Methods",
+      "description": "Understanding Score Cut, Shear Cut, Half Cut, and Hot Cut slitting methods. Choose the right technique for your material."
+    },
+    "applications": {
+      "title": "Applications",
+      "description": "Find the right cutting solution for your material: plastic film, metallic foil, rubber, paper, and nonwoven. MOTOKNIFE application guides."
+    },
+    "distributors": {
+      "title": "Global Distributors",
+      "description": "Find your local MOTOKNIFE distributor. Authorized partners across Europe, Asia, and the Americas — or contact us directly for regions without local representation."
+    },
+    "about": {
+      "title": "About MOTOKNIFE",
+      "description": "35 years of precision slitting knife manufacturing in Taiwan. ±0.005mm tolerance, vertical integration, multi-country patents, worldwide distribution."
+    },
+    "contact": {
+      "title": "Contact & Get a Quote",
+      "description": "Request a quote for MOTOKNIFE slitting knife holders and blades. Tell us your material and cutting requirements — we respond within 24–48 hours."
+    }
+  },
+  "selector": {
+    "title": "Find the Right Tool",
+    "subtitle": "Answer two questions and we will recommend the right knife holder models for your application.",
+    "stepMaterial": "1. What are you cutting?",
+    "stepThickness": "2. How thick is your material?",
+    "stepResult": "3. Recommended models",
+    "back": "Back",
+    "restart": "Start Over",
+    "recommendedModels": "Recommended models",
+    "viewSeries": "View Series",
+    "quoteCta": "Get a Quote for These Models",
+    "disclaimer": "Recommendations are a starting point — our engineers confirm the final selection based on your line speed, width, and quality requirements."
+  },
+  "home": {
+    "heroLine1": "PRECISION SLITTING",
+    "heroLine2": "SOLUTIONS",
+    "heroSubtitle": "Made in Taiwan since 1990 — your partner in high-performance flexible material converting."
+  },
+  "distributors": {
+    "heading": "Global Distribution Network",
+    "intro": "Select your country on the map. If we have a local distributor, you will find their contact details — otherwise, send us your inquiry directly and our Taiwan headquarters will respond within 24–48 hours.",
+    "hasDistributor": "Your local distributor",
+    "noDistributor": "No distributor in this country yet — contact us directly and we will serve you from our Taiwan headquarters.",
+    "becomeDistributor": "Interested in becoming a MOTOKNIFE distributor?",
+    "applyNow": "Apply Now",
+    "contactDirectly": "Send Direct Inquiry",
+    "selectHint": "Click a country on the map to get started.",
+    "authorizedDistributors": "Authorized distributors",
+    "distributorCountriesLabel": "Countries with local distributors",
+    "sendInquiry": "Send Inquiry",
+    "inquirySuccess": "Thank you! Your inquiry has been submitted — we will respond within 24–48 hours.",
+    "inquiryError": "Submission failed. Please try again or email service@motoknife.com."
+  }
+}
