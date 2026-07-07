@@ -35,5 +35,11 @@ export function pageMetadata({ lang, path, title, description }: PageMetadataArg
       locale: ogLocale(lang),
       type: "website",
     },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [`${SITE_URL}/og-default.png`],
+    },
   };
 }

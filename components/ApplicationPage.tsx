@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
 import type { Application, Product } from "@/lib/payload-types";
 import { getSeriesInfo } from "@/lib/series";
+import { getSolutionsForApplication } from "@/lib/data/solutions";
 import { populated } from "@/lib/relations";
 import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import LexicalContent from "@/components/LexicalContent";
@@ -20,6 +21,7 @@ export default function ApplicationPage({
 }: ApplicationPageProps) {
   const coverage = application.coverage ?? [];
   const recommendations = application.productRecommendations ?? [];
+  const relatedSolutions = getSolutionsForApplication(application.slug);
 
   return (
     <div className="bg-bg-warm py-16 md:py-24">
@@ -138,6 +140,31 @@ export default function ApplicationPage({
                     </div>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {/* Related Solutions（內部連結網絡） */}
+            {relatedSolutions.length > 0 && (
+              <div className="rounded-lg bg-white p-6 shadow-sm md:p-8">
+                <h2 className="text-lg font-bold text-text-primary">Related Solutions</h2>
+                <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+                  {relatedSolutions.map((solution) => (
+                    <li key={solution.slug}>
+                      <Link
+                        href={`/${lang}/solutions/${solution.slug}`}
+                        className="group block rounded border border-border p-4 transition-colors hover:border-orange"
+                      >
+                        <p className="text-sm font-semibold text-text-primary transition-colors group-hover:text-orange">
+                          {solution.material} ·{" "}
+                          {getSeriesInfo(solution.cuttingMethod)?.name}
+                        </p>
+                        <p className="mt-1 line-clamp-2 text-xs text-text-secondary">
+                          {solution.title}
+                        </p>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
           </div>

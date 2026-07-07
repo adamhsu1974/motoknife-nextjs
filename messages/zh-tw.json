@@ -15,7 +15,8 @@
     "viewSeries": "查看系列",
     "exploreProducts": "探索產品",
     "cuttingMethods": "切割方式",
-    "faqHeading": "常見問題"
+    "faqHeading": "常見問題",
+    "mainAria": "主要內容"
   },
   "footer": {
     "productsTitle": "產品",
@@ -144,7 +145,9 @@
     "fullscreen": "全螢幕",
     "resetView": "重置檢視",
     "downloadsHeading": "下載",
-    "catalogFile": "產品型錄（PDF）"
+    "catalogFile": "產品型錄（PDF）",
+    "relatedSolutions": "相關解決方案",
+    "usingMethod": "使用此切法的產品"
   },
   "services": {
     "test": {
@@ -163,6 +166,7 @@
         "切割樣品照片",
         "測試影片"
       ],
+      "materialsHeading": "常見測試材料",
       "cta": "申請材料測試"
     },
     "regrinding": {

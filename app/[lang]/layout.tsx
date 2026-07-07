@@ -127,7 +127,9 @@ export default async function RootLayout({
       <body className="min-h-full flex flex-col font-sans">
         <OrganizationJsonLd />
         <Navbar lang={lang} dict={dict} />
-        <main className="flex-1 pt-[56px]">{children}</main>
+        <main aria-label={dict.common.mainAria} className="flex-1 pt-[56px]">
+          {children}
+        </main>
         <Footer lang={lang} dict={dict} distributorCountries={distributorCountries} />
         <FloatingCTA lang={lang} dict={dict} />
       </body>

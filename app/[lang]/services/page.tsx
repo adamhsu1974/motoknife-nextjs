@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import Link from "next/link";
+
 import CTAButton from "@/components/CTAButton";
 import PageShell from "@/components/PageShell";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary, type Dictionary } from "@/lib/i18n/dictionaries";
 import { pageMetadata } from "@/lib/i18n/metadata";
+import { fetchApplications } from "@/lib/cms";
 
 export const revalidate = 3600;
 
@@ -33,6 +36,7 @@ export default async function ServicesPage({ params }: ServicesPageProps) {
   const locale: Locale = lang;
   const dict = getDictionary(locale);
   const s = dict.services;
+  const applications = await fetchApplications(locale);
 
   return (
     <PageShell
@@ -89,6 +93,24 @@ export default async function ServicesPage({ params }: ServicesPageProps) {
                 </li>
               ))}
             </ul>
+          </div>
+
+          {/* 常見測試材料（內部連結 → Applications） */}
+          <div className="mt-10">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-white/60">
+              {s.test.materialsHeading}
+            </h3>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {applications.map((app) => (
+                <Link
+                  key={app.slug}
+                  href={`/${locale}/applications/${app.slug}`}
+                  className="rounded-sm border border-white/20 px-3 py-1.5 text-xs font-medium text-white/70 transition-colors hover:border-orange hover:text-orange"
+                >
+                  {app.title}
+                </Link>
+              ))}
+            </div>
           </div>
 
           <div className="mt-10">

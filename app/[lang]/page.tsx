@@ -9,6 +9,7 @@ import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { pageMetadata } from "@/lib/i18n/metadata";
 import { fetchApplications, fetchDistributorCountries } from "@/lib/cms";
+import { primarySolutionForApplication } from "@/lib/data/solutions";
 
 export const revalidate = 3600;
 
@@ -195,20 +196,36 @@ export default async function Home({ params }: HomePageProps) {
           </div>
 
           <Reveal stagger className="mt-12 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-5">
-            {applications.map((app) => (
-              <Link
-                key={app.slug}
-                href={`/${locale}/applications/${app.slug}`}
-                className="group flex flex-col items-center gap-4 rounded-lg border border-white/10 p-6 text-center transition-all hover:border-orange hover:bg-white/5"
-              >
-                <div className="flex h-16 w-16 items-center justify-center rounded-full border border-white/20 transition-colors group-hover:border-orange group-hover:text-orange">
-                  <MaterialIcon slug={app.slug} />
+            {applications.map((app) => {
+              const solution = primarySolutionForApplication(app.slug);
+              return (
+                <div
+                  key={app.slug}
+                  className="flex flex-col items-center gap-3 rounded-lg border border-white/10 p-6 text-center transition-all hover:border-orange hover:bg-white/5"
+                >
+                  <Link
+                    href={`/${locale}/applications/${app.slug}`}
+                    className="group flex flex-col items-center gap-4"
+                  >
+                    <div className="flex h-16 w-16 items-center justify-center rounded-full border border-white/20 transition-colors group-hover:border-orange group-hover:text-orange">
+                      <MaterialIcon slug={app.slug} />
+                    </div>
+                    <span className="text-sm font-medium text-white/80 transition-colors group-hover:text-orange">
+                      {app.title}
+                    </span>
+                  </Link>
+                  {/* 副標 → 對應 solutions 長尾頁 */}
+                  {solution && (
+                    <Link
+                      href={`/${locale}/solutions/${solution.slug}`}
+                      className="text-xs text-white/40 underline-offset-2 transition-colors hover:text-orange hover:underline"
+                    >
+                      {solution.material} →
+                    </Link>
+                  )}
                 </div>
-                <span className="text-sm font-medium text-white/80 transition-colors group-hover:text-orange">
-                  {app.title}
-                </span>
-              </Link>
-            ))}
+              );
+            })}
           </Reveal>
         </div>
       </section>

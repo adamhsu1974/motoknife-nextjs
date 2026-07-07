@@ -210,6 +210,7 @@ function ArticleJsonLd({ article, lang }: { article: News; lang: Locale }) {
     headline: article.title,
     description: article.excerpt ?? article.title,
     datePublished: article.publishedDate,
+    dateModified: article.updatedAt,
     image: `${SITE_URL}/og-default.png`,
     inLanguage: lang === "zh-tw" ? "zh-TW" : "en",
     mainEntityOfPage: {

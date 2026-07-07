@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 
 import { LOCALES } from "@/lib/i18n/config";
 import { SERIES } from "@/lib/series";
+import { SOLUTIONS } from "@/lib/data/solutions";
 import { fetchApplications, fetchNews, fetchProducts } from "@/lib/cms";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL ?? "https://motoknife.com";
@@ -34,7 +35,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...SERIES.map((s) => `/products/${s.slug}`),
     ...products.map((p) => `/products/model/${p.slug}`),
   ];
-  const applicationPages = applications.map((a) => `/applications/${a.slug}`);
+  const applicationPages = [
+    ...applications.map((a) => `/applications/${a.slug}`),
+    ...SOLUTIONS.map((s) => `/solutions/${s.slug}`),
+  ];
 
   const now = new Date();
 

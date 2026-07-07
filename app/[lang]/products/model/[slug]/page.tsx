@@ -16,6 +16,7 @@ import { pageMetadata } from "@/lib/i18n/metadata";
 import { fetchProductBySlug, fetchProducts } from "@/lib/cms";
 import { populated, populatedOne } from "@/lib/relations";
 import { getSeriesInfo, seriesForProductType, FAMILY_TIER_LABELS } from "@/lib/series";
+import { getSolutionsForModel } from "@/lib/data/solutions";
 import type { Application, Media, Product } from "@/lib/payload-types";
 
 export const revalidate = 3600;
@@ -205,6 +206,32 @@ export default async function ProductModelPage({ params }: ProductModelPageProps
                   />
                 </div>
               </div>
+
+              {/* Related Solutions（內部連結網絡） */}
+              {getSolutionsForModel(product.model).length > 0 && (
+                <div className="mt-8 rounded-lg bg-white p-6 shadow-sm md:p-8">
+                  <h2 className="text-lg font-bold text-text-primary">
+                    {dict.products.relatedSolutions}
+                  </h2>
+                  <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+                    {getSolutionsForModel(product.model).map((solution) => (
+                      <li key={solution.slug}>
+                        <Link
+                          href={`/${lang}/solutions/${solution.slug}`}
+                          className="group block rounded border border-border p-4 transition-colors hover:border-orange"
+                        >
+                          <p className="text-sm font-semibold text-text-primary transition-colors group-hover:text-orange">
+                            {solution.material}
+                          </p>
+                          <p className="mt-1 line-clamp-2 text-xs text-text-secondary">
+                            {solution.title}
+                          </p>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
 
             {/* Sidebar */}
@@ -429,12 +456,39 @@ function PlaceholderCta({
 
 /* ─── JSON-LD ─────────────────────────────────────────────── */
 
+/** 預留：未來有具名客戶評價時改由 CMS 供應（依 product 查詢），目前回傳空值（JSON-LD 不輸出） */
+function getProductRating(): { ratingValue: number; reviewCount: number } | undefined {
+  return undefined;
+}
+
+function getProductReviews(): { author: string; reviewBody: string; ratingValue: number }[] {
+  return [];
+}
+
 function ProductModelJsonLd({ product }: { product: Product }) {
+  const aggregateRating = getProductRating();
+  const reviews = getProductReviews();
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: `${product.model} ${product.title}`,
     sku: product.model,
+    ...(aggregateRating && {
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: aggregateRating.ratingValue,
+        reviewCount: aggregateRating.reviewCount,
+      },
+    }),
+    ...(reviews.length > 0 && {
+      review: reviews.map((r) => ({
+        "@type": "Review",
+        author: { "@type": "Organization", name: r.author },
+        reviewBody: r.reviewBody,
+        reviewRating: { "@type": "Rating", ratingValue: r.ratingValue },
+      })),
+    }),
     brand: { "@type": "Brand", name: "MOTOKNIFE" },
     manufacturer: {
       "@type": "Organization",
