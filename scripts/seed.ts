@@ -166,6 +166,7 @@ async function seedProducts(payload: Payload): Promise<Map<string, number>> {
           value: s.value,
           note: s.note,
         })),
+        // technicalDrawings / drawingNotes / model3d 刻意留空——素材由後台上傳
         displayOrder: index,
         featured: false,
         _status: "published",

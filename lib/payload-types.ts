@@ -247,6 +247,18 @@ export interface Product {
    * PDF 型錄下載
    */
   pdfCatalog?: (number | null) | Media;
+  /**
+   * 產品頁 Drawings tab 顯示，前台帶浮水印與防下載
+   */
+  technicalDrawings?: (number | Media)[] | null;
+  /**
+   * 工程圖適用版本或尺寸備註
+   */
+  drawingNotes?: string | null;
+  /**
+   * 產品頁 3D View tab 顯示，透過 API 代理存取不暴露直接 URL
+   */
+  model3d?: (number | null) | Media;
   relatedProducts?: (number | Product)[] | null;
   /**
    * 顯示於首頁產品分類快速入口
@@ -873,6 +885,9 @@ export interface ProductsSelect<T extends boolean = true> {
   applications?: T;
   images?: T;
   pdfCatalog?: T;
+  technicalDrawings?: T;
+  drawingNotes?: T;
+  model3d?: T;
   relatedProducts?: T;
   featured?: T;
   displayOrder?: T;

@@ -206,6 +206,27 @@ export const Products: CollectionConfig = {
       admin: { description: "PDF 型錄下載" },
     },
     {
+      name: "technicalDrawings",
+      type: "upload",
+      relationTo: "media",
+      hasMany: true,
+      label: "Technical Drawings / 工程圖（PNG）",
+      admin: { description: "產品頁 Drawings tab 顯示，前台帶浮水印與防下載" },
+    },
+    {
+      name: "drawingNotes",
+      type: "text",
+      localized: true,
+      admin: { description: "工程圖適用版本或尺寸備註" },
+    },
+    {
+      name: "model3d",
+      type: "upload",
+      relationTo: "media",
+      label: "3D Model / 展示用 3D 模型（GLB）",
+      admin: { description: "產品頁 3D View tab 顯示，透過 API 代理存取不暴露直接 URL" },
+    },
+    {
       name: "relatedProducts",
       type: "relationship",
       relationTo: "products",

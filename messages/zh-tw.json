@@ -125,7 +125,19 @@
     "colBlade": "刀片直徑",
     "bestValue": "最佳",
     "compareQuote": "以這些型號詢價",
-    "maxCompareNote": "最多可比較 4 個產品"
+    "maxCompareNote": "最多可比較 4 個產品",
+    "tabOverview": "總覽",
+    "tabSpecs": "規格",
+    "tab3d": "3D 檢視",
+    "tabDrawings": "工程圖",
+    "keyFigures": "核心數據",
+    "model3dPlaceholder": "3D 模型可依需求提供——聯繫我們取得互動預覽。",
+    "drawingsPlaceholder": "工程圖可依需求提供。",
+    "requestAccess": "聯繫我們",
+    "fullscreen": "全螢幕",
+    "resetView": "重置檢視",
+    "downloadsHeading": "下載",
+    "catalogFile": "產品型錄（PDF）"
   },
   "news": {
     "heading": "最新消息",

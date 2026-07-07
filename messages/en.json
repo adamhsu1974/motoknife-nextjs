@@ -125,7 +125,19 @@
     "colBlade": "Blade Diameter",
     "bestValue": "Best",
     "compareQuote": "Get a Quote for These Models",
-    "maxCompareNote": "Up to 4 products can be compared"
+    "maxCompareNote": "Up to 4 products can be compared",
+    "tabOverview": "Overview",
+    "tabSpecs": "Specs",
+    "tab3d": "3D View",
+    "tabDrawings": "Drawings",
+    "keyFigures": "Key Figures",
+    "model3dPlaceholder": "3D model available upon request — contact us for an interactive preview.",
+    "drawingsPlaceholder": "Technical drawings available upon request.",
+    "requestAccess": "Contact Us",
+    "fullscreen": "Fullscreen",
+    "resetView": "Reset view",
+    "downloadsHeading": "Downloads",
+    "catalogFile": "Product Catalog (PDF)"
   },
   "news": {
     "heading": "News & Insights",
