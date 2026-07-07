@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -25,5 +26,10 @@ export async function generateMetadata({ params }: ContactPageProps): Promise<Me
 export default async function ContactPage({ params }: ContactPageProps) {
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
-  return <ContactForm lang={lang} />;
+  const dict = getDictionary(lang);
+  return (
+    <Suspense>
+      <ContactForm lang={lang} dict={dict} />
+    </Suspense>
+  );
 }

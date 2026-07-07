@@ -21,7 +21,13 @@
     "companyTitle": "Company",
     "aboutUs": "About Us",
     "companyLegalName": "友聚工業股份有限公司",
-    "allRightsReserved": "All Rights Reserved."
+    "allRightsReserved": "All Rights Reserved.",
+    "taiwanHq": "Taiwan Headquarters",
+    "taiwanAddress": "No. 155, Ln. 65, Xinjiang Rd., Yangmei Dist., Taoyuan City 32652, Taiwan",
+    "shanghaiOffice": "Shanghai Branch",
+    "shanghaiAddress": "No. 2999, Ln. 240, Baoqian Rd., Jiading Dist., Shanghai, China",
+    "distributorsTitle": "Global Distributors",
+    "allDistributors": "All Distributors"
   },
   "meta": {
     "home": {
@@ -53,6 +59,50 @@
       "description": "Request a quote for MOTOKNIFE slitting knife holders and blades. Tell us your material and cutting requirements — we respond within 24–48 hours."
     }
   },
+  "contact": {
+    "heading": "Get in Touch",
+    "intro": "Tell us about your material and cutting requirements. Our team will recommend the right knife holder for your application and respond within 24 hours.",
+    "whatDoYouNeed": "What do you need?",
+    "requestInfo": "More Information",
+    "requestQuote": "Request a Quote",
+    "requestOrder": "Order Product",
+    "labelCompany": "Company",
+    "labelName": "Name",
+    "labelEmail": "Email",
+    "labelPhone": "Phone",
+    "labelCountry": "Country",
+    "labelProductType": "Product Type",
+    "labelMaterial": "Cutting Material",
+    "labelThickness": "Material Thickness",
+    "thicknessPlaceholder": "e.g. 80 µm, 0.5–2 mm, 200 gsm",
+    "labelProductModel": "Product Model(s)",
+    "labelMessage": "Message",
+    "selectPlaceholder": "Select...",
+    "notSure": "Not sure yet",
+    "applicationDetails": "Application Details",
+    "submit": "Submit Request",
+    "submitting": "Submitting...",
+    "successTitle": "Thank You!",
+    "successText": "Your inquiry has been submitted successfully. Our team will respond within 24 hours.",
+    "successEmailNote": "A confirmation email has been sent to your inbox.",
+    "submitAnother": "Submit Another Inquiry",
+    "distributorNotice": "We have authorized distributors in {country}: {companies}. For the fastest local support you can also contact them directly — see our Distributors page. Submitting this form works too; we will coordinate with your local partner.",
+    "distributorsPageLink": "View Distributors",
+    "prefillNotice": "Details from the selector have been filled in below — review and adjust if needed."
+  },
+  "products": {
+    "filterAll": "All",
+    "viewDetails": "View Details",
+    "specifications": "Specifications",
+    "suitableMaterials": "Suitable Materials",
+    "relatedApplications": "Related Applications",
+    "relatedModels": "Related Models in This Series",
+    "downloadPdf": "Download PDF Catalog",
+    "pdfNote": "PDF catalog available on request — contact us.",
+    "backToProducts": "All Products",
+    "accessoriesHeading": "Blades & Guide Bars",
+    "accessoriesSub": "Precision blades and guide bars matched to every holder."
+  },
   "selector": {
     "title": "Find the Right Tool",
     "subtitle": "Answer two questions and we will recommend the right knife holder models for your application.",
@@ -67,9 +117,38 @@
     "disclaimer": "Recommendations are a starting point — our engineers confirm the final selection based on your line speed, width, and quality requirements."
   },
   "home": {
+    "heroEyebrow": "Made in Taiwan · Since 1990",
     "heroLine1": "PRECISION SLITTING",
     "heroLine2": "SOLUTIONS",
-    "heroSubtitle": "Made in Taiwan since 1990 — your partner in high-performance flexible material converting."
+    "heroSubtitle": "High-performance knife holders and slitting knives for flexible material converting — trusted by converters in 50+ countries.",
+    "advantagesHeading": "Why MOTOKNIFE",
+    "advantages": [
+      {
+        "title": "35 Years Expertise",
+        "text": "Founded in 1990, we have spent three and a half decades perfecting pneumatic knife holders — ±0.005mm tolerance on every part."
+      },
+      {
+        "title": "Multi-Country Patents",
+        "text": "Patented mechanisms registered in the US, Germany, Taiwan, and China. Original engineering — never imitation."
+      },
+      {
+        "title": "All Made in Taiwan",
+        "text": "Vertically integrated manufacturing on MAZAK CNC multi-tasking centers in Taoyuan. Every critical component made in-house."
+      }
+    ],
+    "productsHeading": "Our Products",
+    "productsSub": "Four cutting methods. One precision standard.",
+    "viewAllProducts": "View All Products",
+    "applicationsHeading": "What Are You Cutting?",
+    "applicationsSub": "Start from your material and find the right knife holder in minutes.",
+    "viewAllApplications": "View All Applications",
+    "mapEyebrow": "Global Network",
+    "mapHeading": "Distributors in 6 Countries — Direct Support Everywhere Else",
+    "mapText": "Authorized partners in Germany, the Netherlands, Russia, India, South Korea, and Chile. No distributor in your region? Our Taiwan headquarters serves you directly, with a 24–48 hour response commitment.",
+    "mapCta": "Find Your Distributor",
+    "ctaHeading": "Ready to Find the Right Cutting Solution?",
+    "ctaText": "Tell us your material and we'll recommend the perfect knife holder for your application.",
+    "ctaButton": "Request a Quote"
   },
   "distributors": {
     "heading": "Global Distribution Network",

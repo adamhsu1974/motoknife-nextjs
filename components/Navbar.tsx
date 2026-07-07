@@ -21,10 +21,20 @@ export default function Navbar({ lang, dict }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
+  const [isProductsOpen, setIsProductsOpen] = useState(false);
+  const [isMobileProductsOpen, setIsMobileProductsOpen] = useState(false);
   const pathname = usePathname();
 
+  const productItems = [
+    { href: `/${lang}/products/score-cut`, label: "Score Cut" },
+    { href: `/${lang}/products/shear-cut`, label: "Shear Cut" },
+    { href: `/${lang}/products/half-cut`, label: "Half Cut" },
+    { href: `/${lang}/products/hot-cut`, label: "Hot Cut" },
+    { href: `/${lang}/products/knives`, label: "Knives" },
+    { href: `/${lang}/products/guide-bar`, label: "Guide Bar" },
+  ];
+
   const navLinks = [
-    { href: `/${lang}/products`, label: dict.nav.products },
     { href: `/${lang}/applications`, label: dict.nav.applications },
     { href: `/${lang}/distributors`, label: dict.nav.distributors },
     { href: `/${lang}/about`, label: dict.nav.about },
@@ -79,6 +89,45 @@ export default function Navbar({ lang, dict }: NavbarProps) {
 
         {/* Desktop Navigation */}
         <div className="hidden items-center gap-1 lg:flex">
+          {/* Products dropdown */}
+          <div
+            className="relative"
+            onMouseEnter={() => setIsProductsOpen(true)}
+            onMouseLeave={() => setIsProductsOpen(false)}
+          >
+            <Link
+              href={`/${lang}/products`}
+              aria-haspopup="menu"
+              aria-expanded={isProductsOpen}
+              className="relative flex items-center gap-1 px-3 py-2 text-sm font-medium text-white/85 transition-colors hover:text-white after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:scale-x-0 after:bg-orange after:transition-transform hover:after:scale-x-100"
+            >
+              {dict.nav.products}
+              <ChevronDownIcon />
+            </Link>
+            {isProductsOpen && (
+              <div className="absolute left-0 top-full w-56 rounded-b bg-navy-dark py-2 shadow-xl shadow-black/30">
+                {productItems.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setIsProductsOpen(false)}
+                    className="block px-5 py-2.5 text-sm text-white/70 transition-colors hover:bg-white/5 hover:text-orange"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+                <div className="mx-5 my-2 border-t border-white/10" />
+                <Link
+                  href={`/${lang}/products/cutting-methods`}
+                  onClick={() => setIsProductsOpen(false)}
+                  className="block px-5 py-2.5 text-sm text-white/70 transition-colors hover:bg-white/5 hover:text-orange"
+                >
+                  {dict.common.cuttingMethods}
+                </Link>
+              </div>
+            )}
+          </div>
+
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -162,8 +211,41 @@ export default function Navbar({ lang, dict }: NavbarProps) {
             : "invisible opacity-0"
         }`}
       >
-        <div className="flex h-full flex-col px-6 py-8">
+        <div className="flex h-full flex-col overflow-y-auto px-6 py-8">
           <div className="flex flex-col gap-1">
+            {/* Products expandable group */}
+            <div className="border-b border-white/10">
+              <button
+                type="button"
+                onClick={() => setIsMobileProductsOpen(!isMobileProductsOpen)}
+                aria-expanded={isMobileProductsOpen}
+                className="flex w-full items-center justify-between py-4 text-lg font-medium text-white/85 transition-colors hover:text-orange"
+              >
+                {dict.nav.products}
+                <span className={`transition-transform ${isMobileProductsOpen ? "rotate-180" : ""}`}>
+                  <ChevronDownIcon />
+                </span>
+              </button>
+              {isMobileProductsOpen && (
+                <div className="pb-3 pl-4">
+                  {[
+                    ...productItems,
+                    { href: `/${lang}/products/cutting-methods`, label: dict.common.cuttingMethods },
+                    { href: `/${lang}/products`, label: dict.nav.products },
+                  ].map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={closeMobileMenu}
+                      className="block py-2.5 text-base text-white/60 transition-colors hover:text-orange"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
             {navLinks.map((link) => (
               <Link
                 key={link.href}

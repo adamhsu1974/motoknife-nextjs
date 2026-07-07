@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import PageShell from "@/components/PageShell";
+import ProductCatalog from "@/components/ProductCatalog";
 import { isLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { pageMetadata } from "@/lib/i18n/metadata";
@@ -29,6 +30,10 @@ export default async function ProductsPage({ params }: ProductsPageProps) {
   if (!isLocale(lang)) notFound();
   const dict = getDictionary(lang);
 
+  const accessories = PRODUCT_SERIES.filter(
+    (s) => s.slug === "knives" || s.slug === "guide-bar",
+  );
+
   return (
     <PageShell
       title={dict.meta.products.title}
@@ -37,25 +42,29 @@ export default async function ProductsPage({ params }: ProductsPageProps) {
         { label: dict.nav.products },
       ]}
     >
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {PRODUCT_SERIES.map((s) => (
-          <Link
-            key={s.slug}
-            href={`/${lang}/products/${s.slug}`}
-            className="group rounded-lg bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
-          >
-            <div className="mb-4 flex h-32 items-center justify-center rounded bg-bg-card">
-              <span className="text-3xl font-bold text-text-secondary/20">
-                {s.name.charAt(0)}
+      <ProductCatalog lang={lang} dict={dict} />
+
+      {/* Blades & Guide Bars */}
+      <div className="mt-16">
+        <h2 className="text-2xl font-bold text-text-primary">
+          {dict.products.accessoriesHeading}
+        </h2>
+        <p className="mt-2 text-text-secondary">{dict.products.accessoriesSub}</p>
+        <div className="mt-6 grid gap-6 sm:grid-cols-2">
+          {accessories.map((s) => (
+            <Link
+              key={s.slug}
+              href={`/${lang}/products/${s.slug}`}
+              className="group rounded-lg bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
+            >
+              <h3 className="text-lg font-semibold text-text-primary">{s.fullName}</h3>
+              <p className="mt-1 text-sm text-text-secondary">{s.tagline}</p>
+              <span className="mt-3 inline-block text-sm font-medium text-orange">
+                {dict.common.viewSeries} →
               </span>
-            </div>
-            <h2 className="text-lg font-semibold text-text-primary">{s.name}</h2>
-            <p className="mt-1 text-sm text-text-secondary">{s.tagline}</p>
-            <span className="mt-3 inline-block text-sm font-medium text-orange">
-              {dict.common.viewSeries} →
-            </span>
-          </Link>
-        ))}
+            </Link>
+          ))}
+        </div>
       </div>
 
       {/* Cutting Methods knowledge link */}

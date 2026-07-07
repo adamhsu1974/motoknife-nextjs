@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
 import { LOCALES } from "@/lib/i18n/config";
-import { PRODUCT_SERIES } from "@/lib/data/products";
+import { PRODUCTS, PRODUCT_SERIES } from "@/lib/data/products";
 import { APPLICATION_MATERIALS } from "@/lib/data/applications";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL ?? "https://motoknife.com";
@@ -17,7 +17,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/contact", priority: 0.8, changeFrequency: "monthly" as const },
   ];
 
-  const productPages = PRODUCT_SERIES.map((s) => `/products/${s.slug}`);
+  const productPages = [
+    ...PRODUCT_SERIES.map((s) => `/products/${s.slug}`),
+    ...PRODUCTS.map((p) => `/products/model/${p.slug}`),
+  ];
   const applicationPages = APPLICATION_MATERIALS.map((m) => `/applications/${m.slug}`);
 
   const now = new Date();

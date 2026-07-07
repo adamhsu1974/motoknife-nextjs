@@ -21,7 +21,13 @@
     "companyTitle": "公司",
     "aboutUs": "關於我們",
     "companyLegalName": "友聚工業股份有限公司",
-    "allRightsReserved": "版權所有"
+    "allRightsReserved": "版權所有",
+    "taiwanHq": "台灣總部",
+    "taiwanAddress": "32652 桃園市楊梅區新江路65巷155號",
+    "shanghaiOffice": "上海分公司",
+    "shanghaiAddress": "上海市嘉定區寶錢公路240弄2999號",
+    "distributorsTitle": "全球代理商",
+    "allDistributors": "所有代理商"
   },
   "meta": {
     "home": {
@@ -53,6 +59,50 @@
       "description": "詢價 MOTOKNIFE 分條刀座與刀片。告訴我們您的材料與切割需求，我們將於 24–48 小時內回覆。"
     }
   },
+  "contact": {
+    "heading": "與我們聯繫",
+    "intro": "告訴我們您的材料與切割需求，我們的團隊將為您的應用推薦合適的刀座，並於 24 小時內回覆。",
+    "whatDoYouNeed": "您需要什麼？",
+    "requestInfo": "了解更多",
+    "requestQuote": "詢價",
+    "requestOrder": "訂購產品",
+    "labelCompany": "公司名稱",
+    "labelName": "姓名",
+    "labelEmail": "Email",
+    "labelPhone": "電話",
+    "labelCountry": "國家",
+    "labelProductType": "產品類型",
+    "labelMaterial": "切割材料",
+    "labelThickness": "材料厚度",
+    "thicknessPlaceholder": "例如 80 µm、0.5–2 mm、200 gsm",
+    "labelProductModel": "產品型號",
+    "labelMessage": "訊息",
+    "selectPlaceholder": "請選擇...",
+    "notSure": "尚未確定",
+    "applicationDetails": "應用細節",
+    "submit": "送出詢價",
+    "submitting": "送出中...",
+    "successTitle": "感謝您！",
+    "successText": "您的詢價已成功送出，我們的團隊預計於 24 小時內回覆。",
+    "successEmailNote": "確認信已寄至您的信箱。",
+    "submitAnother": "再送出一筆詢價",
+    "distributorNotice": "{country} 設有授權代理商：{companies}。如需最快的當地支援，也可直接與代理商聯繫——詳見代理商頁面。您也可以直接送出此表單，我們將與當地夥伴協調處理。",
+    "distributorsPageLink": "查看代理商",
+    "prefillNotice": "已自動帶入選型器的資料，請確認並視需要調整。"
+  },
+  "products": {
+    "filterAll": "全部",
+    "viewDetails": "查看詳情",
+    "specifications": "技術規格",
+    "suitableMaterials": "適用材料",
+    "relatedApplications": "相關應用",
+    "relatedModels": "同系列其他型號",
+    "downloadPdf": "下載 PDF 型錄",
+    "pdfNote": "PDF 型錄可來信索取，歡迎聯繫我們。",
+    "backToProducts": "所有產品",
+    "accessoriesHeading": "刀片與導桿",
+    "accessoriesSub": "與每款刀座配套的精密刀片與導桿。"
+  },
   "selector": {
     "title": "選型工具",
     "subtitle": "回答兩個問題，我們將為您的應用推薦合適的刀座型號。",
@@ -67,9 +117,38 @@
     "disclaimer": "推薦結果僅為起點——我們的工程師將依據您的線速、幅寬與品質要求確認最終選型。"
   },
   "home": {
+    "heroEyebrow": "台灣製造 · 創立於 1990",
     "heroLine1": "精密分條",
     "heroLine2": "解決方案",
-    "heroSubtitle": "1990 年創立於台灣——您在高性能軟性材料加工的可靠夥伴。"
+    "heroSubtitle": "高性能分條刀座與刀片，服務全球 50+ 國軟性材料加工客戶。",
+    "advantagesHeading": "為什麼選擇 MOTOKNIFE",
+    "advantages": [
+      {
+        "title": "35 年專業經驗",
+        "text": "1990 年創立，三十五年專注氣動刀座——每個零件 ±0.005mm 精度。"
+      },
+      {
+        "title": "多國專利",
+        "text": "於美國、德國、台灣、中國註冊多項專利。原創工程設計，絕非仿製。"
+      },
+      {
+        "title": "全程台灣製造",
+        "text": "桃園廠 MAZAK CNC 複合加工中心垂直整合製造，關鍵零件全數自製。"
+      }
+    ],
+    "productsHeading": "產品系列",
+    "productsSub": "四種切割方式，同一個精度標準。",
+    "viewAllProducts": "查看所有產品",
+    "applicationsHeading": "您要切割什麼材料？",
+    "applicationsSub": "從材料出發，幾分鐘內找到合適的刀座。",
+    "viewAllApplications": "查看所有應用",
+    "mapEyebrow": "全球網絡",
+    "mapHeading": "6 國授權代理——其他地區由總部直接服務",
+    "mapText": "德國、荷蘭、俄羅斯、印度、韓國、智利設有授權代理商。您的地區沒有代理商？台灣總部直接為您服務，承諾 24–48 小時回覆。",
+    "mapCta": "尋找您的代理商",
+    "ctaHeading": "準備好找到合適的切割方案了嗎？",
+    "ctaText": "告訴我們您的材料，我們將為您的應用推薦最合適的刀座。",
+    "ctaButton": "立即詢價"
   },
   "distributors": {
     "heading": "全球銷售網絡",

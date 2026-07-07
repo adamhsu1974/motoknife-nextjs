@@ -1,33 +1,98 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 import type { ContactFormData } from "@/lib/schemas/contact";
 import type { Locale } from "@/lib/i18n/config";
+import type { Dictionary } from "@/lib/i18n/dictionaries";
+import { DISTRIBUTOR_COUNTRIES, type DistributorCountry } from "@/lib/data/distributors";
+import { PRODUCTS, type SeriesSlug } from "@/lib/data/products";
+import { SELECTOR_MATERIALS } from "@/lib/data/selector";
 
-const REQUEST_TYPES = [
-  { value: "info", label: "More Information" },
-  { value: "quote", label: "Request a Quote" },
-  { value: "order", label: "Order Product" },
-] as const;
+const PRODUCT_TYPE_BY_SERIES: Record<SeriesSlug, string> = {
+  "score-cut": "Score Cut Knife Holder",
+  "shear-cut": "Shear Cut Knife Holder",
+  "half-cut": "Half Cut Knife Holder",
+  "hot-cut": "Hot Cut Knife Holder",
+  knives: "Slitting Knives & Blades",
+  "guide-bar": "Guide Bars",
+};
 
-const MATERIALS = [
-  "Plastic Film",
-  "Metallic Foil (Aluminum / Copper)",
-  "Rubber",
-  "Paper",
-  "Nonwoven",
-  "Other",
-] as const;
+const PRODUCT_TYPES = Object.values(PRODUCT_TYPE_BY_SERIES);
+
+const COUNTRY_ALIASES: Record<string, string> = {
+  korea: "KR",
+  "south korea": "KR",
+  "republic of korea": "KR",
+  netherlands: "NL",
+  holland: "NL",
+  "the netherlands": "NL",
+  germany: "DE",
+  deutschland: "DE",
+  india: "IN",
+  chile: "CL",
+  russia: "RU",
+  "russian federation": "RU",
+};
+
+function detectDistributor(input: string): DistributorCountry | undefined {
+  const value = input.trim().toLowerCase();
+  if (value.length < 3) return undefined;
+  const aliasCode = COUNTRY_ALIASES[value];
+  return DISTRIBUTOR_COUNTRIES.find((c) => {
+    if (aliasCode) return c.countryCode === aliasCode;
+    const name = c.countryName.toLowerCase();
+    return name === value || (value.length >= 4 && name.startsWith(value));
+  });
+}
 
 type RequestType = ContactFormData["requestType"];
 type FormStatus = "idle" | "submitting" | "success" | "error";
 
-export default function ContactForm({ lang }: { lang: Locale }) {
-  const [requestType, setRequestType] = useState<RequestType>("quote");
+interface ContactFormProps {
+  lang: Locale;
+  dict: Dictionary;
+}
+
+export default function ContactForm({ lang, dict }: ContactFormProps) {
+  const searchParams = useSearchParams();
+
+  const prefill = useMemo(() => {
+    const product = searchParams.get("product") ?? "";
+    const models = searchParams.get("models") ?? "";
+    const modelValue = product || models;
+    const firstModel = modelValue.split(",")[0]?.trim();
+    const matchedProduct = PRODUCTS.find((p) => p.model === firstModel);
+    const isPdfRequest = searchParams.get("topic") === "pdf";
+
+    return {
+      modelValue,
+      productType: matchedProduct ? PRODUCT_TYPE_BY_SERIES[matchedProduct.series] : "",
+      material: searchParams.get("material") ?? "",
+      thickness: searchParams.get("thickness") ?? "",
+      country: searchParams.get("country") ?? "",
+      requestType: (isPdfRequest ? "info" : "quote") as RequestType,
+      message: isPdfRequest && product ? `Please send the PDF catalog for ${product}.` : "",
+      hasPrefill: Boolean(modelValue || searchParams.get("material")),
+    };
+  }, [searchParams]);
+
+  const [requestType, setRequestType] = useState<RequestType>(prefill.requestType);
+  const [country, setCountry] = useState(prefill.country);
   const [status, setStatus] = useState<FormStatus>("idle");
   const [errorMessage, setErrorMessage] = useState("");
+
+  const distributor = detectDistributor(country);
+
+  const requestTypes = [
+    { value: "info" as const, label: dict.contact.requestInfo },
+    { value: "quote" as const, label: dict.contact.requestQuote },
+    { value: "order" as const, label: dict.contact.requestOrder },
+  ];
+
+  const materialOptions = [...SELECTOR_MATERIALS.map((m) => m.name), "Other"];
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -44,9 +109,8 @@ export default function ContactForm({ lang }: { lang: Locale }) {
       email: formData.get("email") as string,
       phone: (formData.get("phone") as string) || undefined,
       country: formData.get("country") as string,
-      jobTitle: (formData.get("jobTitle") as string) || undefined,
+      productType: (formData.get("productType") as string) || undefined,
       material: (formData.get("material") as string) || undefined,
-      cuttingSpeed: (formData.get("cuttingSpeed") as string) || undefined,
       thickness: (formData.get("thickness") as string) || undefined,
       productModel: (formData.get("productModel") as string) || undefined,
       message: (formData.get("message") as string) || undefined,
@@ -78,32 +142,30 @@ export default function ContactForm({ lang }: { lang: Locale }) {
     }
   }
 
-  // Success state
+  // Success state — 24-hour response commitment
   if (status === "success") {
     return (
       <div className="bg-bg-warm py-16 md:py-24">
         <div className="mx-auto max-w-2xl px-4 text-center">
-          <div className="rounded-lg bg-white p-12 shadow-sm">
+          <div className="rounded-lg bg-white p-8 shadow-sm md:p-12">
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
               <CheckIcon />
             </div>
             <h1 className="mt-6 text-2xl font-bold text-text-primary">
-              Thank You!
+              {dict.contact.successTitle}
             </h1>
             <p className="mt-3 leading-relaxed text-text-secondary">
-              Your inquiry has been submitted successfully. Our team will review
-              your request and get back to you within{" "}
-              <strong>24–48 hours</strong>.
+              {dict.contact.successText}
             </p>
             <p className="mt-4 text-sm text-text-secondary">
-              A confirmation email has been sent to your inbox.
+              {dict.contact.successEmailNote}
             </p>
             <button
               type="button"
               onClick={() => setStatus("idle")}
               className="mt-8 rounded bg-orange px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-hover"
             >
-              Submit Another Inquiry
+              {dict.contact.submitAnother}
             </button>
           </div>
         </div>
@@ -116,56 +178,64 @@ export default function ContactForm({ lang }: { lang: Locale }) {
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         {/* Breadcrumb */}
         <nav className="mb-8 text-sm text-text-secondary">
-          <Link href={`/${lang}`} className="hover:text-orange">Home</Link>
+          <Link href={`/${lang}`} className="hover:text-orange">{dict.common.home}</Link>
           <span className="mx-2">/</span>
-          <span className="text-text-primary">Contact</span>
+          <span className="text-text-primary">{dict.nav.contact}</span>
         </nav>
 
         <div className="grid gap-12 lg:grid-cols-5">
           {/* Left: Info */}
           <div className="lg:col-span-2">
             <h1 className="text-3xl font-bold text-text-primary md:text-4xl">
-              Get in Touch
+              {dict.contact.heading}
             </h1>
             <div className="mt-3 h-1 w-16 bg-orange" />
             <p className="mt-6 leading-relaxed text-text-secondary">
-              Tell us about your material and cutting requirements. Our team
-              will recommend the right knife holder for your application and
-              provide a quote within 24–48 hours.
+              {dict.contact.intro}
             </p>
 
-            <div className="mt-10 space-y-6">
-              <ContactInfo
-                icon={<EmailIcon />}
-                label="Email"
-                value="service@motoknife.com"
+            <div className="mt-10 space-y-8">
+              <OfficeInfo
+                title={dict.footer.taiwanHq}
+                lines={[
+                  dict.footer.taiwanAddress,
+                  "TEL +886-3-4753005",
+                  "FAX +886-3-4754797",
+                  "service@motoknife.com",
+                ]}
               />
-              <ContactInfo
-                icon={<PhoneIcon />}
-                label="Phone"
-                value="+886-2-2688-5677"
-              />
-              <ContactInfo
-                icon={<LocationIcon />}
-                label="Address"
-                value="Taiwan"
+              <OfficeInfo
+                title={dict.footer.shanghaiOffice}
+                lines={[
+                  dict.footer.shanghaiAddress,
+                  "TEL +86-21-69596169",
+                  "FAX +86-21-69596163",
+                  "motokevin@126.com",
+                ]}
               />
             </div>
           </div>
 
           {/* Right: Form */}
           <div className="rounded-lg bg-white p-6 shadow-sm md:p-8 lg:col-span-3">
+            {prefill.hasPrefill && (
+              <div className="mb-6 rounded border border-orange/30 bg-orange-soft px-4 py-3 text-sm text-text-primary">
+                {dict.contact.prefillNotice}
+              </div>
+            )}
+
             {/* Step 1: Request Type */}
             <div className="mb-8">
               <p className="mb-3 text-sm font-semibold text-text-primary">
-                What do you need?
+                {dict.contact.whatDoYouNeed}
               </p>
               <div className="flex flex-wrap gap-3">
-                {REQUEST_TYPES.map((type) => (
+                {requestTypes.map((type) => (
                   <button
                     key={type.value}
                     type="button"
                     onClick={() => setRequestType(type.value)}
+                    aria-pressed={requestType === type.value}
                     className={`rounded-sm px-4 py-2 text-sm font-medium transition-colors ${
                       requestType === type.value
                         ? "bg-orange text-white"
@@ -185,37 +255,83 @@ export default function ContactForm({ lang }: { lang: Locale }) {
               </div>
             )}
 
-            {/* Step 2: Contact Info */}
             <form onSubmit={handleSubmit} className="space-y-5">
+              {/* Step 2: Contact Info */}
               <div className="grid gap-5 sm:grid-cols-2">
-                <FormField label="Name" name="name" required />
-                <FormField label="Company" name="company" required />
-                <FormField label="Email" name="email" type="email" required />
-                <FormField label="Phone" name="phone" type="tel" />
-                <FormField label="Country" name="country" required />
-                <FormField label="Job Title" name="jobTitle" />
+                <FormField label={dict.contact.labelCompany} name="company" required />
+                <FormField label={dict.contact.labelName} name="name" required />
+                <FormField label={dict.contact.labelEmail} name="email" type="email" required />
+                <FormField label={dict.contact.labelPhone} name="phone" type="tel" />
+                <div className="sm:col-span-2">
+                  <label htmlFor="country" className="mb-1 block text-sm text-text-secondary">
+                    {dict.contact.labelCountry}
+                    <span className="text-orange"> *</span>
+                  </label>
+                  <input
+                    id="country"
+                    name="country"
+                    required
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                    className="w-full rounded border border-border px-3 py-2.5 text-sm text-text-primary"
+                  />
+                  {/* 通路衝突策略：有代理商的地區引導當地代理商 */}
+                  {distributor && (
+                    <div className="mt-3 rounded border border-orange/30 bg-orange-soft px-4 py-3 text-sm text-text-primary">
+                      <p>
+                        {dict.contact.distributorNotice
+                          .replace("{country}", distributor.countryName)
+                          .replace("{companies}", distributor.companies.join(", "))}
+                      </p>
+                      <Link
+                        href={`/${lang}/distributors`}
+                        className="mt-2 inline-block font-semibold text-orange hover:text-orange-hover"
+                      >
+                        {dict.contact.distributorsPageLink} →
+                      </Link>
+                    </div>
+                  )}
+                </div>
               </div>
 
-              {/* Step 3: Requirements */}
+              {/* Step 3: Application Details */}
               <div className="border-t border-border pt-5">
                 <p className="mb-4 text-sm font-semibold text-text-primary">
-                  Application Details
+                  {dict.contact.applicationDetails}
                 </p>
                 <div className="grid gap-5 sm:grid-cols-2">
                   <div>
-                    <label
-                      htmlFor="material"
-                      className="mb-1 block text-sm text-text-secondary"
+                    <label htmlFor="productType" className="mb-1 block text-sm text-text-secondary">
+                      {dict.contact.labelProductType}
+                    </label>
+                    <select
+                      id="productType"
+                      name="productType"
+                      defaultValue={prefill.productType}
+                      className="w-full rounded border border-border bg-white px-3 py-2.5 text-sm text-text-primary"
                     >
-                      Material Type
+                      <option value="">{dict.contact.notSure}</option>
+                      {PRODUCT_TYPES.map((t) => (
+                        <option key={t} value={t}>
+                          {t}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="material" className="mb-1 block text-sm text-text-secondary">
+                      {dict.contact.labelMaterial}
                     </label>
                     <select
                       id="material"
                       name="material"
+                      defaultValue={
+                        materialOptions.includes(prefill.material) ? prefill.material : ""
+                      }
                       className="w-full rounded border border-border bg-white px-3 py-2.5 text-sm text-text-primary"
                     >
-                      <option value="">Select material...</option>
-                      {MATERIALS.map((m) => (
+                      <option value="">{dict.contact.selectPlaceholder}</option>
+                      {materialOptions.map((m) => (
                         <option key={m} value={m}>
                           {m}
                         </option>
@@ -223,31 +339,26 @@ export default function ContactForm({ lang }: { lang: Locale }) {
                     </select>
                   </div>
                   <FormField
-                    label="Cutting Speed (M/min)"
-                    name="cuttingSpeed"
-                    type="number"
-                  />
-                  <FormField
-                    label="Material Thickness (mm)"
+                    label={dict.contact.labelThickness}
                     name="thickness"
-                    type="number"
+                    defaultValue={prefill.thickness}
+                    placeholder={dict.contact.thicknessPlaceholder}
                   />
                   <FormField
-                    label="Product Model (optional)"
+                    label={dict.contact.labelProductModel}
                     name="productModel"
+                    defaultValue={prefill.modelValue}
                   />
                 </div>
                 <div className="mt-5">
-                  <label
-                    htmlFor="message"
-                    className="mb-1 block text-sm text-text-secondary"
-                  >
-                    Message
+                  <label htmlFor="message" className="mb-1 block text-sm text-text-secondary">
+                    {dict.contact.labelMessage}
                   </label>
                   <textarea
                     id="message"
                     name="message"
                     rows={4}
+                    defaultValue={prefill.message}
                     className="w-full rounded border border-border px-3 py-2.5 text-sm text-text-primary"
                   />
                 </div>
@@ -259,7 +370,7 @@ export default function ContactForm({ lang }: { lang: Locale }) {
                 disabled={status === "submitting"}
                 className="w-full rounded bg-orange py-3.5 text-sm font-semibold text-white transition-colors hover:bg-orange-hover disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:px-12"
               >
-                {status === "submitting" ? "Submitting..." : "Submit Request"}
+                {status === "submitting" ? dict.contact.submitting : dict.contact.submit}
               </button>
             </form>
           </div>
@@ -276,11 +387,15 @@ function FormField({
   name,
   type = "text",
   required = false,
+  defaultValue,
+  placeholder,
 }: {
   label: string;
   name: string;
   type?: string;
   required?: boolean;
+  defaultValue?: string;
+  placeholder?: string;
 }) {
   return (
     <div>
@@ -293,29 +408,22 @@ function FormField({
         name={name}
         type={type}
         required={required}
-        className="w-full rounded border border-border px-3 py-2.5 text-sm text-text-primary"
+        defaultValue={defaultValue}
+        placeholder={placeholder}
+        className="w-full rounded border border-border px-3 py-2.5 text-sm text-text-primary placeholder:text-text-secondary/50"
       />
     </div>
   );
 }
 
-function ContactInfo({
-  icon,
-  label,
-  value,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-}) {
+function OfficeInfo({ title, lines }: { title: string; lines: string[] }) {
   return (
-    <div className="flex items-start gap-3">
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded bg-navy text-white">
-        {icon}
-      </div>
-      <div>
-        <p className="text-sm font-medium text-text-primary">{label}</p>
-        <p className="text-sm text-text-secondary">{value}</p>
+    <div>
+      <p className="text-xs font-semibold uppercase tracking-wider text-orange">{title}</p>
+      <div className="mt-2 space-y-1 text-sm text-text-secondary">
+        {lines.map((line) => (
+          <p key={line}>{line}</p>
+        ))}
       </div>
     </div>
   );
@@ -325,32 +433,6 @@ function CheckIcon() {
   return (
     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
       <polyline points="20 6 9 17 4 12" />
-    </svg>
-  );
-}
-
-function EmailIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <rect width="20" height="16" x="2" y="4" rx="2" />
-      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-    </svg>
-  );
-}
-
-function PhoneIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
-    </svg>
-  );
-}
-
-function LocationIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-      <circle cx="12" cy="10" r="3" />
     </svg>
   );
 }

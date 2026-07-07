@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
+import { DISTRIBUTOR_COUNTRIES } from "@/lib/data/distributors";
 
 interface FooterProps {
   lang: Locale;
@@ -22,20 +23,10 @@ export default function Footer({ lang, dict }: FooterProps) {
       ],
     },
     {
-      title: dict.footer.applicationsTitle,
-      links: [
-        { href: `/${lang}/applications/plastic-film`, label: "Plastic Film" },
-        { href: `/${lang}/applications/metallic-foil`, label: "Metallic Foil" },
-        { href: `/${lang}/applications/rubber`, label: "Rubber" },
-        { href: `/${lang}/applications/paper`, label: "Paper" },
-        { href: `/${lang}/applications/nonwoven`, label: "Nonwoven" },
-      ],
-    },
-    {
       title: dict.footer.companyTitle,
       links: [
         { href: `/${lang}/about`, label: dict.footer.aboutUs },
-        { href: `/${lang}/distributors`, label: dict.nav.distributors },
+        { href: `/${lang}/applications`, label: dict.nav.applications },
         { href: `/${lang}/products/cutting-methods`, label: dict.common.cuttingMethods },
         { href: `/${lang}/contact`, label: dict.nav.contact },
       ],
@@ -46,7 +37,7 @@ export default function Footer({ lang, dict }: FooterProps) {
     <footer className="bg-navy text-white">
       <div className="mx-auto max-w-7xl px-4 py-12 lg:px-8 lg:py-16">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-          {/* Brand Column */}
+          {/* Brand + Offices */}
           <div>
             <Link href={`/${lang}`} className="text-xl font-bold tracking-wider">
               MOTOKNIFE
@@ -54,9 +45,30 @@ export default function Footer({ lang, dict }: FooterProps) {
             <p className="mt-2 text-sm text-white/50">
               {dict.footer.companyLegalName}
             </p>
-            <div className="mt-6 space-y-2 text-sm text-white/60">
-              <p>service@motoknife.com</p>
-              <p>+886-2-2688-5677</p>
+
+            <div className="mt-6 space-y-5 text-sm">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wider text-white/80">
+                  {dict.footer.taiwanHq}
+                </p>
+                <div className="mt-2 space-y-1 text-white/60">
+                  <p>{dict.footer.taiwanAddress}</p>
+                  <p>TEL +886-3-4753005</p>
+                  <p>FAX +886-3-4754797</p>
+                  <p>service@motoknife.com</p>
+                </div>
+              </div>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wider text-white/80">
+                  {dict.footer.shanghaiOffice}
+                </p>
+                <div className="mt-2 space-y-1 text-white/60">
+                  <p>{dict.footer.shanghaiAddress}</p>
+                  <p>TEL +86-21-69596169</p>
+                  <p>FAX +86-21-69596163</p>
+                  <p>motokevin@126.com</p>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -80,6 +92,33 @@ export default function Footer({ lang, dict }: FooterProps) {
               </ul>
             </div>
           ))}
+
+          {/* Distributor quick links */}
+          <div>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-white/80">
+              {dict.footer.distributorsTitle}
+            </h3>
+            <ul className="mt-4 space-y-2">
+              {DISTRIBUTOR_COUNTRIES.map((country) => (
+                <li key={country.countryCode}>
+                  <Link
+                    href={`/${lang}/distributors`}
+                    className="text-sm text-white/50 transition-colors hover:text-orange"
+                  >
+                    {country.countryName}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <Link
+                  href={`/${lang}/distributors`}
+                  className="text-sm font-medium text-orange transition-colors hover:text-orange-hover"
+                >
+                  {dict.footer.allDistributors} →
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
 
         {/* Bottom Bar */}

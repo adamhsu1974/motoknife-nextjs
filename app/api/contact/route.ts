@@ -66,23 +66,22 @@ function buildSalesEmail(data: ContactFormData): string {
     ["Email", data.email],
     ["Phone", data.phone],
     ["Country", data.country],
-    ["Job Title", data.jobTitle],
+    ["Product Type", data.productType],
     ["Material", data.material],
-    ["Cutting Speed", data.cuttingSpeed ? `${data.cuttingSpeed} M/min` : undefined],
-    ["Thickness", data.thickness ? `${data.thickness} mm` : undefined],
+    ["Thickness", data.thickness],
     ["Product Model", data.productModel],
     ["Message", data.message],
   ]
     .filter(([, val]) => val)
     .map(
       ([label, val]) =>
-        `<tr><td style="padding:8px 12px;font-weight:600;color:#1a2b3c;border-bottom:1px solid #e5e7eb;white-space:nowrap">${label}</td><td style="padding:8px 12px;border-bottom:1px solid #e5e7eb">${val}</td></tr>`
+        `<tr><td style="padding:8px 12px;font-weight:600;color:#1a1a2e;border-bottom:1px solid #e5e7eb;white-space:nowrap">${label}</td><td style="padding:8px 12px;border-bottom:1px solid #e5e7eb">${val}</td></tr>`
     )
     .join("");
 
   return `
     <div style="font-family:sans-serif;max-width:600px;margin:0 auto">
-      <div style="background:#1a2b3c;padding:20px 24px">
+      <div style="background:#1a1a2e;padding:20px 24px">
         <h1 style="color:#ffffff;font-size:18px;margin:0">New Inquiry — MOTOKNIFE</h1>
       </div>
       <div style="padding:24px">
@@ -100,21 +99,21 @@ function buildSalesEmail(data: ContactFormData): string {
 function buildConfirmationEmail(data: ContactFormData): string {
   return `
     <div style="font-family:sans-serif;max-width:600px;margin:0 auto">
-      <div style="background:#1a2b3c;padding:20px 24px">
+      <div style="background:#1a1a2e;padding:20px 24px">
         <h1 style="color:#ffffff;font-size:18px;margin:0">MOTOKNIFE</h1>
       </div>
       <div style="padding:24px">
         <p style="font-size:15px;color:#1a1a1a">Dear ${data.name},</p>
         <p style="font-size:14px;color:#4b5563;line-height:1.6">
           Thank you for contacting MOTOKNIFE. We have received your inquiry
-          and our team will get back to you within <strong>24–48 hours</strong>.
+          and our team will get back to you within <strong>24 hours</strong>.
         </p>
         <p style="font-size:14px;color:#4b5563;line-height:1.6">
           If you need immediate assistance, please contact us at:
           <br />
-          <a href="mailto:service@motoknife.com" style="color:#E07830">service@motoknife.com</a>
+          <a href="mailto:service@motoknife.com" style="color:#F47920">service@motoknife.com</a>
           <br />
-          +886-2-2688-5677
+          +886-3-4753005
         </p>
         <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0" />
         <p style="font-size:12px;color:#9ca3af">

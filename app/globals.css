@@ -1,21 +1,65 @@
 @import "tailwindcss";
 
+/*
+ * MOTOKNIFE Design Tokens
+ * 風格方向：Devialet 式歐洲高端 B2B 工業美學 —
+ * 深色大面積留白、精準的橙色點綴、緊湊大寫標題
+ */
 @theme inline {
-  --color-navy: #1a2b3c;
-  --color-navy-dark: #0f1922;
-  --color-orange: #E07830;
-  --color-orange-hover: #c96820;
-  --color-hero-black: #0d0d0d;
+  /* Brand */
+  --color-orange: #f47920;
+  --color-orange-hover: #d9640c;
+  --color-orange-soft: #fef1e6;
+
+  /* Dark surfaces */
+  --color-navy: #1a1a2e;
+  --color-navy-dark: #12121f;
+  --color-navy-light: #24243c;
+  --color-hero-black: #0d0d14;
+
+  /* Neutrals */
   --color-text-primary: #1a1a1a;
-  --color-text-secondary: #6b7280;
-  --color-bg-warm: #f8f8f6;
-  --color-bg-card: #f5f5f0;
+  --color-text-secondary: #64748b;
+  --color-bg-warm: #f7f7f5;
+  --color-bg-card: #f1f1ed;
   --color-border: #e5e7eb;
+
+  /* Typography */
   --font-sans: var(--font-dm-sans);
   --font-heading: var(--font-barlow);
+
+  /* Spacing / layout accents */
+  --spacing-section: 6rem;
+  --spacing-section-sm: 4rem;
 }
 
 body {
   background: #ffffff;
   color: var(--color-text-primary);
+}
+
+::selection {
+  background: var(--color-orange);
+  color: #ffffff;
+}
+
+/* Eyebrow — 區塊小標（橙色大寫細字距），Devialet 式排版慣用 */
+@utility eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-orange);
+}
+
+/* Section heading underline accent */
+@utility heading-accent {
+  &::after {
+    content: "";
+    display: block;
+    margin-top: 0.75rem;
+    height: 0.25rem;
+    width: 4rem;
+    background: var(--color-orange);
+  }
 }
