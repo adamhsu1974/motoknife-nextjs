@@ -107,8 +107,8 @@ export default async function AboutPage({ params }: AboutPageProps) {
             MOTOKNIFE (友聚工業股份有限公司) is a Taiwan-based manufacturer
             specializing in high-precision slitting knife holders and blades.
             Since 1990, we have been the trusted partner for converting
-            companies worldwide, delivering cutting solutions with ±0.005mm
-            tolerance.
+            companies worldwide — with the full process, from design to
+            delivery, completed under one roof.
           </p>
         </div>
       </section>
@@ -183,8 +183,8 @@ export default async function AboutPage({ params }: AboutPageProps) {
                 From raw bar stock to finished holder, every critical step
                 happens under one roof in our Taoyuan factory. No outsourced
                 machining, no drop-in imported parts — which is how we
-                guarantee ±0.005mm tolerance and consistent quality on every
-                delivery, year after year.
+                guarantee consistent quality and reliable delivery, year after
+                year.
               </p>
 
               <div className="mt-8">
