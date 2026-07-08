@@ -36,8 +36,8 @@ export default function FaqSection({ heading, items }: FaqSectionProps) {
             key={item.question}
             className="group rounded-lg bg-white shadow-sm open:shadow-md"
           >
-            <summary className="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 text-sm font-semibold text-text-primary transition-colors hover:text-orange [&::-webkit-details-marker]:hidden">
-              {item.question}
+            <summary className="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 text-text-primary transition-colors hover:text-orange [&::-webkit-details-marker]:hidden">
+              <h3 className="text-sm font-semibold">{item.question}</h3>
               <span className="shrink-0 text-orange transition-transform group-open:rotate-45">
                 <PlusIcon />
               </span>

@@ -26,12 +26,15 @@ export interface Solution {
   faqs: SolutionFaq[];
 }
 
+/** 內容新鮮度信號：Solutions 內容有實質更新時手動調整（頁面顯示 + AI 爬蟲提取） */
+export const SOLUTIONS_LAST_UPDATED = "2026-07-08";
+
 export const SOLUTIONS: Solution[] = [
   {
     slug: "aluminum-foil-shear-cut",
     title: "Aluminum Foil Slitting with Shear Cut Knife Holders",
     metaDescription:
-      "Burr-free aluminum foil slitting with precision shear cut knife holders. MT-A410 for 6–20 µm battery foil, MT-A450 for 20–100 µm standard foil.",
+      "How to slit aluminum foil without burrs: shear cut is the recommended method — MT-A410 for 6–20 µm battery foil, MT-A450 for 20–100 µm packaging foil.",
     material: "Aluminum Foil",
     cuttingMethod: "shear-cut",
     recommendedModels: ["MT-A410", "MT-A450"],
@@ -56,13 +59,18 @@ export const SOLUTIONS: Solution[] = [
         answer:
           "Burrs come from worn blade edges, incorrect blade overlap, or excessive side force. Precision-ground blades, fine overlap adjustment, and stable holder rigidity — the core design of the MT-A410/A450 — keep edges burr-free through long runs.",
       },
+      {
+        question: "What blade material is recommended for aluminum foil slitting?",
+        answer:
+          "Precision-ground high-speed steel (HSS) covers most aluminum foil work; tungsten carbide extends blade life on long production runs and coated foils. Because aluminum is soft, edge sharpness and grinding quality matter more than raw blade hardness — a finely ground edge in the correct overlap does more for burr control than upgrading the material alone.",
+      },
     ],
   },
   {
     slug: "copper-foil-shear-cut",
     title: "Copper Foil Slitting with Shear Cut Knife Holders",
     metaDescription:
-      "Precision copper foil slitting for lithium battery production. Burr-free shear cutting with MT-A410 (6–20 µm) and MT-A450 knife holders.",
+      "What is the best way to slit battery copper foil? Shear cut with precision holders: MT-A410 covers 6–20 µm electrodeposited foil with burr-free edges.",
     material: "Copper Foil",
     cuttingMethod: "shear-cut",
     recommendedModels: ["MT-A410", "MT-A450"],
@@ -82,13 +90,23 @@ export const SOLUTIONS: Solution[] = [
         answer:
           "Copper is harder and less forgiving than aluminum: blade wear shows up in edge quality sooner, and burr specifications are stricter because of separator puncture risk. The same shear principle applies, but blade material, overlap, and holder rigidity matter more.",
       },
+      {
+        question: "What is the best cutting method for copper foil?",
+        answer:
+          "Shear cut is the only method accepted for battery-grade copper foil. Score cut deforms the soft metal against the anvil roller and leaves burrs; razor cut cannot hold edge quality on metal at production speed. Two precision-ground blades in a scissor action separate the foil without plastic deformation, which is what keeps burr height inside battery specifications.",
+      },
+      {
+        question: "How often should blades be resharpened when slitting copper foil?",
+        answer:
+          "There is no universal interval — it depends on foil hardness, run length, and how tight your burr specification is. The practical approach is to track burr height and edge quality per shift and resharpen before they drift out of tolerance. Correct blade overlap and side-force setting, which the MT-A410 adjusts finely, are the biggest levers for extending the interval.",
+      },
     ],
   },
   {
     slug: "pet-film-score-cut",
     title: "PET Film Slitting with Score Cut Knife Holders",
     metaDescription:
-      "Economic, clean PET film slitting with pneumatic score cut knife holders. MT-A110 standard, MT-A130 narrow width from 8mm, MT-A160 for 600 M/min lines.",
+      "Score cut or shear cut for PET film? Score cut wins on cost for most gauges — MT-A110 standard, MT-A130 from 8mm widths, MT-A160 for 600 M/min lines.",
     material: "PET Film",
     cuttingMethod: "score-cut",
     recommendedModels: ["MT-A110", "MT-A130", "MT-A160"],
@@ -113,13 +131,18 @@ export const SOLUTIONS: Solution[] = [
         answer:
           "The MT-A130 compact holder slits PET down to 8mm. The practical minimum depends on your machine layout — tell us your target width and we will confirm feasibility.",
       },
+      {
+        question: "What blade material is recommended for PET film score cutting?",
+        answer:
+          "PET is more abrasive than polyolefin films, so blade life is the deciding factor. Hardened tool-steel score blades handle general work; tungsten carbide blades cost more per piece but hold their edge several times longer on high-volume PET lines, which usually wins on cost per slit kilometer.",
+      },
     ],
   },
   {
     slug: "nonwoven-score-cut",
     title: "Nonwoven Fabric Slitting with Score Cut Knife Holders",
     metaDescription:
-      "Dust-free, lint-free nonwoven slitting. MT-A170 large chip-clearance score cut holder keeps fibers away from the cut — hygiene and filtration grade edges.",
+      "How to slit nonwoven fabric without dust and lint: score cut with large chip clearance — the MT-A170 evacuates fibers from the cut zone continuously.",
     material: "Nonwoven Fabric",
     cuttingMethod: "score-cut",
     recommendedModels: ["MT-A170", "MT-A140"],
@@ -139,13 +162,23 @@ export const SOLUTIONS: Solution[] = [
         answer:
           "Score cut with a large chip-clearance holder covers most spunbond work economically. High-speed lines with strict dust limits can move to shear cut (MT-A450/A850), and synthetic nonwovens that fray can be sealed at the edge with hot cut (MT-A710).",
       },
+      {
+        question: "How to choose a knife holder for nonwoven slitting?",
+        answer:
+          "Three criteria decide it: chip clearance (can the holder evacuate fibers, or will they pack around the blade?), pressure control (nonwovens need consistent force to cut cleanly without crushing), and web weight. Light-to-medium webs run on the MT-A140; debris-heavy or hygiene-grade work needs the MT-A170's open chip-clearance geometry.",
+      },
+      {
+        question: "What causes fuzzy or linty edges when slitting nonwoven fabric?",
+        answer:
+          "A dull blade or insufficient cutting pressure tears fibers instead of severing them, leaving a fuzzy edge and loose lint. Keep blades sharp, set pneumatic pressure to cut through in one pass, and use a holder that clears fiber debris away from the cut zone before it interferes with the blade.",
+      },
     ],
   },
   {
     slug: "paper-shear-cut",
     title: "Paper & Board Slitting with Shear Cut Knife Holders",
     metaDescription:
-      "Dust-free slitting of heavy paper and board (200+ gsm) with shear cut knife holders. MT-A650, MT-A850, and MT-A880 general-purpose shear range.",
+      "When should paper switch from score cut to shear cut? Around 200 gsm — MT-A650, MT-A850, and MT-A880 shear holders keep heavy board slitting dust-free.",
     material: "Paper & Board",
     cuttingMethod: "shear-cut",
     recommendedModels: ["MT-A650", "MT-A850", "MT-A880"],
@@ -165,13 +198,23 @@ export const SOLUTIONS: Solution[] = [
         answer:
           "Paper dust comes from crushing rather than cutting the fibers. A sharp shear cut separates fibers cleanly with far less dust than a worn or overloaded score setup — which matters for printing and food-contact applications.",
       },
+      {
+        question: "What is the difference between shear cut and score cut for paper?",
+        answer:
+          "Score cut presses one circular blade against a hardened anvil roller — economical and fast to set up, but the crushing action generates dust and struggles above roughly 200 gsm. Shear cut runs two blades in a scissor action that severs fibers cleanly: better edges, less dust, and longer blade life on heavy board, at a higher cost per station.",
+      },
+      {
+        question: "What blade material is recommended for paper and board slitting?",
+        answer:
+          "Paper is abrasive — clay fillers and coatings wear blade edges faster than most plastic films. HSS blades are the standard choice; tungsten carbide is worth the premium on high-volume board lines and recycled stock, where its wear resistance multiplies the resharpening interval.",
+      },
     ],
   },
   {
     slug: "rubber-score-cut",
     title: "Rubber Slitting with Heavy-Duty Score Cut Knife Holders",
     metaDescription:
-      "Slitting rubber sheet, rubber leather, and rubber magnetic sheet without stretching. Heavy-duty score cut holders MT-A140, MT-A170, MT-A510.",
+      "How to slit rubber without stretching it: high-pressure score cut — MT-A140 for light sheet, MT-A170 for rubber leather, MT-A510 for magnetic sheet.",
     material: "Rubber",
     cuttingMethod: "score-cut",
     recommendedModels: ["MT-A140", "MT-A170", "MT-A510"],
@@ -191,13 +234,23 @@ export const SOLUTIONS: Solution[] = [
         answer:
           "The MT-A510, the maximum-duty score holder in the MOTOKNIFE range. Its 4–8 kg/cm² cylinder and heavy frame are sized for dense, abrasive webs like rubber magnetic sheet and fiberglass composites.",
       },
+      {
+        question: "What is the best cutting method for rubber sheet?",
+        answer:
+          "High-pressure score cut. Rubber's elasticity absorbs light blade force, so the method must deliver enough sustained pressure to sever the web in one pass against the anvil roller. Shear cut is rarely used on rubber — the material deflects between the blades — and razor cut lacks the force for anything beyond thin, soft grades.",
+      },
+      {
+        question: "What causes wavy or wandering slits in rubber?",
+        answer:
+          "Springback. If blade force is marginal or the holder flexes, the elastic web pushes back against the blade and the cut line wanders, taking width tolerance with it. The fix is a rigid, heavy-duty holder set to cut decisively through the material — hesitation at the blade is what deforms the web.",
+      },
     ],
   },
   {
     slug: "adhesive-tape-half-cut",
     title: "Adhesive Tape Kiss-Cutting with Half Cut Knife Holders",
     metaDescription:
-      "Kiss-cut adhesive tape on release liner with micrometer depth control. MT-A310 half cut knife holder cuts the tape, leaves the liner intact.",
+      "How to kiss-cut adhesive tape without cutting the liner: MT-A310 half cut holder with ±0.01mm micrometer depth control and constant pneumatic force.",
     material: "Adhesive Tape",
     cuttingMethod: "half-cut",
     recommendedModels: ["MT-A310"],
@@ -217,13 +270,23 @@ export const SOLUTIONS: Solution[] = [
         answer:
           "The micrometer mechanism adjusts blade depth at ±0.01mm, and the holder itself is machined to ±0.005mm tolerance — enough to cut a tape layer reliably without scoring the liner beneath it.",
       },
+      {
+        question: "How to choose a knife holder for kiss-cutting adhesive tape?",
+        answer:
+          "Look at three things: depth adjustment resolution (a micrometer mechanism, not a coarse screw), force constancy (pneumatic holders keep cutting force stable as the blade wears), and rigidity (any flex in the holder becomes depth variation at the blade). The MT-A310 is built around exactly these three requirements.",
+      },
+      {
+        question: "What causes the blade to cut through the release liner?",
+        answer:
+          "Usually depth drift: blade wear, caliper variation in the incoming web, or a holder whose force rises as the cylinder extends. A constant-force pneumatic system with micrometer depth setting compensates for wear automatically; incoming caliper variation is a material problem worth raising with your tape supplier.",
+      },
     ],
   },
   {
     slug: "medical-laminate-half-cut",
     title: "Medical Laminate Converting with Half Cut Knife Holders",
     metaDescription:
-      "Half cut knife holders for medical patches, foam tapes, and multi-layer dressings. MT-A310 and MT-A310H hold set depth across complex laminate stacks.",
+      "Which knife holder for medical patches and multi-layer dressings? MT-A310 for standard laminates, MT-A310H for depth stability across complex stacks.",
     material: "Medical Laminate",
     cuttingMethod: "half-cut",
     recommendedModels: ["MT-A310", "MT-A310H"],
@@ -243,13 +306,23 @@ export const SOLUTIONS: Solution[] = [
         answer:
           "Yes — send us your material and we return a full report in 3 working days: recommended method, recommended model, cut sample photos, and test video. The service is free.",
       },
+      {
+        question: "What is the best cutting method for medical foam tapes and patches?",
+        answer:
+          "Half cut (kiss cut): the blade severs the foam, adhesive, and facestock while leaving the release liner intact, so the converted parts stay registered on the liner through packaging and dispensing. Full-depth score or shear cutting is only used where the liner is meant to be cut through as well.",
+      },
+      {
+        question: "How do I keep cut depth stable across different laminate layers?",
+        answer:
+          "Depth stability comes from the holder, not the operator: a micrometer depth stop defines how far the blade can travel, and a pneumatic system holds cutting force constant as layer hardness changes under the blade. That combination is why the MT-A310H holds its set depth at foam-to-film and film-to-adhesive transitions where simpler holders drift.",
+      },
     ],
   },
   {
     slug: "battery-separator-shear-cut",
     title: "Battery Separator Film Slitting with Precision Shear Cut",
     metaDescription:
-      "Precision slitting of lithium battery separator film. Burr-free, particle-clean edges with MT-A410 and MT-A450 shear cut knife holders.",
+      "How to slit battery separator film with low particle counts: precision shear cut — MT-A410 fine overlap control keeps edges clean and pores intact.",
     material: "Battery Separator Film",
     cuttingMethod: "shear-cut",
     recommendedModels: ["MT-A410", "MT-A450"],
@@ -269,13 +342,23 @@ export const SOLUTIONS: Solution[] = [
         answer:
           "Yes — the MT-A410/A450 precision shear pair covers copper foil, aluminum foil, and separator film. Battery lines standardize on them so one holder family serves the whole cell stack.",
       },
+      {
+        question: "How do I reduce particle generation when slitting separator film?",
+        answer:
+          "Particles come from the blade tearing or crushing the microporous structure instead of shearing it. Keep blade edges precision-ground, set blade overlap to the minimum that still cuts through, control side force finely, and use a rigid holder that does not vibrate at line speed — the parameters the MT-A410 is designed to hold.",
+      },
+      {
+        question: "What blade material is recommended for battery separator film?",
+        answer:
+          "Uncoated polyolefin separator runs well on precision-ground HSS blades. Ceramic-coated separator grades are far more abrasive and typically justify tungsten carbide, which holds a clean edge many times longer against the coating. The deciding factor is your particle specification — a degrading edge shows up in particle counts before it shows up visually.",
+      },
     ],
   },
   {
     slug: "shrink-film-hot-cut",
     title: "Shrink Film Slitting with Hot Cut Knife Holders",
     metaDescription:
-      "Sealed-edge shrink film and synthetic web slitting with the MT-A710 hot cut knife holder — 600°C blade, fused edges, slit widths below 13mm.",
+      "How to slit shrink film without frayed edges: hot cut fuses the edge while cutting — the MT-A710 runs a 600°C blade and slits widths below 13mm.",
     material: "Shrink Film",
     cuttingMethod: "hot-cut",
     recommendedModels: ["MT-A710"],
@@ -294,6 +377,16 @@ export const SOLUTIONS: Solution[] = [
         question: "What is the minimum slit width for hot cutting?",
         answer:
           "Typical hot cut systems bottom out around 25mm because of heater and insulation bulk. The MT-A710 slits below 13mm — the narrow webbing, label tape, and strap widths where fused edges matter most.",
+      },
+      {
+        question: "What is the difference between hot cut and razor cut for shrink film?",
+        answer:
+          "Razor cut slices the film cold: cheap and simple, but the open edge frays, curls, and splits in downstream handling. Hot cut melts through the web and fuses the edge in the same pass, sealing loose fibers and film layers together. For synthetic webs where edge integrity matters, the fused edge is the product advantage.",
+      },
+      {
+        question: "Which materials are suitable for hot cut slitting?",
+        answer:
+          "Thermoplastics — materials that melt cleanly: polyolefin shrink films, woven and nonwoven synthetics, webbing, straps, and label tapes. Materials that char rather than melt (paper, cotton, aramids) are not hot cut candidates; if you are unsure how your material behaves, we run a free cut test and send back samples.",
       },
     ],
   },

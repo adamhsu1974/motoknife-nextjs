@@ -9,7 +9,13 @@ import { isLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { pageMetadata } from "@/lib/i18n/metadata";
 import { getSeriesInfo } from "@/lib/series";
-import { SOLUTIONS, getSolutionBySlug, modelSlug, type Solution } from "@/lib/data/solutions";
+import {
+  SOLUTIONS,
+  SOLUTIONS_LAST_UPDATED,
+  getSolutionBySlug,
+  modelSlug,
+  type Solution,
+} from "@/lib/data/solutions";
 import { fetchApplicationBySlug } from "@/lib/cms";
 
 export const revalidate = 3600;
@@ -91,6 +97,14 @@ export default async function SolutionPage({ params }: SolutionPageProps) {
                 <h1 className="mt-4 text-2xl font-bold leading-tight text-text-primary md:text-3xl">
                   {solution.title}
                 </h1>
+
+                <p className="mt-2 text-sm text-text-secondary">
+                  {dict.common.lastUpdated}:{" "}
+                  {new Date(SOLUTIONS_LAST_UPDATED).toLocaleDateString(
+                    lang === "zh-tw" ? "zh-TW" : "en-US",
+                    { year: "numeric", month: "long" },
+                  )}
+                </p>
 
                 <div className="mt-6 space-y-4">
                   {solution.intro.map((paragraph) => (
