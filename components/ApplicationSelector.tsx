@@ -69,18 +69,20 @@ export default function ApplicationSelector({ lang, dict, materials }: Applicati
   const recommendations = option ? groupByMethod(option.products) : [];
 
   return (
-    <div className="rounded-lg bg-navy p-6 text-white md:p-8">
+    <div className="rounded-lg border border-border bg-white p-6 shadow-sm md:p-8">
       {/* Header */}
       <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
         <div>
-          <h2 className="text-xl font-bold md:text-2xl">{dict.selector.title}</h2>
-          <p className="mt-1 max-w-xl text-sm text-white/60">{dict.selector.subtitle}</p>
+          <h2 className="text-xl font-medium text-text-primary md:text-2xl">
+            {dict.selector.title}
+          </h2>
+          <p className="mt-1 max-w-xl text-sm text-text-secondary">{dict.selector.subtitle}</p>
         </div>
         {step > 1 && (
           <button
             type="button"
             onClick={reset}
-            className="shrink-0 rounded border border-white/30 px-4 py-2 text-xs font-medium text-white/80 transition-colors hover:border-white/60 hover:text-white"
+            className="shrink-0 rounded border border-border-strong px-4 py-2 text-xs font-medium text-text-secondary transition-colors hover:border-orange hover:text-orange-text"
           >
             {dict.selector.restart}
           </button>
@@ -93,7 +95,7 @@ export default function ApplicationSelector({ lang, dict, materials }: Applicati
           <div
             key={s}
             className={`h-1 flex-1 rounded-full transition-colors ${
-              s <= step ? "bg-orange" : "bg-white/15"
+              s <= step ? "bg-orange" : "bg-border"
             }`}
           />
         ))}
@@ -102,17 +104,17 @@ export default function ApplicationSelector({ lang, dict, materials }: Applicati
       {/* Step 1: Material */}
       {step === 1 && (
         <div className="mt-6">
-          <p className="text-sm font-semibold">{dict.selector.stepMaterial}</p>
+          <p className="text-sm font-medium text-text-primary">{dict.selector.stepMaterial}</p>
           <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {materials.map((m) => (
               <button
                 key={m.id}
                 type="button"
                 onClick={() => setMaterial(m)}
-                className="rounded-lg border border-white/15 p-4 text-left transition-all hover:border-orange hover:bg-white/5"
+                className="rounded-lg border border-border p-4 text-left transition-colors hover:border-orange"
               >
-                <p className="font-semibold">{m.name}</p>
-                <p className="mt-1 line-clamp-2 text-xs text-white/50">{m.examples}</p>
+                <p className="font-medium text-text-primary">{m.name}</p>
+                <p className="mt-1 line-clamp-2 text-xs text-text-secondary">{m.examples}</p>
               </button>
             ))}
           </div>
@@ -126,25 +128,25 @@ export default function ApplicationSelector({ lang, dict, materials }: Applicati
             <button
               type="button"
               onClick={() => setMaterial(null)}
-              className="rounded border border-white/30 px-3 py-1.5 text-xs text-white/70 transition-colors hover:text-white"
+              className="rounded border border-border-strong px-3 py-1.5 text-xs text-text-secondary transition-colors hover:border-orange hover:text-orange-text"
             >
               ← {dict.selector.back}
             </button>
-            <span className="rounded-sm bg-orange/20 px-2.5 py-1 text-xs font-medium text-orange">
+            <span className="rounded-sm bg-orange-soft px-2.5 py-1 text-xs font-medium text-orange-text">
               {material.name}
             </span>
           </div>
-          <p className="mt-5 text-sm font-semibold">{dict.selector.stepThickness}</p>
+          <p className="mt-5 text-sm font-medium text-text-primary">{dict.selector.stepThickness}</p>
           <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {material.options.map((t) => (
               <button
                 key={t.id}
                 type="button"
                 onClick={() => setOption(t)}
-                className="rounded-lg border border-white/15 p-4 text-left transition-all hover:border-orange hover:bg-white/5"
+                className="rounded-lg border border-border p-4 text-left transition-colors hover:border-orange"
               >
-                <p className="font-semibold">{t.label}</p>
-                {t.note && <p className="mt-1 text-xs text-white/50">{t.note}</p>}
+                <p className="font-medium text-text-primary">{t.label}</p>
+                {t.note && <p className="mt-1 text-xs text-text-secondary">{t.note}</p>}
               </button>
             ))}
           </div>
@@ -158,24 +160,24 @@ export default function ApplicationSelector({ lang, dict, materials }: Applicati
             <button
               type="button"
               onClick={() => setOption(null)}
-              className="rounded border border-white/30 px-3 py-1.5 text-xs text-white/70 transition-colors hover:text-white"
+              className="rounded border border-border-strong px-3 py-1.5 text-xs text-text-secondary transition-colors hover:border-orange hover:text-orange-text"
             >
               ← {dict.selector.back}
             </button>
-            <span className="rounded-sm bg-orange/20 px-2.5 py-1 text-xs font-medium text-orange">
+            <span className="rounded-sm bg-orange-soft px-2.5 py-1 text-xs font-medium text-orange-text">
               {material.name}
             </span>
-            <span className="rounded-sm bg-white/10 px-2.5 py-1 text-xs font-medium text-white/70">
+            <span className="rounded-sm bg-bg-secondary px-2.5 py-1 text-xs font-medium text-text-secondary">
               {option.label}
             </span>
           </div>
 
-          <p className="mt-5 text-sm font-semibold">{dict.selector.stepResult}</p>
+          <p className="mt-5 text-sm font-medium text-text-primary">{dict.selector.stepResult}</p>
           <div className="mt-4 space-y-4">
             {recommendations.map((rec) => (
               <div
                 key={rec.cuttingMethod}
-                className="rounded-lg bg-white p-5 text-text-primary"
+                className="rounded-lg border border-border bg-white p-5 text-text-primary"
               >
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                   <div>
@@ -187,7 +189,7 @@ export default function ApplicationSelector({ lang, dict, materials }: Applicati
                         <Link
                           key={p.slug}
                           href={`/${lang}/products/model/${p.slug}`}
-                          className="rounded bg-bg-card px-3 py-1.5 text-sm font-bold transition-colors hover:bg-orange-soft hover:text-orange-text"
+                          className="rounded bg-bg-secondary px-3 py-1.5 text-sm font-medium transition-colors hover:bg-orange-soft hover:text-orange-text"
                         >
                           {p.model}
                         </Link>
@@ -210,7 +212,7 @@ export default function ApplicationSelector({ lang, dict, materials }: Applicati
             ))}
           </div>
 
-          <p className="mt-4 text-xs leading-relaxed text-white/50">
+          <p className="mt-4 text-xs leading-relaxed text-text-secondary">
             {dict.selector.disclaimer}
           </p>
 

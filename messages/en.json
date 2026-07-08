@@ -149,7 +149,19 @@
     "downloadsHeading": "Downloads",
     "catalogFile": "Product Catalog (PDF)",
     "relatedSolutions": "Related Solutions",
-    "usingMethod": "Products using this method"
+    "usingMethod": "Products using this method",
+    "compareHeading": "Compare Within This Cutting Method",
+    "currentModel": "This model",
+    "faqMethodQ": "What cutting method does the {model} use?",
+    "faqMethodA": "The {model} is a {method} knife holder, designed and manufactured by MOTOKNIFE in Taiwan.",
+    "faqMinSlitQ": "What is the minimum slit width of the {model}?",
+    "faqMinSlitA": "The minimum slit width of the {model} is {value}.",
+    "faqSpeedQ": "What is the maximum line speed of the {model}?",
+    "faqSpeedA": "The {model} supports line speeds of {value}.",
+    "faqMaterialsQ": "Which materials can the {model} cut?",
+    "faqMaterialsA": "The {model} is commonly used for {materials}.",
+    "faqLeadTimeQ": "How fast can the {model} be delivered?",
+    "faqLeadTimeA": "Standard models are dispatched from warehouse stock within 3 working days. Custom configurations are quoted individually — contact us with your requirements for an exact lead time."
   },
   "services": {
     "test": {
@@ -227,8 +239,8 @@
   },
   "home": {
     "heroEyebrow": "Made in Taiwan · Since 1990",
-    "heroLine1": "PRECISION SLITTING",
-    "heroLine2": "KNIFE HOLDERS & KNIVES",
+    "heroLine1": "Precision slitting",
+    "heroLine2": "knife holders & knives",
     "heroSubtitle": "Knife holders and slitting knives that cut film, foil, paper, and nonwovens to precise width — trusted by converters in 50+ countries.",
     "advantagesHeading": "The MOTOKNIFE Difference",
     "advantages": [

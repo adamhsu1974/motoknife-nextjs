@@ -50,27 +50,26 @@ export default async function ServicesPage({ params }: ServicesPageProps) {
       <MaterialTestHowToJsonLd />
 
       {/* ── 1. Test & Report（旗艦，視覺最突出） ─────────────── */}
-      <section className="overflow-hidden rounded-lg bg-navy text-white">
-        <div className="h-1.5 bg-gradient-to-r from-orange via-orange to-orange/40" />
+      <section className="overflow-hidden rounded-lg bg-white shadow-sm">
         <div className="p-8 md:p-12">
           <p className="eyebrow">{s.test.eyebrow}</p>
-          <h2 className="mt-3 max-w-2xl text-2xl font-bold md:text-4xl">
+          <h2 className="mt-3 max-w-2xl text-2xl font-medium text-text-primary md:text-[2rem]/[1.2]">
             {s.test.heading}
           </h2>
-          <p className="mt-4 max-w-2xl leading-relaxed text-white/60">{s.test.sub}</p>
+          <p className="mt-4 max-w-2xl leading-relaxed text-text-secondary">{s.test.sub}</p>
 
           {/* 三步驟流程 */}
           <div className="mt-10 grid gap-6 md:grid-cols-3">
             {s.test.steps.map((step, i) => (
-              <div key={step} className="relative rounded-lg border border-white/10 bg-white/[0.03] p-6">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-orange font-heading text-lg font-bold text-white">
+              <div key={step} className="relative rounded-lg border border-border p-6">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-orange text-lg font-medium text-white">
                   {i + 1}
                 </div>
-                <p className="mt-4 font-semibold">{step}</p>
+                <p className="mt-4 font-medium text-text-primary">{step}</p>
                 {i < 2 && (
                   <span
                     aria-hidden
-                    className="absolute right-[-14px] top-1/2 hidden -translate-y-1/2 text-white/30 md:block"
+                    className="absolute right-[-14px] top-1/2 hidden -translate-y-1/2 text-border-strong md:block"
                   >
                     →
                   </span>
@@ -81,13 +80,13 @@ export default async function ServicesPage({ params }: ServicesPageProps) {
 
           {/* 報告內容 */}
           <div className="mt-10">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-white/60">
+            <h3 className="text-sm font-medium uppercase tracking-wider text-text-secondary">
               {s.test.reportHeading}
             </h3>
             <ul className="mt-4 grid gap-3 sm:grid-cols-2">
               {s.test.reportItems.map((item) => (
-                <li key={item} className="flex items-center gap-2 text-sm text-white/85">
-                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-orange/20 text-xs text-orange">
+                <li key={item} className="flex items-center gap-2 text-sm text-text-primary">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-orange-soft text-xs text-orange-text">
                     ✓
                   </span>
                   {item}
@@ -98,7 +97,7 @@ export default async function ServicesPage({ params }: ServicesPageProps) {
 
           {/* 常見測試材料（內部連結 → Applications） */}
           <div className="mt-10">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-white/60">
+            <h3 className="text-sm font-medium uppercase tracking-wider text-text-secondary">
               {s.test.materialsHeading}
             </h3>
             <div className="mt-3 flex flex-wrap gap-2">
@@ -106,7 +105,7 @@ export default async function ServicesPage({ params }: ServicesPageProps) {
                 <Link
                   key={app.slug}
                   href={`/${locale}/applications/${app.slug}`}
-                  className="rounded-sm border border-white/20 px-3 py-1.5 text-xs font-medium text-white/70 transition-colors hover:border-orange hover:text-orange"
+                  className="rounded-sm border border-border-strong px-3 py-1.5 text-xs font-medium text-text-secondary transition-colors hover:border-orange hover:text-orange-text"
                 >
                   {app.title}
                 </Link>
@@ -179,10 +178,10 @@ function ServiceCard({
 }) {
   return (
     <div className="flex flex-col rounded-lg bg-white p-6 shadow-sm md:p-8">
-      <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-orange-soft text-orange">
+      <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-orange-soft text-orange-text">
         {icon}
       </div>
-      <h2 className="mt-5 text-lg font-bold text-text-primary">{title}</h2>
+      <h2 className="mt-5 text-lg font-medium text-text-primary">{title}</h2>
       <div className="mt-3 flex-1">{children}</div>
       <div className="mt-6">
         <CTAButton href={href} variant="outline-dark" size="sm">

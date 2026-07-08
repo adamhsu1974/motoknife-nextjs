@@ -3,101 +3,11 @@
 import { useEffect } from "react";
 import Link from "next/link";
 
+import { buildCompareRows } from "@/lib/compare";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import type { Product } from "@/lib/payload-types";
-import { getSeriesInfo, FAMILY_TIER_LABELS } from "@/lib/series";
-import { populated } from "@/lib/relations";
-
-/* ─── Spec extraction ─────────────────────────────────────── */
-
-function detailedSpec(product: Product, labels: string[]): string {
-  for (const label of labels) {
-    const spec = product.detailedSpecs?.find((s) => s.label === label);
-    if (spec) return spec.note ? `${spec.value} (${spec.note})` : spec.value;
-  }
-  return "—";
-}
-
-function withNote(value?: string | null, note?: string | null): string {
-  if (!value) return "—";
-  return note ? `${value} (${note})` : value;
-}
-
-function firstNumber(value: string): number | undefined {
-  const match = value.match(/[\d.]+/);
-  return match ? Number(match[0]) : undefined;
-}
-
-function lastNumber(value: string): number | undefined {
-  const matches = value.match(/[\d.]+/g);
-  return matches ? Number(matches[matches.length - 1]) : undefined;
-}
-
-/**
- * 優勢值判定規則（2026-07-07 GM 校正）：
- * - 最小分切寬度：數值最小者最佳（窄幅能力）
- * - 分條速度：最大者最佳（分切效率），取標示中的極限值（up to）
- * - 刀片直徑：最大者最佳（刀片壽命）
- * - 適用材料：數量最多者最佳（泛用性）
- */
-function bestIndexes(values: (number | undefined)[], direction: "min" | "max"): Set<number> {
-  const defined = values.filter((v): v is number => v !== undefined);
-  if (defined.length < 2) return new Set();
-  const best = direction === "min" ? Math.min(...defined) : Math.max(...defined);
-  return new Set(values.flatMap((v, i) => (v === best ? [i] : [])));
-}
-
-interface CompareRow {
-  label: string;
-  values: string[];
-  best: Set<number>;
-}
-
-function buildRows(products: Product[], dict: Dictionary): CompareRow[] {
-  const minSlit = products.map((p) =>
-    withNote(p.keySpecs?.minSlitWidth?.standard, p.keySpecs?.minSlitWidth?.condition),
-  );
-  const speed = products.map((p) =>
-    withNote(p.keySpecs?.maxSpeed?.standard, p.keySpecs?.maxSpeed?.condition),
-  );
-  const blade = products.map((p) => detailedSpec(p, ["Blade Diameter", "Blade"]));
-  const materialCounts = products.map((p) => populated(p.applications).length);
-
-  return [
-    {
-      label: dict.products.colMethod,
-      values: products.map((p) =>
-        p.cuttingMethod ? (getSeriesInfo(p.cuttingMethod)?.cuttingMethod ?? p.cuttingMethod) : "—",
-      ),
-      best: new Set<number>(),
-    },
-    {
-      label: dict.products.colMinSlit,
-      values: minSlit,
-      best: bestIndexes(minSlit.map(firstNumber), "min"),
-    },
-    {
-      label: dict.products.colSpeed,
-      values: speed,
-      best: bestIndexes(speed.map(lastNumber), "max"),
-    },
-    {
-      label: dict.products.colBlade,
-      values: blade,
-      best: bestIndexes(blade.map(firstNumber), "max"),
-    },
-    {
-      label: dict.products.colMaterials,
-      values: products.map((p) =>
-        populated<{ title: string }>(p.applications)
-          .map((a) => a.title)
-          .join(", ") || "—",
-      ),
-      best: bestIndexes(materialCounts, "max"),
-    },
-  ];
-}
+import { FAMILY_TIER_LABELS } from "@/lib/series";
 
 /* ─── Floating compare bar ────────────────────────────────── */
 
@@ -124,7 +34,7 @@ export function CompareBar({ products, dict, onRemove, onClear, onCompare }: Com
               key={p.slug}
               type="button"
               onClick={() => onRemove(p.slug)}
-              className="flex items-center gap-1.5 rounded-sm bg-bg-card px-3 py-1.5 text-xs font-medium text-text-primary transition-colors hover:bg-orange-soft"
+              className="flex items-center gap-1.5 rounded-sm bg-bg-secondary px-3 py-1.5 text-xs font-medium text-text-primary transition-colors hover:bg-orange-soft"
               aria-label={`Remove ${p.model} from comparison`}
             >
               {p.model}
@@ -174,7 +84,7 @@ export function CompareModal({ products, lang, dict, onClose }: CompareModalProp
     };
   }, [onClose]);
 
-  const rows = buildRows(products, dict);
+  const rows = buildCompareRows(products, dict);
   const quoteHref = `/${lang}/contact?models=${encodeURIComponent(
     products.map((p) => p.model).join(", "),
   )}`;
@@ -197,13 +107,13 @@ export function CompareModal({ products, lang, dict, onClose }: CompareModalProp
       <div className="relative max-h-[85vh] w-full max-w-4xl overflow-auto rounded-lg bg-white shadow-2xl">
         {/* Header */}
         <div className="sticky top-0 flex items-center justify-between border-b border-border bg-white px-6 py-4">
-          <h2 className="text-lg font-bold text-text-primary">
+          <h2 className="text-lg font-medium text-text-primary">
             {dict.products.compareTitle}
           </h2>
           <button
             type="button"
             onClick={onClose}
-            className="flex h-9 w-9 items-center justify-center rounded text-text-secondary transition-colors hover:bg-bg-card hover:text-text-primary"
+            className="flex h-9 w-9 items-center justify-center rounded text-text-secondary transition-colors hover:bg-bg-secondary hover:text-text-primary"
             aria-label={dict.products.close}
           >
             ✕
@@ -222,7 +132,7 @@ export function CompareModal({ products, lang, dict, onClose }: CompareModalProp
                   <th key={p.slug} className="px-3 py-3 text-left">
                     <Link
                       href={`/${lang}/products/model/${p.slug}`}
-                      className="font-heading text-base font-bold text-text-primary hover:text-orange"
+                      className="text-base font-medium text-text-primary transition-colors hover:text-orange-text"
                     >
                       {p.model}
                     </Link>
@@ -235,7 +145,7 @@ export function CompareModal({ products, lang, dict, onClose }: CompareModalProp
             </thead>
             <tbody>
               {rows.map((row, rowIndex) => (
-                <tr key={row.label} className={rowIndex % 2 === 0 ? "bg-bg-card" : ""}>
+                <tr key={row.label} className={rowIndex % 2 === 0 ? "bg-bg-secondary" : ""}>
                   <td className="px-3 py-3 align-top font-medium text-text-secondary">
                     {row.label}
                   </td>
@@ -244,13 +154,13 @@ export function CompareModal({ products, lang, dict, onClose }: CompareModalProp
                       key={`${row.label}-${products[i].slug}`}
                       className={`px-3 py-3 align-top ${
                         row.best.has(i)
-                          ? "font-semibold text-orange"
+                          ? "font-semibold text-orange-text"
                           : "text-text-primary"
                       }`}
                     >
                       {value}
                       {row.best.has(i) && (
-                        <span className="ml-1.5 rounded-sm bg-orange-soft px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-orange">
+                        <span className="ml-1.5 rounded-sm bg-orange-soft px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-orange-text">
                           {dict.products.bestValue}
                         </span>
                       )}

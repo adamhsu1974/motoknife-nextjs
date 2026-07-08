@@ -6,10 +6,11 @@ interface FaqItem {
 interface FaqSectionProps {
   heading: string;
   items: FaqItem[];
+  className?: string;
 }
 
 /** 頁面可見 FAQ（原生 details/summary）+ 同源 FAQPage JSON-LD，符合 Google 結構化資料規範 */
-export default function FaqSection({ heading, items }: FaqSectionProps) {
+export default function FaqSection({ heading, items, className = "mt-16" }: FaqSectionProps) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -24,21 +25,21 @@ export default function FaqSection({ heading, items }: FaqSectionProps) {
   };
 
   return (
-    <section className="mt-16">
+    <section className={className}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <h2 className="text-2xl font-bold text-text-primary">{heading}</h2>
+      <h2 className="text-2xl font-medium text-text-primary">{heading}</h2>
       <div className="mt-6 space-y-3">
         {items.map((item) => (
           <details
             key={item.question}
             className="group rounded-lg bg-white shadow-sm open:shadow-md"
           >
-            <summary className="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 text-text-primary transition-colors hover:text-orange [&::-webkit-details-marker]:hidden">
-              <h3 className="text-sm font-semibold">{item.question}</h3>
-              <span className="shrink-0 text-orange transition-transform group-open:rotate-45">
+            <summary className="flex cursor-pointer items-center justify-between gap-4 px-6 py-4 text-text-primary transition-colors hover:text-orange-text [&::-webkit-details-marker]:hidden">
+              <h3 className="text-sm font-medium">{item.question}</h3>
+              <span className="shrink-0 text-orange-text transition-transform group-open:rotate-45">
                 <PlusIcon />
               </span>
             </summary>

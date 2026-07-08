@@ -62,13 +62,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           { name: article.title },
         ]}
       />
-      <div className="bg-bg-warm py-16 md:py-24">
+      <div className="bg-bg-secondary py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
           {/* Breadcrumb */}
           <nav className="mb-8 text-sm text-text-secondary">
-            <Link href={`/${lang}`} className="hover:text-orange">{dict.common.home}</Link>
+            <Link href={`/${lang}`} className="transition-colors hover:text-orange-text">{dict.common.home}</Link>
             <span className="mx-2">/</span>
-            <Link href={`/${lang}/news`} className="hover:text-orange">
+            <Link href={`/${lang}/news`} className="transition-colors hover:text-orange-text">
               {dict.news.heading}
             </Link>
             <span className="mx-2">/</span>
@@ -80,7 +80,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             <article className="lg:col-span-2">
               <div className="rounded-lg bg-white p-6 shadow-sm md:p-10">
                 <div className="flex items-center gap-3 text-xs">
-                  <span className="rounded-sm bg-orange-soft px-2 py-0.5 font-semibold text-orange">
+                  <span className="rounded-sm bg-orange-soft px-2 py-0.5 font-semibold text-orange-text">
                     {categoryLabel(article.category, dict)}
                   </span>
                   <time dateTime={article.publishedDate} className="text-text-secondary">
@@ -88,7 +88,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   </time>
                 </div>
 
-                <h1 className="mt-4 text-2xl font-bold leading-tight text-text-primary md:text-3xl">
+                <h1 className="mt-4 text-2xl font-medium leading-tight text-text-primary md:text-3xl">
                   {article.title}
                 </h1>
                 {article.excerpt && (
@@ -97,12 +97,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   </p>
                 )}
 
-                {/* Cover placeholder */}
-                <div className="mt-8 flex h-64 items-center justify-center rounded bg-bg-card md:h-80">
-                  <span className="px-4 text-center text-sm text-text-secondary/40">
-                    {article.title}
-                  </span>
-                </div>
+                {/* Neutral image slot — 文章封面到位後原位替換 */}
+                <div aria-hidden className="mt-8 h-64 rounded-lg bg-bg-tertiary md:h-80" />
 
                 {/* Content */}
                 <div className="mt-10">
@@ -137,8 +133,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
                 {/* Related products */}
                 {relatedProducts.length > 0 && (
-                  <div className="rounded-lg bg-navy p-6 text-white">
-                    <h2 className="text-sm font-semibold uppercase tracking-wider text-white/80">
+                  <div className="rounded-lg border border-border bg-white p-6 shadow-sm">
+                    <h2 className="text-sm font-medium uppercase tracking-wider text-text-secondary">
                       {dict.news.relatedProducts}
                     </h2>
                     <ul className="mt-3 space-y-2">
@@ -148,10 +144,10 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                             href={`/${lang}/products/model/${p.slug}`}
                             className="group flex items-baseline justify-between gap-2 text-sm"
                           >
-                            <span className="font-medium text-white transition-colors group-hover:text-orange">
+                            <span className="font-medium text-text-primary transition-colors group-hover:text-orange-text">
                               {p.model}
                             </span>
-                            <span className="text-xs text-white/50">
+                            <span className="text-xs text-text-secondary">
                               {p.familyTier
                                 ? (FAMILY_TIER_LABELS[p.familyTier] ?? p.familyTier)
                                 : ""}

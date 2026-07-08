@@ -53,7 +53,7 @@ export default async function ProductsPage({ params }: ProductsPageProps) {
 
       {/* Blades & Guide Bars */}
       <div className="mt-16">
-        <h2 className="text-2xl font-bold text-text-primary">
+        <h2 className="text-2xl font-medium text-text-primary">
           {dict.products.accessoriesHeading}
         </h2>
         <p className="mt-2 text-text-secondary">{dict.products.accessoriesSub}</p>
@@ -64,7 +64,7 @@ export default async function ProductsPage({ params }: ProductsPageProps) {
               href={`/${lang}/products/${s.slug}`}
               className="group rounded-lg border border-transparent bg-white p-6 shadow-sm transition-colors hover:border-orange"
             >
-              <h3 className="text-lg font-semibold text-text-primary">{s.fullName}</h3>
+              <h3 className="text-lg font-medium text-text-primary">{s.fullName}</h3>
               <p className="mt-1 text-sm text-text-secondary">{s.tagline}</p>
               <span className="mt-3 inline-block text-sm font-medium text-orange-text">
                 {dict.common.viewSeries} →
@@ -78,7 +78,7 @@ export default async function ProductsPage({ params }: ProductsPageProps) {
       <div className="mt-12 rounded-lg border border-border bg-white p-8">
         <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
           <div>
-            <h2 className="text-xl font-bold text-text-primary">
+            <h2 className="text-xl font-medium text-text-primary">
               {dict.products.fullCatalogHeading}
             </h2>
             <p className="mt-2 max-w-xl text-sm text-text-secondary">
@@ -96,11 +96,11 @@ export default async function ProductsPage({ params }: ProductsPageProps) {
       </div>
 
       {/* Cutting Methods knowledge link */}
-      <div className="mt-12 rounded-lg bg-navy p-8 text-white">
+      <div className="mt-12 rounded-lg border border-border bg-white p-8 shadow-sm">
         <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
           <div>
-            <h2 className="text-xl font-bold">{dict.common.cuttingMethods}</h2>
-            <p className="mt-2 max-w-xl text-sm text-white/70">
+            <h2 className="text-xl font-medium text-text-primary">{dict.common.cuttingMethods}</h2>
+            <p className="mt-2 max-w-xl text-sm text-text-secondary">
               Not sure which cutting method fits your material? Learn how Score
               Cut, Shear Cut, Half Cut, and Hot Cut work.
             </p>

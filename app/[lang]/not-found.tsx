@@ -47,14 +47,14 @@ export default function NotFound() {
   const copy = COPY[lang];
 
   return (
-    <div className="flex min-h-[calc(100vh-56px)] items-center bg-hero-black">
+    <div className="flex min-h-[calc(100vh-56px)] items-center bg-white">
       <div className="mx-auto w-full max-w-2xl px-4 py-20 text-center">
-        <p className="font-heading text-8xl font-bold text-orange">404</p>
-        <h1 className="mt-4 text-2xl font-bold text-white md:text-3xl">{copy.title}</h1>
-        <p className="mx-auto mt-4 max-w-md text-white/60">{copy.text}</p>
+        <p className="text-8xl font-medium text-text-muted">404</p>
+        <h1 className="mt-4 text-2xl font-medium text-text-primary md:text-3xl">{copy.title}</h1>
+        <p className="mx-auto mt-4 max-w-md text-text-secondary">{copy.text}</p>
 
-        <div className="mx-auto mt-10 max-w-md rounded-lg border border-white/10 bg-white/[0.03] p-6 text-left">
-          <p className="text-xs font-semibold uppercase tracking-wider text-white/50">
+        <div className="mx-auto mt-10 max-w-md rounded-lg border border-border p-6 text-left">
+          <p className="text-xs font-medium uppercase tracking-wider text-text-secondary">
             {copy.suggestionsLabel}
           </p>
           <ul className="mt-3 space-y-2">
@@ -62,7 +62,7 @@ export default function NotFound() {
               <li key={item.href}>
                 <Link
                   href={`/${lang}${item.href}`}
-                  className="text-sm text-white/80 transition-colors hover:text-orange"
+                  className="text-sm text-text-secondary transition-colors hover:text-orange-text"
                 >
                   {item.label} →
                 </Link>

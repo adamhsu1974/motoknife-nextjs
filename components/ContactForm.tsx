@@ -157,13 +157,13 @@ export default function ContactForm({
   // Success state — 24-hour response commitment
   if (status === "success") {
     return (
-      <div className="bg-bg-warm py-16 md:py-24">
+      <div className="bg-white py-16 md:py-24">
         <div className="mx-auto max-w-2xl px-4 text-center">
-          <div className="rounded-lg bg-white p-8 shadow-sm md:p-12">
+          <div className="rounded-lg border border-border bg-white p-8 md:p-12">
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
               <CheckIcon />
             </div>
-            <h1 className="mt-6 text-2xl font-bold text-text-primary">
+            <h1 className="mt-6 text-2xl font-medium text-text-primary">
               {dict.contact.successTitle}
             </h1>
             <p className="mt-3 leading-relaxed text-text-secondary">
@@ -186,11 +186,11 @@ export default function ContactForm({
   }
 
   return (
-    <div className="bg-bg-warm py-16 md:py-24">
+    <div className="bg-white py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         {/* Breadcrumb */}
         <nav className="mb-8 text-sm text-text-secondary">
-          <Link href={`/${lang}`} className="hover:text-orange">{dict.common.home}</Link>
+          <Link href={`/${lang}`} className="transition-colors hover:text-orange-text">{dict.common.home}</Link>
           <span className="mx-2">/</span>
           <span className="text-text-primary">{dict.nav.contact}</span>
         </nav>
@@ -198,10 +198,9 @@ export default function ContactForm({
         <div className="grid gap-12 lg:grid-cols-5">
           {/* Left: Info */}
           <div className="lg:col-span-2">
-            <h1 className="text-3xl font-bold text-text-primary md:text-4xl">
+            <h1 className="text-3xl font-medium text-text-primary md:text-[2.5rem]/[1.15]">
               {dict.contact.heading}
             </h1>
-            <div className="mt-3 h-1 w-16 bg-orange" />
             <p className="mt-6 leading-relaxed text-text-secondary">
               {dict.contact.intro}
             </p>
@@ -229,7 +228,7 @@ export default function ContactForm({
           </div>
 
           {/* Right: Form */}
-          <div className="rounded-lg bg-white p-6 shadow-sm md:p-8 lg:col-span-3">
+          <div className="rounded-lg border border-border bg-white p-6 md:p-8 lg:col-span-3">
             {/* WhatsApp 快速通道 — 表單上方顯眼處 */}
             <div className="mb-8">
               <a
@@ -267,7 +266,7 @@ export default function ContactForm({
                     className={`rounded-sm px-4 py-2 text-sm font-medium transition-colors ${
                       requestType === type.value
                         ? "bg-orange text-white"
-                        : "bg-bg-card text-text-secondary hover:text-text-primary"
+                        : "bg-bg-secondary text-text-secondary hover:text-text-primary"
                     }`}
                   >
                     {type.label}
@@ -293,7 +292,7 @@ export default function ContactForm({
                 <div className="sm:col-span-2">
                   <label htmlFor="country" className="mb-1 block text-sm text-text-secondary">
                     {dict.contact.labelCountry}
-                    <span className="text-orange"> *</span>
+                    <span className="text-orange-text"> *</span>
                   </label>
                   <input
                     id="country"
@@ -301,7 +300,7 @@ export default function ContactForm({
                     required
                     value={country}
                     onChange={(e) => setCountry(e.target.value)}
-                    className="w-full rounded border border-border px-3 py-2.5 text-sm text-text-primary"
+                    className="w-full rounded border border-border-strong bg-bg-tertiary px-3 py-2.5 text-sm text-text-primary focus:outline-2 focus:outline-orange"
                   />
                   {/* 通路衝突策略：有代理商的地區引導當地代理商 */}
                   {distributor && (
@@ -313,7 +312,7 @@ export default function ContactForm({
                       </p>
                       <Link
                         href={`/${lang}/distributors`}
-                        className="mt-2 inline-block font-semibold text-orange hover:text-orange-hover"
+                        className="mt-2 inline-block font-semibold text-orange-text underline-offset-4 hover:underline"
                       >
                         {dict.contact.distributorsPageLink} →
                       </Link>
@@ -336,7 +335,7 @@ export default function ContactForm({
                       id="productType"
                       name="productType"
                       defaultValue={prefill.productType}
-                      className="w-full rounded border border-border bg-white px-3 py-2.5 text-sm text-text-primary"
+                      className="w-full rounded border border-border-strong bg-bg-tertiary px-3 py-2.5 text-sm text-text-primary focus:outline-2 focus:outline-orange"
                     >
                       <option value="">{dict.contact.notSure}</option>
                       {PRODUCT_TYPE_LABELS.map((t) => (
@@ -356,7 +355,7 @@ export default function ContactForm({
                       defaultValue={
                         materialOptions.includes(prefill.material) ? prefill.material : ""
                       }
-                      className="w-full rounded border border-border bg-white px-3 py-2.5 text-sm text-text-primary"
+                      className="w-full rounded border border-border-strong bg-bg-tertiary px-3 py-2.5 text-sm text-text-primary focus:outline-2 focus:outline-orange"
                     >
                       <option value="">{dict.contact.selectPlaceholder}</option>
                       {materialOptions.map((m) => (
@@ -387,7 +386,7 @@ export default function ContactForm({
                     name="message"
                     rows={4}
                     defaultValue={prefill.message}
-                    className="w-full rounded border border-border px-3 py-2.5 text-sm text-text-primary"
+                    className="w-full rounded border border-border-strong bg-bg-tertiary px-3 py-2.5 text-sm text-text-primary focus:outline-2 focus:outline-orange"
                   />
                 </div>
               </div>
@@ -429,7 +428,7 @@ function FormField({
     <div>
       <label htmlFor={name} className="mb-1 block text-sm text-text-secondary">
         {label}
-        {required && <span className="text-orange"> *</span>}
+        {required && <span className="text-orange-text"> *</span>}
       </label>
       <input
         id={name}
@@ -438,7 +437,7 @@ function FormField({
         required={required}
         defaultValue={defaultValue}
         placeholder={placeholder}
-        className="w-full rounded border border-border px-3 py-2.5 text-sm text-text-primary placeholder:text-text-secondary/50"
+        className="w-full rounded border border-border-strong bg-bg-tertiary px-3 py-2.5 text-sm text-text-primary placeholder:text-text-secondary focus:outline-2 focus:outline-orange"
       />
     </div>
   );

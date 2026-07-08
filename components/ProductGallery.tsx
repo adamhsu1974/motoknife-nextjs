@@ -16,7 +16,7 @@ export default function ProductGallery({ images }: { images: GalleryImage[] }) {
   return (
     <div className="mb-6">
       {/* 主圖 */}
-      <div className="relative h-56 overflow-hidden rounded bg-bg-card md:h-72">
+      <div className="relative h-64 overflow-hidden rounded-lg bg-bg-tertiary md:h-96">
         <Image
           key={active.url}
           src={active.url}
@@ -38,7 +38,7 @@ export default function ProductGallery({ images }: { images: GalleryImage[] }) {
               onClick={() => setActiveIndex(i)}
               aria-pressed={i === activeIndex}
               aria-label={img.alt}
-              className={`relative h-16 w-20 shrink-0 overflow-hidden rounded border-2 bg-bg-card transition-colors ${
+              className={`relative h-16 w-20 shrink-0 overflow-hidden rounded border-2 bg-bg-tertiary transition-colors ${
                 i === activeIndex
                   ? "border-orange"
                   : "border-border hover:border-text-secondary"

@@ -30,9 +30,6 @@
   /* Neutrals */
   --color-text-primary: #1a1a1a;
   --color-text-secondary: #666666;
-  /* deprecated（v1 遺產，part 2/3 改版時以 white/bg-secondary/bg-tertiary 汰換） */
-  --color-bg-warm: #f7f7f5;
-  --color-bg-card: #f1f1ed;
   --color-border: #ececec;
 
   /* Typography（CJK fallback 供 zh-tw 內容） */
@@ -49,28 +46,29 @@ body {
   color: var(--color-text-primary);
 }
 
+/* 錨點捲動（產品頁子導覽）：平滑捲動尊重 prefers-reduced-motion */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 ::selection {
   background: var(--color-orange);
   color: #ffffff;
 }
 
-/* Eyebrow — 區塊小標（橙色大寫細字距），Devialet 式排版慣用 */
+/* Eyebrow — 區塊小標（v2：Barlow Condensed、淺底用深橙 #B84D08 保 AA） */
 @utility eyebrow {
+  font-family: var(--font-heading);
   font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.13em;
   text-transform: uppercase;
-  color: var(--color-orange);
+  color: var(--color-orange-text);
 }
 
-/* Section heading underline accent */
-@utility heading-accent {
-  &::after {
-    content: "";
-    display: block;
-    margin-top: 0.75rem;
-    height: 0.25rem;
-    width: 4rem;
-    background: var(--color-orange);
-  }
+/* 深色保留區（Footer / 結尾 CTA）上的 eyebrow：亮橙在深底 ≈6:1 */
+@utility eyebrow-dark {
+  color: var(--color-orange);
 }

@@ -117,7 +117,7 @@ components:
 ### Named Rules
 **The Action Color Rule.** 橘色只做動作色：按鈕、連結、eyebrow。頁面本體幾乎無色，色彩讓給產品照片。任一畫面橙佔比 ≤5%，第二飽和色禁止（WhatsApp 綠例外）。
 **The Legible Orange Rule.** 白/淺灰是全站預設場地：小於 18px 的橙色文字（含 eyebrow、連結）一律 #B84D08；#F47920 僅限按鈕底色、大字與深色底。
-**The White Stage Rule.** 區塊切換用 #FFFFFF ↔ #F5F6F7 背景交替，不用線條硬切。深色區塊全站僅三處：Navbar（可選）、Footer、結尾 CTA（收尾重心）。
+**The White Stage Rule.** 區塊切換用 #FFFFFF ↔ #F5F6F7 背景交替，不用線條硬切。深色區塊全站僅二處：Footer、結尾 CTA（收尾重心）——Navbar 已定案白底。
 
 > **已知 AA 例外（2026-07-08 業主核可）**：橙底（#F47920）白字按鈕 2.76:1，低於 AA 4.5:1。屬品牌級刻意取捨（DJI/Apple 同款作法），audit 時視為 documented exception，不再重報。其餘文字一律嚴格 AA。
 
@@ -171,9 +171,9 @@ components:
 - **Placeholder:** ≥4.5:1（用 Text Secondary，不用 Muted）
 
 ### Navigation
-- 深色 Navbar 可選保留（navy）或轉白底——part 2 決定；sticky + `shadow-md`
+- **Navbar 白底（2026-07-08 part 2 定案）**：白底 + hairline 底線、黑字連結（hover 轉 Ink + 橙色底線），捲動時加 `shadow-md`；下拉選單白底 + hairline + `shadow-md`
 - 固定橙色「Get a Quote」CTA 常駐——每頁可見，不可移除
-- Apple 式 sticky 產品子導覽：產品頁內錨點導覽列
+- Apple 式 sticky 產品子導覽（`ProductSubnav`）：型號名｜Overview · Specs · 3D View · Drawings｜Get a Quote，錨點捲動 + scroll spy，舊 `#specs` 等 hash 向下相容
 
 ### Signature: Neutral Image Slot（中性留白圖位）
 素材未到位時的標準佔位：BG Tertiary (#FAFAFA) 色塊 + 固定 aspect-ratio + 無任何文字/註記。**開發註記、假素材、灰字說明一律禁止上線**（v1 P0 教訓）。素材到位後原位替換，版面零位移。

@@ -18,25 +18,21 @@ const CUTTING_METHODS = [
     slug: "score-cut",
     name: "Score Cut",
     description: "Circular blade against a hardened anvil roller — clean edges on films, paper, and nonwovens.",
-    spec: "Min. slit width 8mm",
   },
   {
     slug: "shear-cut",
     name: "Shear Cut",
     description: "Scissor-action precision for metallic foils, heavy board, and thick films.",
-    spec: "Burr-free foil edges",
   },
   {
     slug: "half-cut",
     name: "Half Cut",
     description: "Cuts the top layer, keeps the liner intact — built for medical laminates and labels.",
-    spec: "Micrometer depth control",
   },
   {
     slug: "hot-cut",
     name: "Hot Cut",
     description: "Heated blade fuses synthetic edges while cutting — no fraying, no loose fibers.",
-    spec: "< 13mm slit width · 600°C",
   },
 ] as const;
 
@@ -68,98 +64,79 @@ export default async function Home({ params }: HomePageProps) {
 
   return (
     <div>
-      {/* ── Section 1: Hero ─────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-hero-black">
-        {/* Subtle radial glow */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(ellipse 80% 60% at 50% 110%, rgba(244,121,32,0.12), transparent 60%)",
-          }}
-        />
+      {/* ── Section 1: Hero（白色舞台 + 產品渲染圖位） ─────────── */}
+      <section className="bg-white">
         <Reveal
           mode="mount"
           stagger
-          y={28}
-          className="relative mx-auto flex min-h-[calc(100vh-56px)] max-w-7xl flex-col items-center justify-center px-4 py-20 text-center"
+          y={16}
+          className="mx-auto max-w-7xl px-4 pt-14 text-center md:pt-20"
         >
           <p className="eyebrow">{dict.home.heroEyebrow}</p>
-          <h1 className="mt-5 font-heading text-5xl font-bold tracking-tight text-white md:text-7xl">
+          <h1 className="mx-auto mt-4 max-w-3xl text-[clamp(2.5rem,2rem+1.5vw,3rem)] font-medium leading-[1.15] tracking-[-0.01em] text-text-primary">
             {dict.home.heroLine1}
             <br />
-            <span className="text-orange">{dict.home.heroLine2}</span>
+            {dict.home.heroLine2}
           </h1>
-          <p className="mx-auto mt-6 max-w-xl text-lg text-white/60">
+          <p className="mx-auto mt-5 max-w-xl leading-relaxed text-text-secondary">
             {dict.home.heroSubtitle}
           </p>
-          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <CTAButton href={`/${locale}/products`} size="lg">
               {dict.common.exploreProducts}
             </CTAButton>
-            <CTAButton href={`/${locale}/contact`} variant="outline-light" size="lg">
+            <CTAButton href={`/${locale}/contact`} variant="outline-dark" size="lg">
               {dict.home.ctaButton}
             </CTAButton>
           </div>
+          {/* Neutral image slot — 產品渲染圖位（素材到位原位替換，零位移） */}
+          <div
+            aria-hidden
+            className="mx-auto mt-12 aspect-[16/7] w-full max-w-5xl rounded-lg bg-bg-tertiary"
+          />
         </Reveal>
+        <div className="h-14 md:h-20" />
       </section>
 
-      {/* ── Section 1.5: Why MOTOKNIFE 信任數字 ─────────────── */}
+      {/* ── Section 2: Why MOTOKNIFE 信任條 ─────────────────── */}
       <WhyMotoknife dict={dict} />
 
-      {/* ── Section 2: 3 Core Advantages ────────────────────── */}
-      <section className="bg-white py-20 md:py-28">
-        <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          <h2 className="heading-accent text-3xl font-bold text-text-primary md:text-4xl">
-            {dict.home.advantagesHeading}
-          </h2>
-          <Reveal stagger className="mt-12 grid gap-10 md:grid-cols-3">
-            {dict.home.advantages.map((adv) => (
-              <div key={adv.title} className="border-t-2 border-border pt-6">
-                <h3 className="text-xl font-bold text-text-primary">{adv.title}</h3>
-                <p className="mt-3 leading-relaxed text-text-secondary">{adv.text}</p>
-              </div>
-            ))}
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── Section 3: Product Categories ───────────────────── */}
-      <section className="bg-bg-warm py-20 md:py-28">
+      {/* ── Section 3: Products（2×2 白卡） ─────────────────── */}
+      <section className="bg-bg-secondary py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
           <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
             <div>
-              <h2 className="heading-accent text-3xl font-bold text-text-primary md:text-4xl">
+              <h2 className="text-[1.75rem]/[1.2] font-medium text-text-primary md:text-[2rem]/[1.2]">
                 {dict.home.productsHeading}
               </h2>
-              <p className="mt-4 text-text-secondary">{dict.home.productsSub}</p>
+              <p className="mt-3 text-text-secondary">{dict.home.productsSub}</p>
             </div>
             <Link
               href={`/${locale}/products`}
-              className="shrink-0 text-sm font-semibold text-orange-text underline-offset-4 transition-colors hover:underline"
+              className="shrink-0 text-sm font-medium text-orange-text underline-offset-4 transition-colors hover:underline"
             >
               {dict.home.viewAllProducts} →
             </Link>
           </div>
 
-          <Reveal stagger className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <Reveal stagger className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2">
             {CUTTING_METHODS.map((method) => (
               <Link
                 key={method.slug}
                 href={`/${locale}/products/${method.slug}`}
-                className="group rounded-lg border border-transparent bg-white p-6 shadow-sm transition-colors duration-200 hover:border-orange"
+                className="group overflow-hidden rounded-lg border border-transparent bg-white shadow-sm transition-colors duration-200 hover:border-orange"
               >
-                <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-orange-soft text-orange">
-                  <MethodIcon slug={method.slug} />
+                {/* Neutral image slot — 切法產品圖位 */}
+                <div aria-hidden className="aspect-[16/9] min-h-[150px] w-full bg-bg-tertiary" />
+                <div className="p-6">
+                  <h3 className="text-lg font-medium text-text-primary">{method.name}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-text-secondary">
+                    {method.description}
+                  </p>
+                  <p className="mt-4 text-sm font-medium text-orange-text">
+                    {dict.common.learnMore} →
+                  </p>
                 </div>
-                <h3 className="mt-5 text-lg font-bold text-text-primary">{method.name}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-text-secondary">
-                  {method.description}
-                </p>
-                <p className="mt-4 text-xs font-semibold uppercase tracking-wider text-orange-text">
-                  {method.spec}
-                </p>
               </Link>
             ))}
           </Reveal>
@@ -167,39 +144,39 @@ export default async function Home({ params }: HomePageProps) {
       </section>
 
       {/* ── Section 4: Industry Applications ────────────────── */}
-      <section className="bg-navy py-20 md:py-28">
+      <section className="bg-white py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
           <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
             <div>
-              <h2 className="heading-accent text-3xl font-bold text-white md:text-4xl">
+              <h2 className="text-[1.75rem]/[1.2] font-medium text-text-primary md:text-[2rem]/[1.2]">
                 {dict.home.applicationsHeading}
               </h2>
-              <p className="mt-4 text-white/60">{dict.home.applicationsSub}</p>
+              <p className="mt-3 text-text-secondary">{dict.home.applicationsSub}</p>
             </div>
             <Link
               href={`/${locale}/applications`}
-              className="shrink-0 text-sm font-semibold text-orange underline-offset-4 transition-colors hover:underline"
+              className="shrink-0 text-sm font-medium text-orange-text underline-offset-4 transition-colors hover:underline"
             >
               {dict.home.viewAllApplications} →
             </Link>
           </div>
 
-          <Reveal stagger className="mt-12 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-5">
+          <Reveal stagger className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
             {applications.map((app) => {
               const solution = primarySolutionForApplication(app.slug);
               return (
                 <div
                   key={app.slug}
-                  className="flex flex-col items-center gap-3 rounded-lg border border-white/10 p-6 text-center transition-all hover:border-orange hover:bg-white/5"
+                  className="flex flex-col items-center gap-3 rounded-lg border border-border p-6 text-center transition-colors hover:border-orange"
                 >
                   <Link
                     href={`/${locale}/applications/${app.slug}`}
                     className="group flex flex-col items-center gap-4"
                   >
-                    <div className="flex h-16 w-16 items-center justify-center rounded-full border border-white/20 transition-colors group-hover:border-orange group-hover:text-orange">
+                    <div className="flex h-16 w-16 items-center justify-center rounded-full border border-border-strong text-text-secondary transition-colors group-hover:border-orange group-hover:text-orange-text">
                       <MaterialIcon slug={app.slug} />
                     </div>
-                    <span className="text-sm font-medium text-white/80 transition-colors group-hover:text-orange">
+                    <span className="text-sm font-medium text-text-primary transition-colors group-hover:text-orange-text">
                       {app.title}
                     </span>
                   </Link>
@@ -207,7 +184,7 @@ export default async function Home({ params }: HomePageProps) {
                   {solution && (
                     <Link
                       href={`/${locale}/solutions/${solution.slug}`}
-                      className="text-xs text-white/55 underline-offset-2 transition-colors hover:text-orange hover:underline"
+                      className="text-xs text-text-secondary underline-offset-2 transition-colors hover:text-orange-text hover:underline"
                     >
                       {solution.material} →
                     </Link>
@@ -219,16 +196,33 @@ export default async function Home({ params }: HomePageProps) {
         </div>
       </section>
 
-      {/* ── Section 5: Distributor Map Preview ──────────────── */}
-      <section className="bg-navy-dark py-20 md:py-28">
+      {/* ── Section 5: The MOTOKNIFE Difference ─────────────── */}
+      <section className="bg-bg-secondary py-16 md:py-24">
+        <div className="mx-auto max-w-7xl px-4 lg:px-8">
+          <h2 className="text-[1.75rem]/[1.2] font-medium text-text-primary md:text-[2rem]/[1.2]">
+            {dict.home.advantagesHeading}
+          </h2>
+          <Reveal stagger className="mt-10 grid gap-10 md:grid-cols-3">
+            {dict.home.advantages.map((adv) => (
+              <div key={adv.title} className="border-t border-border-strong pt-6">
+                <h3 className="text-lg font-medium text-text-primary">{adv.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-text-secondary">{adv.text}</p>
+              </div>
+            ))}
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── Section 6: Distributor Map Preview ──────────────── */}
+      <section className="bg-white py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
           <Reveal stagger className="grid items-center gap-12 lg:grid-cols-2">
             <div>
               <p className="eyebrow">{dict.home.mapEyebrow}</p>
-              <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">
+              <h2 className="mt-3 text-[1.75rem]/[1.2] font-medium text-text-primary md:text-[2rem]/[1.2]">
                 {dict.home.mapHeading}
               </h2>
-              <p className="mt-5 leading-relaxed text-white/60">{dict.home.mapText}</p>
+              <p className="mt-5 leading-relaxed text-text-secondary">{dict.home.mapText}</p>
               <div className="mt-8">
                 <CTAButton href={`/${locale}/distributors`} size="lg">
                   {dict.home.mapCta}
@@ -236,32 +230,30 @@ export default async function Home({ params }: HomePageProps) {
               </div>
             </div>
 
-            <div className="rounded-lg border border-white/10 bg-white/[0.03] p-8">
-              <div className="grid grid-cols-2 gap-4">
-                {distributorCountries.map((country) => (
-                  <Link
-                    key={country.countryCode}
-                    href={`/${locale}/distributors`}
-                    className="group flex items-center gap-3 rounded border border-white/10 px-4 py-3 transition-colors hover:border-orange"
-                  >
-                    <span className="h-2 w-2 shrink-0 rounded-full bg-orange" />
-                    <div>
-                      <p className="text-sm font-semibold text-white transition-colors group-hover:text-orange">
-                        {country.countryName}
-                      </p>
-                      <p className="text-xs text-white/55">{country.region}</p>
-                    </div>
-                  </Link>
-                ))}
-              </div>
+            <div className="grid grid-cols-2 gap-4">
+              {distributorCountries.map((country) => (
+                <Link
+                  key={country.countryCode}
+                  href={`/${locale}/distributors`}
+                  className="group flex items-center gap-3 rounded border border-border px-4 py-3 transition-colors hover:border-orange"
+                >
+                  <span className="h-2 w-2 shrink-0 rounded-full bg-orange" />
+                  <div>
+                    <p className="text-sm font-medium text-text-primary transition-colors group-hover:text-orange-text">
+                      {country.countryName}
+                    </p>
+                    <p className="text-xs text-text-secondary">{country.region}</p>
+                  </div>
+                </Link>
+              ))}
             </div>
           </Reveal>
         </div>
       </section>
 
-      {/* ── Section 6: Quote CTA ────────────────────────────── */}
+      {/* ── Section 7: Quote CTA（深色收尾重心） ─────────────── */}
       <section className="relative overflow-hidden bg-hero-black py-16 md:py-20">
-        {/* Stage glow — 與 Hero 呼應的書擋 */}
+        {/* Stage glow */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0"
@@ -271,7 +263,7 @@ export default async function Home({ params }: HomePageProps) {
           }}
         />
         <Reveal className="relative mx-auto max-w-3xl px-4 text-center">
-          <h2 className="text-2xl font-bold text-white md:text-3xl">
+          <h2 className="text-2xl font-medium text-white md:text-3xl">
             {dict.home.ctaHeading}
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-white/60">{dict.home.ctaText}</p>
@@ -285,47 +277,6 @@ export default async function Home({ params }: HomePageProps) {
       </section>
     </div>
   );
-}
-
-/* ─── Cutting method icons ────────────────────────────────── */
-
-function MethodIcon({ slug }: { slug: string }) {
-  const icons: Record<string, React.ReactNode> = {
-    "score-cut": (
-      // Circular blade pressing on anvil roller
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="9" r="6" />
-        <circle cx="12" cy="9" r="1.5" />
-        <path d="M3 19h18" />
-      </svg>
-    ),
-    "shear-cut": (
-      // Two offset blades (scissor action)
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="9" cy="9" r="5.5" />
-        <circle cx="15" cy="15" r="5.5" />
-      </svg>
-    ),
-    "half-cut": (
-      // Blade cutting partial depth into layered material
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 3v9" />
-        <path d="M9 9l3 3 3-3" />
-        <path d="M3 16h18" />
-        <path d="M3 20h18" />
-      </svg>
-    ),
-    "hot-cut": (
-      // Heated blade with heat waves
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 4v10" />
-        <path d="M8 6c0 2 1 2.5 1 4s-1 2-1 4" />
-        <path d="M16 6c0 2-1 2.5-1 4s1 2 1 4" />
-        <path d="M4 20h16" />
-      </svg>
-    ),
-  };
-  return <>{icons[slug]}</>;
 }
 
 /* ─── Material icons ──────────────────────────────────────── */
@@ -406,5 +357,5 @@ function MaterialIcon({ slug }: { slug: string }) {
     </svg>
   );
 
-  return <span className="text-white/60">{iconMap[slug] ?? fallback}</span>;
+  return <>{iconMap[slug] ?? fallback}</>;
 }

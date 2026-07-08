@@ -75,7 +75,7 @@ export default function ModelViewer({ src, alt, fullscreenLabel }: ModelViewerPr
     <div
       ref={containerRef}
       onContextMenu={(e) => e.preventDefault()}
-      className="relative h-96 w-full overflow-hidden rounded-lg bg-bg-card md:h-[480px]"
+      className="relative h-96 w-full overflow-hidden rounded-lg bg-bg-tertiary md:h-[480px]"
     >
       {/* Loading spinner */}
       {!modelLoaded && (

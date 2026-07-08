@@ -24,7 +24,7 @@ export default function ApplicationPage({
   const relatedSolutions = getSolutionsForApplication(application.slug);
 
   return (
-    <div className="bg-bg-warm py-16 md:py-24">
+    <div className="bg-bg-secondary py-16 md:py-24">
       <BreadcrumbJsonLd
         items={[
           { name: "Home", path: `/${lang}` },
@@ -35,9 +35,9 @@ export default function ApplicationPage({
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         {/* Breadcrumb */}
         <nav className="mb-8 text-sm text-text-secondary">
-          <Link href={`/${lang}`} className="hover:text-orange">Home</Link>
+          <Link href={`/${lang}`} className="transition-colors hover:text-orange-text">Home</Link>
           <span className="mx-2">/</span>
-          <Link href={`/${lang}/applications`} className="hover:text-orange">Applications</Link>
+          <Link href={`/${lang}/applications`} className="transition-colors hover:text-orange-text">Applications</Link>
           <span className="mx-2">/</span>
           <span className="text-text-primary">{application.title}</span>
         </nav>
@@ -47,7 +47,7 @@ export default function ApplicationPage({
           <div className="space-y-8 lg:col-span-2">
             {/* Header */}
             <div className="rounded-lg bg-white p-6 shadow-sm md:p-8">
-              <h1 className="text-2xl font-bold text-text-primary md:text-3xl">
+              <h1 className="text-2xl font-medium text-text-primary md:text-3xl">
                 {application.title}
               </h1>
 
@@ -57,7 +57,7 @@ export default function ApplicationPage({
                   {coverage.map((c) => (
                     <span
                       key={c.id ?? c.material}
-                      className="rounded-sm bg-bg-card px-3 py-1.5 text-sm text-text-primary"
+                      className="rounded-sm bg-bg-secondary px-3 py-1.5 text-sm text-text-primary"
                     >
                       {c.material}
                     </span>
@@ -87,7 +87,7 @@ export default function ApplicationPage({
             {/* Pain points 痛點敘事 */}
             {application.painPoints && (
               <div className="rounded-lg bg-white p-6 shadow-sm md:p-8">
-                <h2 className="text-lg font-bold text-text-primary">
+                <h2 className="text-lg font-medium text-text-primary">
                   Material Challenges
                 </h2>
                 <div className="mt-4">
@@ -99,7 +99,7 @@ export default function ApplicationPage({
             {/* Selection logic 選擇邏輯 */}
             {application.selectionLogic && (
               <div className="rounded-lg bg-white p-6 shadow-sm md:p-8">
-                <h2 className="text-lg font-bold text-text-primary">
+                <h2 className="text-lg font-medium text-text-primary">
                   Choosing the Cutting Method
                 </h2>
                 <div className="mt-4">
@@ -111,7 +111,7 @@ export default function ApplicationPage({
             {/* Recommended Products */}
             {recommendations.length > 0 && (
               <div className="rounded-lg bg-white p-6 shadow-sm md:p-8">
-                <h2 className="text-lg font-bold text-text-primary">
+                <h2 className="text-lg font-medium text-text-primary">
                   Recommended Products
                 </h2>
                 <div className="mt-4 space-y-4">
@@ -128,7 +128,7 @@ export default function ApplicationPage({
                           <Link
                             key={p.slug}
                             href={`/${lang}/products/model/${p.slug}`}
-                            className="rounded bg-bg-card px-3 py-1.5 text-sm font-bold text-text-primary transition-colors hover:bg-orange-soft hover:text-orange-text"
+                            className="rounded bg-bg-secondary px-3 py-1.5 text-sm font-medium text-text-primary transition-colors hover:bg-orange-soft hover:text-orange-text"
                           >
                             {p.model}
                           </Link>
@@ -146,7 +146,7 @@ export default function ApplicationPage({
             {/* Related Solutions（內部連結網絡） */}
             {relatedSolutions.length > 0 && (
               <div className="rounded-lg bg-white p-6 shadow-sm md:p-8">
-                <h2 className="text-lg font-bold text-text-primary">Related Solutions</h2>
+                <h2 className="text-lg font-medium text-text-primary">Related Solutions</h2>
                 <ul className="mt-4 grid gap-3 sm:grid-cols-2">
                   {relatedSolutions.map((solution) => (
                     <li key={solution.slug}>
@@ -173,11 +173,11 @@ export default function ApplicationPage({
           <div className="lg:col-span-1">
             <div className="sticky top-20 space-y-6">
               {/* Quote CTA */}
-              <div className="rounded-lg bg-navy p-6 text-white">
-                <h3 className="text-lg font-bold">
+              <div className="rounded-lg border border-border bg-white p-6 shadow-sm">
+                <h3 className="text-lg font-medium text-text-primary">
                   Cutting {application.title}?
                 </h3>
-                <p className="mt-2 text-sm text-white/70">
+                <p className="mt-2 text-sm text-text-secondary">
                   Tell us your specifications and we&apos;ll recommend the
                   optimal setup for your application.
                 </p>
@@ -191,7 +191,7 @@ export default function ApplicationPage({
 
               {/* Other Materials */}
               <div className="rounded-lg bg-white p-6 shadow-sm">
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-text-secondary">
+                <h3 className="text-sm font-medium uppercase tracking-wider text-text-secondary">
                   Other Applications
                 </h3>
                 <ul className="mt-3 space-y-2">

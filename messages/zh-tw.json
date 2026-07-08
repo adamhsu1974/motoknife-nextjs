@@ -149,7 +149,19 @@
     "downloadsHeading": "下載",
     "catalogFile": "產品型錄（PDF）",
     "relatedSolutions": "相關解決方案",
-    "usingMethod": "使用此切法的產品"
+    "usingMethod": "使用此切法的產品",
+    "compareHeading": "同切法型號比較",
+    "currentModel": "本頁型號",
+    "faqMethodQ": "{model} 採用哪種切割方式？",
+    "faqMethodA": "{model} 為 MOTOKNIFE 於台灣設計製造的{method}刀座。",
+    "faqMinSlitQ": "{model} 的最小分切寬度是多少？",
+    "faqMinSlitA": "{model} 的最小分切寬度為 {value}。",
+    "faqSpeedQ": "{model} 的最高線速是多少？",
+    "faqSpeedA": "{model} 支援的線速為 {value}。",
+    "faqMaterialsQ": "{model} 適合切割哪些材料？",
+    "faqMaterialsA": "{model} 常用於{materials}。",
+    "faqLeadTimeQ": "{model} 的交期多久？",
+    "faqLeadTimeA": "標準型號自倉庫備貨，3 個工作天內出貨；客製規格另行報價——請提供您的需求，我們將回覆確切交期。"
   },
   "services": {
     "test": {

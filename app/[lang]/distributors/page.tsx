@@ -46,9 +46,9 @@ export default async function DistributorsPage({ params }: DistributorsPageProps
       <DistributorsMap lang={lang} dict={dict} countries={countries} />
 
       {/* Become a distributor */}
-      <div className="mt-12 rounded-lg bg-navy p-8 text-white">
+      <div className="mt-12 rounded-lg border border-border bg-white p-8 shadow-sm">
         <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
-          <h2 className="text-xl font-bold">{dict.distributors.becomeDistributor}</h2>
+          <h2 className="text-xl font-medium text-text-primary">{dict.distributors.becomeDistributor}</h2>
           <Link
             href={`/${lang}/contact`}
             className="shrink-0 rounded bg-orange px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-hover"

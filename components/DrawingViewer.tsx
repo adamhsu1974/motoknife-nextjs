@@ -137,7 +137,7 @@ export default function DrawingViewer({
         onPointerUp={onPointerUp}
         onPointerCancel={onPointerUp}
         onDoubleClick={reset}
-        className={`relative h-96 w-full touch-none overflow-hidden rounded-lg border border-border bg-bg-warm md:h-[480px] ${
+        className={`relative h-96 w-full touch-none overflow-hidden rounded-lg border border-border bg-bg-tertiary md:h-[480px] ${
           isDragging ? "cursor-grabbing" : "cursor-grab"
         }`}
       >
@@ -206,7 +206,7 @@ export default function DrawingViewer({
               type="button"
               onClick={() => switchImage(i)}
               aria-pressed={i === activeIndex}
-              className={`h-20 w-28 overflow-hidden rounded border-2 bg-bg-warm transition-colors ${
+              className={`h-20 w-28 overflow-hidden rounded border-2 bg-bg-tertiary transition-colors ${
                 i === activeIndex ? "border-orange" : "border-border hover:border-text-secondary"
               }`}
             >

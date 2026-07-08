@@ -24,13 +24,13 @@ export default function ProductSeriesPage({ series, products, lang }: ProductSer
           { name: series.name },
         ]}
       />
-      <div className="bg-bg-warm py-16 md:py-24">
+      <div className="bg-bg-secondary py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
           {/* Breadcrumb */}
           <nav className="mb-8 text-sm text-text-secondary">
-            <Link href={`/${lang}`} className="hover:text-orange">Home</Link>
+            <Link href={`/${lang}`} className="transition-colors hover:text-orange-text">Home</Link>
             <span className="mx-2">/</span>
-            <Link href={`/${lang}/products`} className="hover:text-orange">Products</Link>
+            <Link href={`/${lang}/products`} className="transition-colors hover:text-orange-text">Products</Link>
             <span className="mx-2">/</span>
             <span className="text-text-primary">{series.name}</span>
           </nav>
@@ -40,17 +40,13 @@ export default function ProductSeriesPage({ series, products, lang }: ProductSer
             <div className="lg:col-span-2">
               {/* Series Header */}
               <div className="rounded-lg bg-white p-6 shadow-sm md:p-8">
-                {/* Image placeholder */}
-                <div className="mb-6 flex h-48 items-center justify-center rounded bg-bg-card md:h-64">
-                  <span className="text-lg text-text-secondary/30">
-                    {series.name} Product Photo
-                  </span>
-                </div>
+                {/* Neutral image slot — 系列產品照到位後原位替換 */}
+                <div aria-hidden className="mb-6 h-48 rounded-lg bg-bg-tertiary md:h-64" />
 
                 <span className="inline-block rounded-sm bg-orange-soft px-2.5 py-1 text-xs font-medium text-orange-text">
                   {series.cuttingMethod}
                 </span>
-                <h1 className="mt-3 text-2xl font-bold text-text-primary md:text-3xl">
+                <h1 className="mt-3 text-2xl font-medium text-text-primary md:text-3xl">
                   {series.fullName}
                 </h1>
                 <p className="mt-2 text-text-secondary">{series.tagline}</p>
@@ -59,10 +55,10 @@ export default function ProductSeriesPage({ series, products, lang }: ProductSer
                 </p>
 
                 {/* Key Specs */}
-                <div className="mt-8 grid grid-cols-2 gap-4 rounded-lg bg-bg-card p-5 sm:grid-cols-4">
+                <div className="mt-8 grid grid-cols-2 gap-4 rounded-lg bg-bg-secondary p-5 sm:grid-cols-4">
                   {series.keySpecs.map((spec) => (
                     <div key={spec.label} className="text-center">
-                      <p className="text-lg font-bold text-text-primary">
+                      <p className="text-lg font-medium text-text-primary">
                         {spec.value}
                       </p>
                       <p className="mt-0.5 text-xs text-text-secondary">
@@ -75,14 +71,14 @@ export default function ProductSeriesPage({ series, products, lang }: ProductSer
 
                 {/* Suitable Materials */}
                 <div className="mt-8">
-                  <h2 className="text-sm font-semibold uppercase tracking-wider text-text-secondary">
+                  <h2 className="text-sm font-medium uppercase tracking-wider text-text-secondary">
                     Suitable Materials
                   </h2>
                   <div className="mt-3 flex flex-wrap gap-2">
                     {series.materials.map((mat) => (
                       <span
                         key={mat}
-                        className="rounded-sm bg-bg-card px-3 py-1.5 text-sm text-text-primary"
+                        className="rounded-sm bg-bg-secondary px-3 py-1.5 text-sm text-text-primary"
                       >
                         {mat}
                       </span>
@@ -93,7 +89,7 @@ export default function ProductSeriesPage({ series, products, lang }: ProductSer
 
               {/* Models List */}
               <div className="mt-8">
-                <h2 className="mb-6 text-xl font-bold text-text-primary">
+                <h2 className="mb-6 text-xl font-medium text-text-primary">
                   Available Models
                 </h2>
                 <div className="space-y-4">
@@ -105,11 +101,11 @@ export default function ProductSeriesPage({ series, products, lang }: ProductSer
                       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                         <div className="flex-1">
                           <div className="flex items-center gap-2">
-                            <h3 className="font-heading text-lg font-bold text-text-primary">
+                            <h3 className="text-lg font-medium text-text-primary">
                               {product.model}
                             </h3>
                             {product.familyTier && (
-                              <span className="rounded-sm bg-bg-card px-2 py-0.5 text-xs text-text-secondary">
+                              <span className="rounded-sm bg-bg-secondary px-2 py-0.5 text-xs text-text-secondary">
                                 {FAMILY_TIER_LABELS[product.familyTier] ?? product.familyTier}
                               </span>
                             )}
@@ -157,9 +153,9 @@ export default function ProductSeriesPage({ series, products, lang }: ProductSer
             {/* Sidebar */}
             <div className="lg:col-span-1">
               <div className="sticky top-20 space-y-6">
-                <div className="rounded-lg bg-navy p-6 text-white">
-                  <h3 className="text-lg font-bold">Need Help Choosing?</h3>
-                  <p className="mt-2 text-sm text-white/70">
+                <div className="rounded-lg border border-border bg-white p-6 shadow-sm">
+                  <h3 className="text-lg font-medium text-text-primary">Need Help Choosing?</h3>
+                  <p className="mt-2 text-sm text-text-secondary">
                     Tell us your material and application. We&apos;ll recommend
                     the right {series.name} holder for you.
                   </p>
@@ -173,7 +169,7 @@ export default function ProductSeriesPage({ series, products, lang }: ProductSer
 
                 {/* Related Series */}
                 <div className="rounded-lg bg-white p-6 shadow-sm">
-                  <h3 className="text-sm font-semibold uppercase tracking-wider text-text-secondary">
+                  <h3 className="text-sm font-medium uppercase tracking-wider text-text-secondary">
                     Other Series
                   </h3>
                   <ul className="mt-3 space-y-2">

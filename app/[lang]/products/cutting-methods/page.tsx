@@ -57,7 +57,7 @@ export default async function CuttingMethodsPage({ params }: CuttingMethodsPageP
           const methodProducts = products.filter((p) => p.cuttingMethod === method.slug);
           return (
             <div key={method.slug} className="rounded-lg bg-white p-6 shadow-sm">
-              <h2 className="text-lg font-semibold text-text-primary">{method.name}</h2>
+              <h2 className="text-lg font-medium text-text-primary">{method.name}</h2>
               <p className="mt-2 text-sm leading-relaxed text-text-secondary">{method.desc}</p>
 
               {/* Products using this method（內部連結網絡） */}
@@ -71,7 +71,7 @@ export default async function CuttingMethodsPage({ params }: CuttingMethodsPageP
                       <Link
                         key={p.slug}
                         href={`/${lang}/products/model/${p.slug}`}
-                        className="rounded-sm bg-bg-card px-2.5 py-1 text-xs font-medium text-text-primary transition-colors hover:bg-orange-soft hover:text-orange-text"
+                        className="rounded-sm bg-bg-secondary px-2.5 py-1 text-xs font-medium text-text-primary transition-colors hover:bg-orange-soft hover:text-orange-text"
                       >
                         {p.model}
                       </Link>

@@ -89,21 +89,20 @@ export default async function AboutPage({ params }: AboutPageProps) {
         ]}
       />
       {/* Hero */}
-      <section className="bg-navy py-16 md:py-24">
+      <section className="bg-white py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          <nav className="mb-8 text-sm text-white/55">
-            <Link href={`/${lang}`} className="hover:text-white/70">{dict.common.home}</Link>
+          <nav className="mb-8 text-sm text-text-secondary">
+            <Link href={`/${lang}`} className="transition-colors hover:text-orange-text">{dict.common.home}</Link>
             <span className="mx-2">/</span>
-            <span className="text-white/70">{dict.nav.about}</span>
+            <span className="text-text-primary">{dict.nav.about}</span>
           </nav>
-          <h1 className="text-3xl font-bold text-white md:text-4xl">
+          <h1 className="text-3xl font-medium text-text-primary md:text-[2.5rem]/[1.15]">
             About MOTOKNIFE
           </h1>
-          <div className="mt-3 h-1 w-16 bg-orange" />
-          <p className="mt-6 max-w-2xl text-lg text-white/60">
+          <p className="mt-6 max-w-2xl text-lg text-text-secondary">
             36 years. 50+ countries. All precision. All Taiwan.
           </p>
-          <p className="mt-4 max-w-2xl leading-relaxed text-white/50">
+          <p className="mt-4 max-w-2xl leading-relaxed text-text-secondary">
             MOTOKNIFE (友聚工業股份有限公司) is a Taiwan-based manufacturer
             specializing in high-precision slitting knife holders and blades.
             Since 1990, we have been the trusted partner for converting
@@ -114,9 +113,9 @@ export default async function AboutPage({ params }: AboutPageProps) {
       </section>
 
       {/* Company Facts（AEO：事實密集、可直接提取的公司概述） */}
-      <section className="bg-white py-16 md:py-24">
+      <section className="bg-bg-secondary py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          <h2 className="heading-accent text-2xl font-bold text-text-primary md:text-3xl">
+          <h2 className="text-2xl font-medium text-text-primary md:text-[2rem]/[1.2]">
             Company Overview
           </h2>
           <div className="mt-8 max-w-3xl space-y-5 leading-relaxed text-text-secondary">
@@ -158,10 +157,10 @@ export default async function AboutPage({ params }: AboutPageProps) {
       <WhyMotoknife dict={dict} />
 
       {/* Brand Story Timeline */}
-      <section className="bg-navy py-16 md:py-24">
+      <section className="bg-bg-secondary py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
           <p className="eyebrow">Since 1990</p>
-          <h2 className="mt-3 text-2xl font-bold text-white md:text-3xl">
+          <h2 className="mt-3 text-2xl font-medium text-text-primary md:text-[2rem]/[1.2]">
             Innovation Milestones
           </h2>
           <div className="mt-10" data-timeline>
@@ -176,7 +175,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
           <div className="grid items-center gap-12 lg:grid-cols-2">
             <div>
               <p className="eyebrow">Vertical Integration</p>
-              <h2 className="mt-2 text-2xl font-bold text-text-primary md:text-3xl">
+              <h2 className="mt-2 text-2xl font-medium text-text-primary md:text-[2rem]/[1.2]">
                 All components designed, machined, and assembled in Taiwan
               </h2>
               <p className="mt-4 leading-relaxed text-text-secondary">
@@ -188,7 +187,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
               </p>
 
               <div className="mt-8">
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-text-secondary">
+                <h3 className="text-sm font-medium uppercase tracking-wider text-text-secondary">
                   Equipment & Capabilities
                 </h3>
                 <ul className="mt-4 space-y-2">
@@ -205,32 +204,25 @@ export default async function AboutPage({ params }: AboutPageProps) {
               </div>
             </div>
 
-            {/* Image placeholder */}
-            <div className="flex h-72 items-center justify-center rounded-lg bg-bg-card lg:h-96">
-              <span className="text-lg text-text-secondary/30">
-                Factory Photo
-              </span>
-            </div>
+            {/* Neutral image slot — 工廠照到位後原位替換 */}
+            <div aria-hidden className="h-72 rounded-lg bg-bg-tertiary lg:h-96" />
           </div>
         </div>
       </section>
 
       {/* Factory Equipment Showcase */}
-      <section className="bg-bg-warm py-16 md:py-24">
+      <section className="bg-bg-secondary py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          <h2 className="heading-accent text-2xl font-bold text-text-primary md:text-3xl">
+          <h2 className="text-2xl font-medium text-text-primary md:text-[2rem]/[1.2]">
             Inside the Factory
           </h2>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {EQUIPMENT.map((item) => (
               <figure key={item.id} className="overflow-hidden rounded-lg bg-white shadow-sm">
-                <div className="flex h-52 items-center justify-center bg-bg-card">
-                  <span className="text-sm text-text-secondary/40">
-                    {item.name} Photo
-                  </span>
-                </div>
+                {/* Neutral image slot — 設備照到位後原位替換 */}
+                <div aria-hidden className="h-52 bg-bg-tertiary" />
                 <figcaption className="p-5">
-                  <p className="font-semibold text-text-primary">{item.name}</p>
+                  <p className="font-medium text-text-primary">{item.name}</p>
                   <p className="mt-1 text-sm text-text-secondary">{item.caption}</p>
                 </figcaption>
               </figure>
@@ -242,7 +234,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
       {/* Patents */}
       <section className="bg-white py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          <h2 className="heading-accent text-2xl font-bold text-text-primary md:text-3xl">
+          <h2 className="text-2xl font-medium text-text-primary md:text-[2rem]/[1.2]">
             Multi-Country Patents
           </h2>
           <p className="mt-4 max-w-2xl text-text-secondary">
@@ -252,48 +244,24 @@ export default async function AboutPage({ params }: AboutPageProps) {
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {PATENTS.map((patent) => (
               <div key={patent.countryCode} className="rounded-lg border border-border p-6">
-                <span className="font-heading text-3xl font-bold text-orange/30">
+                <span className="text-3xl font-medium text-text-muted">
                   {patent.countryCode}
                 </span>
-                <h3 className="mt-2 font-bold text-text-primary">{patent.country}</h3>
+                <h3 className="mt-2 font-medium text-text-primary">{patent.country}</h3>
                 <p className="mt-1 text-sm text-text-secondary">{patent.title}</p>
-                <p className="mt-3 text-xs text-text-secondary/70">{patent.number}</p>
+                <p className="mt-3 text-xs text-text-secondary">{patent.number}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Certifications */}
-      <section className="bg-bg-warm py-16 md:py-24">
-        <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          <h2 className="heading-accent text-2xl font-bold text-text-primary md:text-3xl">
-            Certifications
-          </h2>
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {["Certification 1", "Certification 2", "Certification 3", "Certification 4"].map(
-              (label) => (
-                <div
-                  key={label}
-                  className="flex h-40 items-center justify-center rounded-lg border border-dashed border-border bg-white"
-                >
-                  <span className="text-sm text-text-secondary/40">
-                    {label} — document placeholder
-                  </span>
-                </div>
-              ),
-            )}
-          </div>
-        </div>
-      </section>
-
       {/* Services & Support */}
-      <section className="bg-bg-warm py-16 md:py-24">
+      <section className="bg-bg-secondary py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          <h2 className="text-2xl font-bold text-text-primary md:text-3xl">
+          <h2 className="text-2xl font-medium text-text-primary md:text-[2rem]/[1.2]">
             Services & Support
           </h2>
-          <div className="mt-3 h-1 w-16 bg-orange" />
           <p className="mt-4 max-w-2xl text-text-secondary">
             Beyond manufacturing precision cutting tools, MOTOKNIFE provides
             comprehensive technical support throughout the lifecycle of your
@@ -305,7 +273,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
                 key={service.title}
                 className="rounded-lg bg-white p-6 shadow-sm"
               >
-                <h3 className="text-lg font-bold text-text-primary">
+                <h3 className="text-lg font-medium text-text-primary">
                   {service.title}
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-text-secondary">
@@ -320,18 +288,17 @@ export default async function AboutPage({ params }: AboutPageProps) {
       {/* Process */}
       <section className="bg-white py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          <h2 className="text-2xl font-bold text-text-primary md:text-3xl">
+          <h2 className="text-2xl font-medium text-text-primary md:text-[2rem]/[1.2]">
             How We Work
           </h2>
-          <div className="mt-3 h-1 w-16 bg-orange" />
 
           <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {PROCESS_STEPS.map((item) => (
               <div key={item.step}>
-                <span className="font-heading text-4xl font-bold text-orange/20">
+                <span className="text-4xl font-medium text-text-muted">
                   {item.step}
                 </span>
-                <h3 className="mt-2 text-lg font-bold text-text-primary">
+                <h3 className="mt-2 text-lg font-medium text-text-primary">
                   {item.title}
                 </h3>
                 <p className="mt-2 text-sm text-text-secondary">{item.desc}</p>
@@ -342,12 +309,11 @@ export default async function AboutPage({ params }: AboutPageProps) {
       </section>
 
       {/* Global Network */}
-      <section className="bg-bg-warm py-16 md:py-24">
+      <section className="bg-bg-secondary py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          <h2 className="text-2xl font-bold text-text-primary md:text-3xl">
+          <h2 className="text-2xl font-medium text-text-primary md:text-[2rem]/[1.2]">
             Global Distribution Network
           </h2>
-          <div className="mt-3 h-1 w-16 bg-orange" />
           <p className="mt-4 max-w-2xl text-text-secondary">
             MOTOKNIFE products are available worldwide through our network of
             authorized distributors and direct sales.
@@ -364,19 +330,27 @@ export default async function AboutPage({ params }: AboutPageProps) {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="bg-orange py-16">
-        <div className="mx-auto max-w-3xl px-4 text-center">
-          <h2 className="text-2xl font-bold text-white md:text-3xl">
+      {/* CTA（深色收尾重心） */}
+      <section className="relative overflow-hidden bg-hero-black py-16 md:py-20">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 80% 60% at 50% 110%, rgba(244,121,32,0.12), transparent 60%)",
+          }}
+        />
+        <div className="relative mx-auto max-w-3xl px-4 text-center">
+          <h2 className="text-2xl font-medium text-white md:text-3xl">
             Partner With Us
           </h2>
-          <p className="mt-4 text-white/80">
+          <p className="mt-4 text-white/60">
             Whether you need a standard product or a custom solution, our team
             is ready to help.
           </p>
           <Link
             href={`/${lang}/contact`}
-            className="mt-8 inline-block rounded bg-white px-10 py-3.5 text-sm font-semibold text-orange-text transition-colors hover:bg-white/90"
+            className="mt-8 inline-block rounded bg-orange px-10 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-orange-hover"
           >
             Get in Touch
           </Link>

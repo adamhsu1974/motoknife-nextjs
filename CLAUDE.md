@@ -46,7 +46,7 @@
 /[lang]/products                  產品總覽（切割方式篩選器 + 比較功能 + 全目錄 PDF）
   /products/[series]              系列頁（score-cut / shear-cut / half-cut / hot-cut / knives / guide-bar）
   /products/cutting-methods       切法說明（含各切法產品連結）
-  /products/model/[slug]          型號詳情（Tab：Overview | Specs | 3D View | Drawings，URL hash 同步）
+  /products/model/[slug]          型號詳情（八段式單欄 + sticky 錨點子導覽：Overview | Specs | 3D View | Drawings，hash 直達相容）
 /[lang]/applications              應用場景（含互動選型器）
   /applications/[slug]            9 分類（CMS 驅動，PLANNING.md 第六章）
 /[lang]/solutions/[slug]          SEO 長尾頁（10 個材料×切法組合，無導覽入口、靠內鏈導流）
@@ -68,7 +68,7 @@
 Navbar（產品下拉）、Footer（雙辦公室 + 代理商連結 + WhatsApp）、FloatingCTA（WhatsApp + 詢價）、CTAButton、PageShell、WhyMotoknife、WhatsAppIcon、gsap/Reveal
 
 ### 產品
-ProductCatalog（篩選 + 比較勾選）、ProductCompare（浮動列 + 對比彈窗）、ProductSeriesPage、ProductTabs（hash 同步）、ProductGallery（主圖 + 縮圖切換）、FeatureHighlights（交錯圖文）、ModelViewer（3D GLB，經 API 代理防下載）、DrawingViewer（工程圖：縮放/平移/pinch/浮水印）、PdfDownloadButton + pdf/ProductPdfDocument（動態規格 PDF）、ProductJsonLd
+ProductCatalog（篩選 + 比較勾選）、ProductCompare（浮動列 + 對比彈窗，列資料邏輯抽於 lib/compare.ts）、ProductSeriesPage、ProductSubnav（sticky 錨點子導覽，取代 ProductTabs，#specs 等 hash 向下相容）、ProductGallery（主圖 + 縮圖切換）、FeatureHighlights（交錯圖文）、ModelViewer（3D GLB，經 API 代理防下載）、DrawingViewer（工程圖：縮放/平移/pinch/浮水印）、PdfDownloadButton + pdf/ProductPdfDocument（動態規格 PDF）、ProductJsonLd
 
 ### 應用 / 其他
 ApplicationSelector（選型器）、ApplicationPage、DistributorsMap（react-simple-maps + 手機下拉）、ContactForm、BrandTimeline、LexicalContent（richText 渲染 + 目錄錨點）、seo/BreadcrumbJsonLd、seo/FaqSection

@@ -13,7 +13,7 @@ const converters: JSXConvertersFunction = ({ defaultConverters }) => ({
     const text = nodeText(node as Parameters<typeof nodeText>[0]);
     const id = slugifyHeading(text);
     return (
-      <h2 id={id} className="scroll-mt-24 text-xl font-bold text-text-primary">
+      <h2 id={id} className="scroll-mt-24 text-xl font-medium text-text-primary">
         {nodesToJSX({ nodes: node.children })}
       </h2>
     );

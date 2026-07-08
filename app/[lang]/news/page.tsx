@@ -48,12 +48,8 @@ export default async function NewsPage({ params }: NewsPageProps) {
             href={`/${lang}/news/${article.slug}`}
             className="group flex flex-col overflow-hidden rounded-lg border border-transparent bg-white shadow-sm transition-colors hover:border-orange"
           >
-            {/* Thumbnail placeholder */}
-            <div className="flex h-44 items-center justify-center bg-bg-card">
-              <span className="px-4 text-center text-sm text-text-secondary/40">
-                {article.title}
-              </span>
-            </div>
+            {/* Neutral image slot — 文章縮圖到位後原位替換 */}
+            <div aria-hidden className="h-44 bg-bg-tertiary" />
 
             <div className="flex flex-1 flex-col p-6">
               <div className="flex items-center gap-3 text-xs">
@@ -64,7 +60,7 @@ export default async function NewsPage({ params }: NewsPageProps) {
                   {formatDate(article.publishedDate, lang)}
                 </time>
               </div>
-              <h2 className="mt-3 text-lg font-bold leading-snug text-text-primary transition-colors group-hover:text-orange">
+              <h2 className="mt-3 text-lg font-medium leading-snug text-text-primary transition-colors group-hover:text-orange-text">
                 {article.title}
               </h2>
               {article.excerpt && (

@@ -63,13 +63,13 @@ export default async function SolutionPage({ params }: SolutionPageProps) {
           { name: solution.title },
         ]}
       />
-      <div className="bg-bg-warm py-16 md:py-24">
+      <div className="bg-bg-secondary py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
           {/* Breadcrumb */}
           <nav className="mb-8 text-sm text-text-secondary">
-            <Link href={`/${lang}`} className="hover:text-orange">{dict.common.home}</Link>
+            <Link href={`/${lang}`} className="transition-colors hover:text-orange-text">{dict.common.home}</Link>
             <span className="mx-2">/</span>
-            <Link href={`/${lang}/applications`} className="hover:text-orange">
+            <Link href={`/${lang}/applications`} className="transition-colors hover:text-orange-text">
               {dict.nav.applications}
             </Link>
             <span className="mx-2">/</span>
@@ -89,12 +89,12 @@ export default async function SolutionPage({ params }: SolutionPageProps) {
                       {series.cuttingMethod}
                     </Link>
                   )}
-                  <span className="rounded-sm bg-bg-card px-2.5 py-1 text-xs text-text-secondary">
+                  <span className="rounded-sm bg-bg-secondary px-2.5 py-1 text-xs text-text-secondary">
                     {solution.material}
                   </span>
                 </div>
 
-                <h1 className="mt-4 text-2xl font-bold leading-tight text-text-primary md:text-3xl">
+                <h1 className="mt-4 text-2xl font-medium leading-tight text-text-primary md:text-3xl">
                   {solution.title}
                 </h1>
 
@@ -115,13 +115,13 @@ export default async function SolutionPage({ params }: SolutionPageProps) {
                 </div>
 
                 {/* Recommended models */}
-                <h2 className="mt-10 text-lg font-bold text-text-primary">
+                <h2 className="mt-10 text-lg font-medium text-text-primary">
                   Recommended Knife Holders
                 </h2>
                 <div className="mt-4 grid gap-4 sm:grid-cols-2">
                   {solution.recommendedModels.map((model) => (
                     <div key={model} className="rounded-lg border border-border p-5">
-                      <p className="font-heading text-xl font-bold text-text-primary">{model}</p>
+                      <p className="text-xl font-medium text-text-primary">{model}</p>
                       <div className="mt-3 flex gap-2">
                         <Link
                           href={`/${lang}/products/model/${modelSlug(model)}`}
@@ -160,9 +160,9 @@ export default async function SolutionPage({ params }: SolutionPageProps) {
             {/* Sidebar */}
             <div className="lg:col-span-1">
               <div className="sticky top-20 space-y-6">
-                <div className="rounded-lg bg-navy p-6 text-white">
-                  <h2 className="text-lg font-bold">{solution.material}</h2>
-                  <p className="mt-2 text-sm text-white/70">
+                <div className="rounded-lg border border-border bg-white p-6 shadow-sm">
+                  <h2 className="text-lg font-medium text-text-primary">{solution.material}</h2>
+                  <p className="mt-2 text-sm text-text-secondary">
                     {dict.services.test.heading}
                   </p>
                   <div className="mt-5 space-y-3">
@@ -174,7 +174,7 @@ export default async function SolutionPage({ params }: SolutionPageProps) {
                     </CTAButton>
                     <CTAButton
                       href={`/${lang}/contact?models=${encodeURIComponent(solution.recommendedModels.join(", "))}`}
-                      variant="outline-light"
+                      variant="outline-dark"
                       className="w-full"
                     >
                       {dict.nav.getAQuote}
@@ -184,7 +184,7 @@ export default async function SolutionPage({ params }: SolutionPageProps) {
 
                 {/* Other solutions */}
                 <div className="rounded-lg bg-white p-6 shadow-sm">
-                  <h2 className="text-sm font-semibold uppercase tracking-wider text-text-secondary">
+                  <h2 className="text-sm font-medium uppercase tracking-wider text-text-secondary">
                     {dict.products.relatedSolutions}
                   </h2>
                   <ul className="mt-3 space-y-2">

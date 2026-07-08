@@ -11,14 +11,17 @@ import LexicalContent from "@/components/LexicalContent";
 import ModelViewer from "@/components/ModelViewer";
 import PdfDownloadButton from "@/components/PdfDownloadButton";
 import ProductGallery from "@/components/ProductGallery";
-import ProductTabs from "@/components/ProductTabs";
+import ProductSubnav from "@/components/ProductSubnav";
+import Reveal from "@/components/gsap/Reveal";
 import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
-import { isLocale, type Locale } from "@/lib/i18n/config";
+import FaqSection from "@/components/seo/FaqSection";
+import { buildCompareRows } from "@/lib/compare";
+import { isLocale } from "@/lib/i18n/config";
 import { getDictionary, type Dictionary } from "@/lib/i18n/dictionaries";
 import { pageMetadata } from "@/lib/i18n/metadata";
 import { fetchProductBySlug, fetchProducts } from "@/lib/cms";
 import { populated, populatedOne } from "@/lib/relations";
-import { getSeriesInfo, seriesForProductType, FAMILY_TIER_LABELS } from "@/lib/series";
+import { getSeriesInfo, seriesForProductType, FAMILY_TIER_LABELS, type SeriesInfo } from "@/lib/series";
 import { getSolutionsForModel } from "@/lib/data/solutions";
 import type { Application, Media, Product } from "@/lib/payload-types";
 
@@ -44,6 +47,58 @@ export async function generateMetadata({ params }: ProductModelPageProps): Promi
     title: `${product.model} — ${product.title}`,
     description: product.tagline ?? product.title,
   });
+}
+
+/** i18n 模板填值：{model} / {method} / {value} / {materials} */
+function fill(template: string, vars: Record<string, string>): string {
+  return template.replace(/\{(\w+)\}/g, (_, key: string) => vars[key] ?? "");
+}
+
+/** 產品 FAQ（3–5 題）：由產品事實組稿，供頁面與 FAQPage JSON-LD 共用 */
+function buildProductFaqs(
+  product: Product,
+  series: SeriesInfo | undefined,
+  applications: Application[],
+  dict: Dictionary,
+): { question: string; answer: string }[] {
+  const p = dict.products;
+  const model = product.model;
+  const items: { question: string; answer: string }[] = [];
+
+  if (series) {
+    const base = fill(p.faqMethodA, { model, method: series.cuttingMethod });
+    items.push({
+      question: fill(p.faqMethodQ, { model }),
+      answer: product.tagline ? `${base} ${product.tagline}` : base,
+    });
+  }
+  const minSlit = formatDualSpec(product.keySpecs?.minSlitWidth);
+  if (minSlit) {
+    items.push({
+      question: fill(p.faqMinSlitQ, { model }),
+      answer: fill(p.faqMinSlitA, { model, value: minSlit }),
+    });
+  }
+  const speed = formatDualSpec(product.keySpecs?.maxSpeed);
+  if (speed) {
+    items.push({
+      question: fill(p.faqSpeedQ, { model }),
+      answer: fill(p.faqSpeedA, { model, value: speed }),
+    });
+  }
+  const materials = applications.map((a) => a.title).filter(Boolean).join(", ");
+  if (materials) {
+    items.push({
+      question: fill(p.faqMaterialsQ, { model }),
+      answer: fill(p.faqMaterialsA, { model, materials }),
+    });
+  }
+  items.push({
+    question: fill(p.faqLeadTimeQ, { model }),
+    answer: p.faqLeadTimeA,
+  });
+
+  return items.slice(0, 5);
 }
 
 export default async function ProductModelPage({ params }: ProductModelPageProps) {
@@ -81,248 +136,30 @@ export default async function ProductModelPage({ params }: ProductModelPageProps
   const pdfCatalog = populatedOne<Media>(product.pdfCatalog);
 
   const quoteHref = `/${lang}/contact?product=${product.model}`;
+  const solutions = getSolutionsForModel(product.model);
 
-  return (
-    <>
-      <ProductModelJsonLd product={product} />
-      <BreadcrumbJsonLd
-        items={[
-          { name: dict.common.home, path: `/${lang}` },
-          { name: dict.nav.products, path: `/${lang}/products` },
-          ...(series ? [{ name: series.name, path: `/${lang}/products/${series.slug}` }] : []),
-          { name: product.model },
-        ]}
-      />
-      <div className="bg-bg-warm py-16 md:py-24">
-        <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          {/* Breadcrumb */}
-          <nav className="mb-8 text-sm text-text-secondary">
-            <Link href={`/${lang}`} className="hover:text-orange">{dict.common.home}</Link>
-            <span className="mx-2">/</span>
-            <Link href={`/${lang}/products`} className="hover:text-orange">
-              {dict.nav.products}
-            </Link>
-            {series && (
-              <>
-                <span className="mx-2">/</span>
-                <Link href={`/${lang}/products/${series.slug}`} className="hover:text-orange">
-                  {series.name}
-                </Link>
-              </>
-            )}
-            <span className="mx-2">/</span>
-            <span className="text-text-primary">{product.model}</span>
-          </nav>
+  /* DJI 式 hero 關鍵規格（3 個數字橫排：最小分切寬度｜最大線速｜切法） */
+  const ks = product.keySpecs;
+  const heroSpecs: { label: string; value: string }[] = [];
+  if (ks?.minSlitWidth?.standard) {
+    heroSpecs.push({ label: dict.products.colMinSlit, value: ks.minSlitWidth.standard });
+  }
+  if (ks?.maxSpeed?.standard) {
+    heroSpecs.push({ label: dict.products.colSpeed, value: ks.maxSpeed.standard });
+  }
+  if (ks?.maxTemperature?.standard && heroSpecs.length < 2) {
+    heroSpecs.push({ label: "Temperature", value: ks.maxTemperature.standard });
+  }
+  if (series) {
+    heroSpecs.push({ label: dict.products.colMethod, value: series.cuttingMethod });
+  }
 
-          <div className="grid gap-10 lg:grid-cols-3">
-            {/* Main */}
-            <div className="lg:col-span-2">
-              {/* Product header */}
-              <div className="rounded-lg bg-white p-6 shadow-sm md:p-8">
-                {galleryImages.length > 0 ? (
-                  <ProductGallery images={galleryImages} />
-                ) : (
-                  <div className="mb-6 flex h-56 items-center justify-center rounded bg-bg-card md:h-72">
-                    <span className="font-heading text-3xl font-bold text-text-secondary/20">
-                      {product.model}
-                    </span>
-                  </div>
-                )}
+  /* 頁內常駐比較（本頁型號 + 同切法最多 3 型） */
+  const compareProducts = [product, ...related.slice(0, 3)];
+  const compareRows = related.length > 0 ? buildCompareRows(compareProducts, dict) : [];
 
-                <div className="flex flex-wrap items-center gap-2">
-                  {series && (
-                    <span className="rounded-sm bg-orange-soft px-2.5 py-1 text-xs font-semibold text-orange-text">
-                      {series.cuttingMethod}
-                    </span>
-                  )}
-                  {tierLabel && (
-                    <span className="rounded-sm bg-bg-card px-2.5 py-1 text-xs text-text-secondary">
-                      {tierLabel}
-                    </span>
-                  )}
-                </div>
-                <h1 className="mt-3 font-heading text-3xl font-bold text-text-primary md:text-4xl">
-                  {product.model}
-                </h1>
-                <p className="mt-1 text-lg text-text-secondary">{product.title}</p>
-                {product.tagline && (
-                  <p className="mt-4 leading-relaxed text-text-secondary">{product.tagline}</p>
-                )}
-                <p className="mt-3 text-xs text-text-secondary">
-                  {dict.common.lastUpdated}:{" "}
-                  {new Date(product.updatedAt).toLocaleDateString(
-                    lang === "zh-tw" ? "zh-TW" : "en-US",
-                    { year: "numeric", month: "long" },
-                  )}
-                </p>
+  const faqItems = buildProductFaqs(product, series, relatedApplications, dict);
 
-                {/* Tabs */}
-                <div className="mt-8">
-                  <ProductTabs
-                    labels={{
-                      overview: dict.products.tabOverview,
-                      specs: dict.products.tabSpecs,
-                      "3d": dict.products.tab3d,
-                      drawings: dict.products.tabDrawings,
-                    }}
-                    panels={{
-                      overview: (
-                        <OverviewPanel
-                          product={product}
-                          relatedApplications={relatedApplications}
-                          lang={lang}
-                          dict={dict}
-                        />
-                      ),
-                      specs: <SpecsPanel product={product} dict={dict} />,
-                      "3d": model3d ? (
-                        <ModelViewer
-                          src={`/api/model/${model3d.id}`}
-                          alt={`${product.model} 3D model`}
-                          fullscreenLabel={dict.products.fullscreen}
-                        />
-                      ) : (
-                        <PlaceholderCta
-                          text={dict.products.model3dPlaceholder}
-                          ctaLabel={dict.products.requestAccess}
-                          href={quoteHref}
-                        />
-                      ),
-                      drawings:
-                        drawings.length > 0 ? (
-                          <DrawingViewer
-                            images={drawings}
-                            note={product.drawingNotes}
-                            fullscreenLabel={dict.products.fullscreen}
-                            resetLabel={dict.products.resetView}
-                          />
-                        ) : (
-                          <PlaceholderCta
-                            text={dict.products.drawingsPlaceholder}
-                            ctaLabel={dict.products.requestAccess}
-                            href={quoteHref}
-                          />
-                        ),
-                    }}
-                  />
-                </div>
-              </div>
-
-              {/* Related Solutions（內部連結網絡） */}
-              {getSolutionsForModel(product.model).length > 0 && (
-                <div className="mt-8 rounded-lg bg-white p-6 shadow-sm md:p-8">
-                  <h2 className="text-lg font-bold text-text-primary">
-                    {dict.products.relatedSolutions}
-                  </h2>
-                  <ul className="mt-4 grid gap-3 sm:grid-cols-2">
-                    {getSolutionsForModel(product.model).map((solution) => (
-                      <li key={solution.slug}>
-                        <Link
-                          href={`/${lang}/solutions/${solution.slug}`}
-                          className="group block rounded border border-border p-4 transition-colors hover:border-orange"
-                        >
-                          <p className="text-sm font-semibold text-text-primary transition-colors group-hover:text-orange-text">
-                            {solution.material}
-                          </p>
-                          <p className="mt-1 line-clamp-2 text-xs text-text-secondary">
-                            {solution.title}
-                          </p>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-
-            {/* Sidebar */}
-            <div className="lg:col-span-1">
-              <div className="sticky top-20 space-y-6">
-                {/* Quote CTA + Downloads */}
-                <div className="rounded-lg bg-navy p-6 text-white">
-                  <h3 className="text-lg font-bold">{product.model}</h3>
-                  <p className="mt-2 text-sm text-white/70">
-                    {dict.meta.contact.description}
-                  </p>
-                  <div className="mt-5">
-                    <CTAButton href={quoteHref} className="w-full">
-                      {dict.nav.getAQuote}
-                    </CTAButton>
-                  </div>
-
-                  <p className="mt-6 text-xs font-semibold uppercase tracking-wider text-white/50">
-                    {dict.products.downloadsHeading}
-                  </p>
-                  <div className="mt-3 space-y-3">
-                    <PdfDownloadButton
-                      product={product}
-                      label={dict.products.downloadPdf}
-                      generatingLabel={dict.products.generatingPdf}
-                      errorLabel={dict.products.pdfFailed}
-                      className="w-full border border-white/30 px-6 py-3 text-sm text-white hover:border-white/70"
-                    />
-                    {pdfCatalog?.url && (
-                      <a
-                        href={pdfCatalog.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex w-full items-center justify-center gap-2 rounded border border-white/30 px-6 py-3 text-sm font-semibold text-white transition-colors hover:border-white/70"
-                      >
-                        {dict.products.catalogFile}
-                      </a>
-                    )}
-                  </div>
-                </div>
-
-                {/* Related models */}
-                {related.length > 0 && (
-                  <div className="rounded-lg bg-white p-6 shadow-sm">
-                    <h3 className="text-sm font-semibold uppercase tracking-wider text-text-secondary">
-                      {dict.products.relatedModels}
-                    </h3>
-                    <ul className="mt-3 space-y-2">
-                      {related.map((p) => (
-                        <li key={p.slug}>
-                          <Link
-                            href={`/${lang}/products/model/${p.slug}`}
-                            className="group flex items-baseline justify-between gap-2 text-sm"
-                          >
-                            <span className="font-medium text-text-primary transition-colors group-hover:text-orange">
-                              {p.model}
-                            </span>
-                            <span className="text-xs text-text-secondary">
-                              {p.familyTier
-                                ? (FAMILY_TIER_LABELS[p.familyTier] ?? p.familyTier)
-                                : ""}
-                            </span>
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-}
-
-/* ─── Tab panels ──────────────────────────────────────────── */
-
-function OverviewPanel({
-  product,
-  relatedApplications,
-  lang,
-  dict,
-}: {
-  product: Product;
-  relatedApplications: Application[];
-  lang: Locale;
-  dict: Dictionary;
-}) {
   const highlights: FeatureHighlightItem[] = (product.featureHighlights ?? []).map(
     (item, index) => {
       const image = populatedOne<Media>(item.image);
@@ -336,133 +173,424 @@ function OverviewPanel({
   );
 
   return (
-    <div className="space-y-8">
-      {product.description && <LexicalContent data={product.description} />}
+    <>
+      <ProductModelJsonLd product={product} />
+      <BreadcrumbJsonLd
+        items={[
+          { name: dict.common.home, path: `/${lang}` },
+          { name: dict.nav.products, path: `/${lang}/products` },
+          ...(series ? [{ name: series.name, path: `/${lang}/products/${series.slug}` }] : []),
+          { name: product.model },
+        ]}
+      />
 
-      <FeatureHighlights items={highlights} />
+      {/* ── 1. 開場區（白色舞台：型號 + 定位 + 關鍵規格 + 雙按鈕 + 渲染大圖） ── */}
+      <section className="bg-white">
+        <div className="mx-auto max-w-7xl px-4 pt-8 lg:px-8">
+          <nav className="text-sm text-text-secondary">
+            <Link href={`/${lang}`} className="transition-colors hover:text-orange-text">
+              {dict.common.home}
+            </Link>
+            <span className="mx-2">/</span>
+            <Link href={`/${lang}/products`} className="transition-colors hover:text-orange-text">
+              {dict.nav.products}
+            </Link>
+            {series && (
+              <>
+                <span className="mx-2">/</span>
+                <Link
+                  href={`/${lang}/products/${series.slug}`}
+                  className="transition-colors hover:text-orange-text"
+                >
+                  {series.name}
+                </Link>
+              </>
+            )}
+            <span className="mx-2">/</span>
+            <span className="text-text-primary">{product.model}</span>
+          </nav>
 
-      {relatedApplications.length > 0 && (
-        <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-text-secondary">
-            {dict.products.relatedApplications}
-          </h2>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {relatedApplications.map((app) => (
-              <Link
-                key={app.slug}
-                href={`/${lang}/applications/${app.slug}`}
-                className="rounded-sm bg-orange-soft px-3 py-1.5 text-sm font-medium text-orange-text transition-colors hover:bg-orange hover:text-white"
+          <Reveal mode="mount" stagger y={16} className="mt-10 text-center md:mt-14">
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              {series && (
+                <span className="rounded-sm bg-orange-soft px-2.5 py-1 text-xs font-semibold text-orange-text">
+                  {series.cuttingMethod}
+                </span>
+              )}
+              {tierLabel && (
+                <span className="rounded-sm bg-bg-secondary px-2.5 py-1 text-xs text-text-secondary">
+                  {tierLabel}
+                </span>
+              )}
+            </div>
+            <h1 className="mt-4 text-[clamp(2.5rem,2rem+1.5vw,3rem)] font-medium leading-[1.15] tracking-[-0.01em] text-text-primary">
+              {product.model}
+            </h1>
+            <p className="mt-2 text-lg text-text-secondary">{product.title}</p>
+            {product.tagline && (
+              <p className="mx-auto mt-4 max-w-2xl leading-relaxed text-text-secondary">
+                {product.tagline}
+              </p>
+            )}
+
+            {/* 關鍵規格橫排（DJI 式） */}
+            {heroSpecs.length > 0 && (
+              <div className="mt-8 flex flex-wrap items-stretch justify-center divide-x divide-border">
+                {heroSpecs.slice(0, 3).map((spec) => (
+                  <div key={spec.label} className="px-6 text-center md:px-10">
+                    <p className="text-xl font-medium text-text-primary md:text-2xl">
+                      {spec.value}
+                    </p>
+                    <p className="mt-1 text-xs text-text-secondary">{spec.label}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <CTAButton href={quoteHref} size="lg">
+                {dict.nav.getAQuote}
+              </CTAButton>
+              <PdfDownloadButton
+                product={product}
+                label={dict.products.downloadPdf}
+                generatingLabel={dict.products.generatingPdf}
+                errorLabel={dict.products.pdfFailed}
+                className="border border-border-strong px-8 py-3.5 text-sm text-text-primary hover:border-orange hover:text-orange-text md:px-10"
+              />
+            </div>
+            {pdfCatalog?.url && (
+              <a
+                href={pdfCatalog.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 inline-block text-sm font-medium text-orange-text underline-offset-4 transition-colors hover:underline"
               >
-                {app.title} →
-              </Link>
-            ))}
-          </div>
+                {dict.products.catalogFile}
+              </a>
+            )}
+
+            {/* 渲染大圖置中；缺圖用中性留白圖位 */}
+            <div className="mx-auto mt-12 w-full max-w-4xl pb-14 md:pb-16">
+              {galleryImages.length > 0 ? (
+                <ProductGallery images={galleryImages} />
+              ) : (
+                <div aria-hidden className="aspect-[16/9] w-full rounded-lg bg-bg-tertiary" />
+              )}
+            </div>
+          </Reveal>
         </div>
-      )}
-    </div>
-  );
-}
+      </section>
 
-/** 核心數字視覺化（Helios 風格：大字 + 單位 + 漸層色條） */
-function KeyFigure({ label, value, note }: { label: string; value: string; note?: string | null }) {
-  const match = value.match(/^([<>≤≥~約]*\s*[\d.,–-]+)\s*(.*)$/);
-  const number = match?.[1]?.trim() ?? value;
-  const unit = match?.[2]?.trim() ?? "";
+      {/* ── 2. Sticky 子導覽（Apple 式錨點） ─────────────────── */}
+      <ProductSubnav
+        model={product.model}
+        labels={{
+          overview: dict.products.tabOverview,
+          specs: dict.products.tabSpecs,
+          "3d": dict.products.tab3d,
+          drawings: dict.products.tabDrawings,
+        }}
+        quoteHref={quoteHref}
+        quoteLabel={dict.nav.getAQuote}
+      />
 
-  return (
-    <div className="rounded-lg bg-bg-card p-5">
-      <p className="text-xs font-semibold uppercase tracking-wider text-text-secondary">
-        {label}
-      </p>
-      <p className="mt-2 flex items-baseline gap-1.5">
-        <span className="font-heading text-4xl font-bold text-text-primary">{number}</span>
-        {unit && <span className="text-sm font-medium text-text-secondary">{unit}</span>}
-      </p>
-      {note && <p className="mt-1 text-xs text-orange-text">{note}</p>}
-      <div className="mt-3 h-1.5 w-full rounded-full bg-gradient-to-r from-orange via-orange/60 to-orange/15" />
-    </div>
-  );
-}
+      {/* ── 3. 應用敘事區（圖文交錯） ────────────────────────── */}
+      <section id="overview" className="scroll-mt-28 bg-white py-16 md:py-24">
+        <div className="mx-auto max-w-7xl px-4 lg:px-8">
+          <h2 className="sr-only">{dict.products.tabOverview}</h2>
+          {product.description && (
+            <div className="mx-auto max-w-3xl">
+              <LexicalContent data={product.description} />
+            </div>
+          )}
 
-function SpecsPanel({ product, dict }: { product: Product; dict: Dictionary }) {
-  const ks = product.keySpecs;
-  const figures: { label: string; value: string; note?: string | null }[] = [];
-  if (ks?.minSlitWidth?.standard) {
-    figures.push({
-      label: dict.products.colMinSlit,
-      value: ks.minSlitWidth.standard,
-      note: ks.minSlitWidth.condition,
-    });
-  }
-  if (ks?.maxSpeed?.standard) {
-    figures.push({
-      label: dict.products.colSpeed,
-      value: ks.maxSpeed.standard,
-      note: ks.maxSpeed.condition,
-    });
-  }
-  if (ks?.maxTemperature?.standard) {
-    figures.push({
-      label: "Temperature",
-      value: ks.maxTemperature.standard,
-      note: ks.maxTemperature.condition,
-    });
-  }
+          {highlights.length > 0 && (
+            <div className="mt-16">
+              <FeatureHighlights items={highlights} />
+            </div>
+          )}
 
-  return (
-    <div className="space-y-8">
-      {figures.length > 0 && (
-        <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-text-secondary">
-            {dict.products.keyFigures}
-          </h2>
-          <div className="mt-4 grid gap-4 sm:grid-cols-2">
-            {figures.map((f) => (
-              <KeyFigure key={f.label} label={f.label} value={f.value} note={f.note} />
-            ))}
-          </div>
+          {relatedApplications.length > 0 && (
+            <div className="mt-16 text-center">
+              <h3 className="text-sm font-medium uppercase tracking-wider text-text-secondary">
+                {dict.products.relatedApplications}
+              </h3>
+              <div className="mt-4 flex flex-wrap justify-center gap-2">
+                {relatedApplications.map((app) => (
+                  <Link
+                    key={app.slug}
+                    href={`/${lang}/applications/${app.slug}`}
+                    className="rounded-sm bg-orange-soft px-3 py-1.5 text-sm font-medium text-orange-text transition-colors hover:bg-orange hover:text-white"
+                  >
+                    {app.title} →
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
-      )}
+      </section>
 
-      {product.detailedSpecs && product.detailedSpecs.length > 0 && (
-        <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-text-secondary">
+      {/* ── 4. 完整規格表（DJI 式左右兩欄長表，白底） ────────── */}
+      <section id="specs" className="scroll-mt-28 bg-bg-secondary py-16 md:py-24">
+        <div className="mx-auto max-w-7xl px-4 lg:px-8">
+          <h2 className="text-center text-[1.75rem]/[1.2] font-medium text-text-primary md:text-[2rem]/[1.2]">
             {dict.products.specifications}
           </h2>
-          <table className="mt-4 w-full text-sm">
-            <caption className="sr-only">
-              {product.model} {product.title} specifications
-            </caption>
-            <thead className="sr-only">
-              <tr>
-                <th scope="col">Parameter</th>
-                <th scope="col">Value</th>
-              </tr>
-            </thead>
-            <tbody>
-              {product.detailedSpecs.map((spec, i) => (
-                <tr key={spec.id ?? spec.label} className={i % 2 === 0 ? "bg-bg-card" : ""}>
-                  <th
-                    scope="row"
-                    className="px-3 py-2.5 text-left font-medium text-text-secondary"
-                  >
-                    {spec.label}
-                  </th>
-                  <td className="px-3 py-2.5 text-text-primary">
-                    {spec.value}
-                    {spec.note && (
-                      <span className="ml-2 text-xs text-orange-text">({spec.note})</span>
-                    )}
-                  </td>
+          <div className="mx-auto mt-10 max-w-4xl rounded-lg bg-white p-6 shadow-sm md:p-10">
+            <table className="w-full text-sm">
+              <caption className="sr-only">
+                {product.model} {product.title} specifications
+              </caption>
+              <thead className="sr-only">
+                <tr>
+                  <th scope="col">Parameter</th>
+                  <th scope="col">Value</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {[
+                  ...(ks?.minSlitWidth?.standard
+                    ? [{ id: "min-slit", label: dict.products.colMinSlit, value: ks.minSlitWidth.standard, note: ks.minSlitWidth.condition }]
+                    : []),
+                  ...(ks?.maxSpeed?.standard
+                    ? [{ id: "speed", label: dict.products.colSpeed, value: ks.maxSpeed.standard, note: ks.maxSpeed.condition }]
+                    : []),
+                  ...(ks?.maxTemperature?.standard
+                    ? [{ id: "temp", label: "Temperature", value: ks.maxTemperature.standard, note: ks.maxTemperature.condition }]
+                    : []),
+                  ...(product.detailedSpecs ?? []),
+                ].map((spec) => (
+                  <tr key={spec.id ?? spec.label} className="border-b border-border last:border-b-0">
+                    <th
+                      scope="row"
+                      className="w-1/2 py-3.5 pr-4 text-left font-normal text-text-secondary"
+                    >
+                      {spec.label}
+                    </th>
+                    <td className="py-3.5 font-medium text-text-primary">
+                      {spec.value}
+                      {spec.note && (
+                        <span className="ml-2 text-xs font-normal text-orange-text">
+                          ({spec.note})
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <p className="mt-6 text-xs text-text-secondary">
+              {dict.common.lastUpdated}:{" "}
+              {new Date(product.updatedAt).toLocaleDateString(
+                lang === "zh-tw" ? "zh-TW" : "en-US",
+                { year: "numeric", month: "long" },
+              )}
+            </p>
+          </div>
         </div>
+      </section>
+
+      {/* ── 5a. 3D 檢視 ─────────────────────────────────────── */}
+      <section id="3d" className="scroll-mt-28 bg-white py-16 md:py-24">
+        <div className="mx-auto max-w-5xl px-4 lg:px-8">
+          <h2 className="text-center text-[1.75rem]/[1.2] font-medium text-text-primary md:text-[2rem]/[1.2]">
+            {dict.products.tab3d}
+          </h2>
+          <div className="mt-10">
+            {model3d ? (
+              <ModelViewer
+                src={`/api/model/${model3d.id}`}
+                alt={`${product.model} 3D model`}
+                fullscreenLabel={dict.products.fullscreen}
+              />
+            ) : (
+              <PlaceholderCta
+                text={dict.products.model3dPlaceholder}
+                ctaLabel={dict.products.requestAccess}
+                href={quoteHref}
+              />
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 5b. 工程圖 ──────────────────────────────────────── */}
+      <section id="drawings" className="scroll-mt-28 bg-bg-secondary py-16 md:py-24">
+        <div className="mx-auto max-w-5xl px-4 lg:px-8">
+          <h2 className="text-center text-[1.75rem]/[1.2] font-medium text-text-primary md:text-[2rem]/[1.2]">
+            {dict.products.tabDrawings}
+          </h2>
+          <div className="mt-10 rounded-lg bg-white p-4 shadow-sm md:p-6">
+            {drawings.length > 0 ? (
+              <DrawingViewer
+                images={drawings}
+                note={product.drawingNotes}
+                fullscreenLabel={dict.products.fullscreen}
+                resetLabel={dict.products.resetView}
+              />
+            ) : (
+              <PlaceholderCta
+                text={dict.products.drawingsPlaceholder}
+                ctaLabel={dict.products.requestAccess}
+                href={quoteHref}
+              />
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 6. 頁內常駐比較（同切法型號） ────────────────────── */}
+      {related.length > 0 && (
+        <section className="bg-white py-16 md:py-24">
+          <div className="mx-auto max-w-7xl px-4 lg:px-8">
+            <h2 className="text-center text-[1.75rem]/[1.2] font-medium text-text-primary md:text-[2rem]/[1.2]">
+              {dict.products.compareHeading}
+            </h2>
+            <div className="mx-auto mt-10 max-w-5xl overflow-x-auto">
+              <table className="w-full min-w-[560px] text-sm">
+                <caption className="sr-only">
+                  {dict.products.compareHeading} — {compareProducts.map((p) => p.model).join(", ")}
+                </caption>
+                <thead>
+                  <tr>
+                    <th
+                      scope="col"
+                      className="w-36 px-3 py-3 text-left text-xs font-medium uppercase tracking-wider text-text-secondary"
+                    >
+                      {dict.products.colModel}
+                    </th>
+                    {compareProducts.map((p, i) => (
+                      <th key={p.slug} scope="col" className="px-3 py-3 text-left">
+                        {i === 0 ? (
+                          <span className="text-base font-medium text-text-primary">
+                            {p.model}
+                          </span>
+                        ) : (
+                          <Link
+                            href={`/${lang}/products/model/${p.slug}`}
+                            className="text-base font-medium text-text-primary transition-colors hover:text-orange-text"
+                          >
+                            {p.model}
+                          </Link>
+                        )}
+                        <p className="mt-0.5 text-xs font-normal text-text-secondary">
+                          {i === 0
+                            ? dict.products.currentModel
+                            : p.familyTier
+                              ? (FAMILY_TIER_LABELS[p.familyTier] ?? p.familyTier)
+                              : ""}
+                        </p>
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {compareRows.map((row) => (
+                    <tr key={row.label} className="border-t border-border">
+                      <th
+                        scope="row"
+                        className="px-3 py-3 text-left align-top font-normal text-text-secondary"
+                      >
+                        {row.label}
+                      </th>
+                      {row.values.map((value, i) => (
+                        <td
+                          key={`${row.label}-${compareProducts[i].slug}`}
+                          className={`px-3 py-3 align-top ${
+                            row.best.has(i)
+                              ? "font-semibold text-orange-text"
+                              : "text-text-primary"
+                          }`}
+                        >
+                          {value}
+                          {row.best.has(i) && (
+                            <span className="ml-1.5 rounded-sm bg-orange-soft px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-orange-text">
+                              {dict.products.bestValue}
+                            </span>
+                          )}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
       )}
-    </div>
+
+      {/* ── 7. 產品 FAQ（FAQPage JSON-LD 就地標記） ──────────── */}
+      <section className="bg-bg-secondary py-16 md:py-24">
+        <div className="mx-auto max-w-3xl px-4 lg:px-8">
+          <FaqSection heading={dict.common.faqHeading} items={faqItems} className="" />
+        </div>
+      </section>
+
+      {/* ── 8. 相關推薦（同切法型號 + Solutions 內鏈） ────────── */}
+      {(related.length > 0 || solutions.length > 0) && (
+        <section className="bg-white py-16 md:py-24">
+          <div className="mx-auto max-w-7xl px-4 lg:px-8">
+            {related.length > 0 && (
+              <>
+                <h2 className="text-[1.75rem]/[1.2] font-medium text-text-primary md:text-[2rem]/[1.2]">
+                  {dict.products.relatedModels}
+                </h2>
+                <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                  {related.map((p) => (
+                    <Link
+                      key={p.slug}
+                      href={`/${lang}/products/model/${p.slug}`}
+                      className="group rounded-lg border border-border p-6 transition-colors hover:border-orange"
+                    >
+                      <p className="text-lg font-medium text-text-primary transition-colors group-hover:text-orange-text">
+                        {p.model}
+                      </p>
+                      <p className="mt-1 text-sm text-text-secondary">{p.title}</p>
+                      {p.familyTier && (
+                        <p className="mt-3 text-xs text-text-secondary">
+                          {FAMILY_TIER_LABELS[p.familyTier] ?? p.familyTier}
+                        </p>
+                      )}
+                    </Link>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {solutions.length > 0 && (
+              <div className={related.length > 0 ? "mt-14" : ""}>
+                <h2 className="text-lg font-medium text-text-primary">
+                  {dict.products.relatedSolutions}
+                </h2>
+                <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+                  {solutions.map((solution) => (
+                    <li key={solution.slug}>
+                      <Link
+                        href={`/${lang}/solutions/${solution.slug}`}
+                        className="group block rounded border border-border p-4 transition-colors hover:border-orange"
+                      >
+                        <p className="text-sm font-medium text-text-primary transition-colors group-hover:text-orange-text">
+                          {solution.material}
+                        </p>
+                        <p className="mt-1 line-clamp-2 text-xs text-text-secondary">
+                          {solution.title}
+                        </p>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+    </>
   );
 }
+
+/* ─── Shared bits ─────────────────────────────────────────── */
 
 function PlaceholderCta({
   text,
@@ -474,7 +602,7 @@ function PlaceholderCta({
   href: string;
 }) {
   return (
-    <div className="flex h-72 flex-col items-center justify-center gap-5 rounded-lg border border-dashed border-border bg-bg-card px-6 text-center">
+    <div className="flex h-72 flex-col items-center justify-center gap-5 rounded-lg border border-dashed border-border bg-bg-tertiary px-6 text-center">
       <p className="max-w-md text-sm text-text-secondary">{text}</p>
       <CTAButton href={href}>{ctaLabel}</CTAButton>
     </div>

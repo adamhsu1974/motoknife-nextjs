@@ -107,13 +107,13 @@ export default function ProductCatalog({ lang, dict, products }: ProductCatalogP
               className={`absolute right-4 top-4 z-10 flex items-center gap-1.5 rounded-sm px-2 py-1 text-xs font-medium transition-colors ${
                 compareSlugs.includes(product.slug)
                   ? "bg-orange text-white"
-                  : "bg-bg-card text-text-secondary hover:text-text-primary"
+                  : "bg-bg-secondary text-text-secondary hover:text-text-primary"
               }`}
             >
               <span
                 className={`flex h-3.5 w-3.5 items-center justify-center rounded-[2px] border text-[9px] leading-none ${
                   compareSlugs.includes(product.slug)
-                    ? "border-white bg-white text-orange"
+                    ? "border-white bg-white text-orange-text"
                     : "border-text-secondary/50"
                 }`}
               >
@@ -132,13 +132,13 @@ export default function ProductCatalog({ lang, dict, products }: ProductCatalogP
                 </span>
               )}
               {product.familyTier && (
-                <span className="rounded-sm bg-bg-card px-2 py-0.5 text-xs text-text-secondary">
+                <span className="rounded-sm bg-bg-secondary px-2 py-0.5 text-xs text-text-secondary">
                   {FAMILY_TIER_LABELS[product.familyTier] ?? product.familyTier}
                 </span>
               )}
             </div>
 
-            <h3 className="mt-3 font-heading text-xl font-bold text-text-primary">
+            <h3 className="mt-3 text-xl font-medium text-text-primary">
               {product.model}
             </h3>
             <p className="mt-1 text-sm text-text-secondary">{product.title}</p>
@@ -165,7 +165,7 @@ export default function ProductCatalog({ lang, dict, products }: ProductCatalogP
                 .map((mat) => (
                   <span
                     key={mat}
-                    className="rounded-sm bg-bg-card px-2 py-0.5 text-xs text-text-secondary"
+                    className="rounded-sm bg-bg-secondary px-2 py-0.5 text-xs text-text-secondary"
                   >
                     {mat}
                   </span>
@@ -209,7 +209,7 @@ function ProductThumbnail({ product }: { product: Product }) {
 
   if (cover?.url) {
     return (
-      <div className="relative mb-5 h-40 overflow-hidden rounded bg-bg-card">
+      <div className="relative mb-5 h-40 overflow-hidden rounded bg-bg-tertiary">
         <Image
           src={cover.url}
           alt={cover.alt}
@@ -221,13 +221,8 @@ function ProductThumbnail({ product }: { product: Product }) {
     );
   }
 
-  return (
-    <div className="mb-5 flex h-40 items-center justify-center rounded bg-bg-card">
-      <span className="font-heading text-2xl font-bold text-text-secondary/20">
-        {product.model}
-      </span>
-    </div>
-  );
+  // Neutral image slot — 產品照到位後原位替換
+  return <div aria-hidden className="mb-5 h-40 rounded bg-bg-tertiary" />;
 }
 
 function FilterChip({

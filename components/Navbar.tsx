@@ -72,17 +72,15 @@ export default function Navbar({ lang, dict }: NavbarProps) {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-navy-dark shadow-lg shadow-black/20"
-          : "bg-navy"
+      className={`fixed top-0 left-0 right-0 z-50 border-b border-border bg-white transition-shadow duration-300 ${
+        isScrolled ? "shadow-md" : ""
       }`}
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 lg:px-8">
         {/* Logo */}
         <Link
           href={`/${lang}`}
-          className="flex items-center gap-2 text-white"
+          className="flex items-center gap-2 text-text-primary"
           onClick={closeMobileMenu}
         >
           <MotoknifeLogo />
@@ -109,28 +107,28 @@ export default function Navbar({ lang, dict }: NavbarProps) {
               href={`/${lang}/products`}
               aria-haspopup="menu"
               aria-expanded={isProductsOpen}
-              className="relative flex items-center gap-1 px-3 py-2 text-sm font-medium text-white/85 transition-colors hover:text-white after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:scale-x-0 after:bg-orange after:transition-transform hover:after:scale-x-100"
+              className="relative flex items-center gap-1 px-3 py-2 text-sm font-medium text-text-secondary transition-colors hover:text-text-primary after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:scale-x-0 after:bg-orange after:transition-transform hover:after:scale-x-100"
             >
               {dict.nav.products}
               <ChevronDownIcon />
             </Link>
             {isProductsOpen && (
-              <div className="absolute left-0 top-full w-56 rounded-b bg-navy-dark py-2 shadow-xl shadow-black/30">
+              <div className="absolute left-0 top-full w-56 rounded-b border border-border bg-white py-2 shadow-md">
                 {productItems.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
                     onClick={() => setIsProductsOpen(false)}
-                    className="block px-5 py-2.5 text-sm text-white/70 transition-colors hover:bg-white/5 hover:text-orange"
+                    className="block px-5 py-2.5 text-sm text-text-secondary transition-colors hover:bg-bg-tertiary hover:text-orange-text"
                   >
                     {item.label}
                   </Link>
                 ))}
-                <div className="mx-5 my-2 border-t border-white/10" />
+                <div className="mx-5 my-2 border-t border-border" />
                 <Link
                   href={`/${lang}/products/cutting-methods`}
                   onClick={() => setIsProductsOpen(false)}
-                  className="block px-5 py-2.5 text-sm text-white/70 transition-colors hover:bg-white/5 hover:text-orange"
+                  className="block px-5 py-2.5 text-sm text-text-secondary transition-colors hover:bg-bg-tertiary hover:text-orange-text"
                 >
                   {dict.common.cuttingMethods}
                 </Link>
@@ -142,7 +140,7 @@ export default function Navbar({ lang, dict }: NavbarProps) {
             <Link
               key={link.href}
               href={link.href}
-              className="relative px-3 py-2 text-sm font-medium text-white/85 transition-colors hover:text-white after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:scale-x-0 after:bg-orange after:transition-transform hover:after:scale-x-100"
+              className="relative px-3 py-2 text-sm font-medium text-text-secondary transition-colors hover:text-text-primary after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:scale-x-0 after:bg-orange after:transition-transform hover:after:scale-x-100"
             >
               {link.label}
             </Link>
@@ -157,7 +155,7 @@ export default function Navbar({ lang, dict }: NavbarProps) {
               type="button"
               onClick={() => setIsLangOpen(!isLangOpen)}
               onBlur={() => setTimeout(() => setIsLangOpen(false), 150)}
-              className="flex items-center gap-1 rounded px-2 py-1 text-sm text-white/70 transition-colors hover:text-white"
+              className="flex items-center gap-1 rounded px-2 py-1 text-sm text-text-secondary transition-colors hover:text-text-primary"
               aria-label="Switch language"
             >
               <GlobeIcon />
@@ -165,7 +163,7 @@ export default function Navbar({ lang, dict }: NavbarProps) {
               <ChevronDownIcon />
             </button>
             {isLangOpen && (
-              <div className="absolute right-0 top-full mt-1 min-w-[80px] rounded bg-navy-dark py-1 shadow-lg">
+              <div className="absolute right-0 top-full mt-1 min-w-[80px] rounded border border-border bg-white py-1 shadow-md">
                 {LOCALES.map((locale) => (
                   <Link
                     key={locale}
@@ -173,8 +171,8 @@ export default function Navbar({ lang, dict }: NavbarProps) {
                     onClick={() => setIsLangOpen(false)}
                     className={`block w-full px-4 py-1.5 text-left text-sm transition-colors ${
                       lang === locale
-                        ? "text-orange"
-                        : "text-white/70 hover:text-white"
+                        ? "text-orange-text"
+                        : "text-text-secondary hover:text-text-primary"
                     }`}
                   >
                     {LANGUAGE_LABELS[locale]}
@@ -205,7 +203,7 @@ export default function Navbar({ lang, dict }: NavbarProps) {
           <button
             type="button"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="flex h-10 w-10 items-center justify-center text-white"
+            className="flex h-10 w-10 items-center justify-center text-text-primary"
             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
           >
             {isMobileMenuOpen ? <CloseIcon /> : <HamburgerIcon />}
@@ -215,7 +213,7 @@ export default function Navbar({ lang, dict }: NavbarProps) {
 
       {/* Mobile Menu Overlay */}
       <div
-        className={`fixed inset-0 top-[56px] z-40 bg-navy/95 backdrop-blur-sm transition-all duration-300 lg:hidden ${
+        className={`fixed inset-0 top-[56px] z-40 bg-white/95 backdrop-blur-sm transition-all duration-300 lg:hidden ${
           isMobileMenuOpen
             ? "visible opacity-100"
             : "invisible opacity-0"
@@ -224,12 +222,12 @@ export default function Navbar({ lang, dict }: NavbarProps) {
         <div className="flex h-full flex-col overflow-y-auto px-6 py-8">
           <div className="flex flex-col gap-1">
             {/* Products expandable group */}
-            <div className="border-b border-white/10">
+            <div className="border-b border-border">
               <button
                 type="button"
                 onClick={() => setIsMobileProductsOpen(!isMobileProductsOpen)}
                 aria-expanded={isMobileProductsOpen}
-                className="flex w-full items-center justify-between py-4 text-lg font-medium text-white/85 transition-colors hover:text-orange"
+                className="flex w-full items-center justify-between py-4 text-lg font-medium text-text-primary transition-colors hover:text-orange-text"
               >
                 {dict.nav.products}
                 <span className={`transition-transform ${isMobileProductsOpen ? "rotate-180" : ""}`}>
@@ -247,7 +245,7 @@ export default function Navbar({ lang, dict }: NavbarProps) {
                       key={item.href}
                       href={item.href}
                       onClick={closeMobileMenu}
-                      className="block py-2.5 text-base text-white/60 transition-colors hover:text-orange"
+                      className="block py-2.5 text-base text-text-secondary transition-colors hover:text-orange-text"
                     >
                       {item.label}
                     </Link>
@@ -261,7 +259,7 @@ export default function Navbar({ lang, dict }: NavbarProps) {
                 key={link.href}
                 href={link.href}
                 onClick={closeMobileMenu}
-                className="border-b border-white/10 py-4 text-lg font-medium text-white/85 transition-colors hover:text-orange"
+                className="border-b border-border py-4 text-lg font-medium text-text-primary transition-colors hover:text-orange-text"
               >
                 {link.label}
               </Link>
@@ -278,7 +276,7 @@ export default function Navbar({ lang, dict }: NavbarProps) {
                 className={`rounded-sm px-4 py-2 text-sm font-medium transition-colors ${
                   lang === locale
                     ? "bg-orange text-white"
-                    : "bg-white/10 text-white/70 hover:text-white"
+                    : "bg-bg-secondary text-text-secondary hover:text-text-primary"
                 }`}
               >
                 {LANGUAGE_LABELS[locale]}

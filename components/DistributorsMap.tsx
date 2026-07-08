@@ -146,7 +146,7 @@ export default function DistributorsMap({ lang, dict, countries }: DistributorsM
                   className={`rounded-sm px-3 py-1.5 text-xs font-medium transition-colors ${
                     selected?.numericId === numericId
                       ? "bg-orange text-white"
-                      : "bg-bg-card text-text-secondary hover:text-text-primary"
+                      : "bg-bg-secondary text-text-secondary hover:text-text-primary"
                   }`}
                 >
                   {country.countryName}
@@ -193,7 +193,7 @@ function DistributorPanel({
       <p className="text-xs font-semibold uppercase tracking-wider text-orange-text">
         {dict.distributors.hasDistributor}
       </p>
-      <h2 className="mt-1 text-xl font-bold text-text-primary">{country.countryName}</h2>
+      <h2 className="mt-1 text-xl font-medium text-text-primary">{country.countryName}</h2>
       <p className="text-xs text-text-secondary">{country.region}</p>
 
       <div className="mt-5">
@@ -214,7 +214,7 @@ function DistributorPanel({
 
       <Link
         href={`/${lang}/contact?country=${encodeURIComponent(country.countryName)}`}
-        className="mt-6 block rounded bg-navy py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-navy-dark"
+        className="mt-6 block rounded border border-border-strong py-3 text-center text-sm font-semibold text-text-primary transition-colors hover:border-orange hover:text-orange-text"
       >
         {dict.distributors.contactDirectly}
       </Link>
@@ -259,7 +259,7 @@ function InquiryPanel({ countryName, dict }: { countryName: string; dict: Dictio
   if (status === "success") {
     return (
       <div className="rounded-lg bg-white p-6 shadow-sm">
-        <h2 className="text-xl font-bold text-text-primary">{countryName}</h2>
+        <h2 className="text-xl font-medium text-text-primary">{countryName}</h2>
         <p className="mt-4 rounded border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
           {dict.distributors.inquirySuccess}
         </p>
@@ -269,7 +269,7 @@ function InquiryPanel({ countryName, dict }: { countryName: string; dict: Dictio
 
   return (
     <div className="rounded-lg bg-white p-6 shadow-sm">
-      <h2 className="text-xl font-bold text-text-primary">{countryName}</h2>
+      <h2 className="text-xl font-medium text-text-primary">{countryName}</h2>
       <p className="mt-2 text-sm leading-relaxed text-text-secondary">
         {dict.distributors.noDistributor}
       </p>
@@ -324,7 +324,7 @@ function InquiryField({
     <div>
       <label htmlFor={id} className="mb-1 block text-sm text-text-secondary">
         {label}
-        {required && <span className="text-orange"> *</span>}
+        {required && <span className="text-orange-text"> *</span>}
       </label>
       <input
         id={id}
