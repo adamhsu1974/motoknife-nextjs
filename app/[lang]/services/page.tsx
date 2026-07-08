@@ -47,6 +47,7 @@ export default async function ServicesPage({ params }: ServicesPageProps) {
       ]}
     >
       <ServicesJsonLd dict={dict} lang={locale} />
+      <MaterialTestHowToJsonLd />
 
       {/* ── 1. Test & Report（旗艦，視覺最突出） ─────────────── */}
       <section className="overflow-hidden rounded-lg bg-navy text-white">
@@ -217,6 +218,46 @@ function ServicesJsonLd({ dict, lang }: { dict: Dictionary; lang: Locale }) {
       areaServed: "Worldwide",
       url: `${SITE_URL}/${lang}/services`,
     })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}
+
+/* ─── HowTo JSON-LD（Free Material Test & Report 流程） ────── */
+
+function MaterialTestHowToJsonLd() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: "How to get a free material test report from MOTOKNIFE",
+    description:
+      "Send your material sample to MOTOKNIFE and receive a comprehensive test report with recommended cutting method, blade type, and actual cut sample photos within 3 working days.",
+    totalTime: "P3D",
+    step: [
+      {
+        "@type": "HowToStep",
+        position: 1,
+        name: "Contact us",
+        text: "Reach out via WhatsApp, email, or contact form to describe your material and cutting requirements.",
+      },
+      {
+        "@type": "HowToStep",
+        position: 2,
+        name: "Send material sample",
+        text: "Ship a small sample of your material to our Taoyuan, Taiwan facility.",
+      },
+      {
+        "@type": "HowToStep",
+        position: 3,
+        name: "Receive test report",
+        text: "Within 3 working days, receive a detailed report including recommended cutting method, suggested knife holder model, actual cut sample photos, and test video.",
+      },
+    ],
   };
 
   return (
