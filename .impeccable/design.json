@@ -1,12 +1,12 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-08T00:00:00Z",
-  "title": "Design System: MOTOKNIFE",
+  "generatedAt": "2026-07-08T09:30:00Z",
+  "title": "Design System: MOTOKNIFE (v2 — The Bright Workshop)",
   "extensions": {
     "colorMeta": {
       "calibration-orange": {
         "role": "primary",
-        "displayName": "Calibration Orange",
+        "displayName": "Calibration Orange (action only)",
         "canonical": "#F47920",
         "tonalRamp": ["#3D1E08", "#6B3410", "#9A4A15", "#C85F1A", "#F47920", "#F79A54", "#FABC8B", "#FDE3CB"]
       },
@@ -14,37 +14,31 @@
         "role": "primary",
         "displayName": "Calibration Orange Text",
         "canonical": "#B84D08",
-        "tonalRamp": ["#2E1302", "#5C2604", "#8A3A06", "#B84D08", "#D9640C", "#F47920", "#F79A54", "#FDE3CB"]
+        "tonalRamp": ["#2E1302", "#5C2604", "#8A3A06", "#B84D08", "#D8681A", "#F47920", "#F79A54", "#FDE3CB"]
       },
-      "pure-white": {
+      "bg-primary": {
         "role": "neutral",
-        "displayName": "Pure White",
+        "displayName": "White Stage",
         "canonical": "#FFFFFF",
-        "tonalRamp": ["#1A1A1A", "#454545", "#7A7A7A", "#9E9E9E", "#C4C4C4", "#E5E7EB", "#F7F7F5", "#FFFFFF"]
+        "tonalRamp": ["#1A1A1A", "#454545", "#7A7A7A", "#999999", "#D5D5D5", "#ECECEC", "#F5F6F7", "#FFFFFF"]
       },
-      "instrument-black": {
+      "bg-secondary": {
         "role": "neutral",
-        "displayName": "Instrument Black",
-        "canonical": "#0D0D14",
-        "tonalRamp": ["#0D0D14", "#12121F", "#1A1A2E", "#24243C", "#3C3C5A", "#6B6B8A", "#A8A8BE", "#E2E2EA"]
-      },
-      "chassis-navy": {
-        "role": "neutral",
-        "displayName": "Chassis Navy",
-        "canonical": "#1A1A2E",
-        "tonalRamp": ["#0D0D17", "#12121F", "#1A1A2E", "#24243C", "#38385A", "#5C5C86", "#9494B4", "#D8D8E4"]
+        "displayName": "Section Gray",
+        "canonical": "#F5F6F7",
+        "tonalRamp": ["#26272B", "#4A4C52", "#6E7077", "#94969D", "#B9BBC1", "#D8DADE", "#EAEBEC", "#F5F6F7"]
       },
       "ink": {
         "role": "neutral",
         "displayName": "Ink",
         "canonical": "#1A1A1A",
-        "tonalRamp": ["#1A1A1A", "#2E2E2E", "#454545", "#5E5E5E", "#7A7A7A", "#9E9E9E", "#C4C4C4", "#EDEDED"]
+        "tonalRamp": ["#1A1A1A", "#2E2E2E", "#454545", "#666666", "#7A7A7A", "#999999", "#C4C4C4", "#EDEDED"]
       },
-      "workshop-white-warm": {
-        "role": "neutral",
-        "displayName": "Workshop White Warm",
-        "canonical": "#F7F7F5",
-        "tonalRamp": ["#2B2B28", "#4A4A45", "#6B6B64", "#8E8E86", "#B1B1A9", "#D1D1CA", "#E8E8E3", "#F7F7F5"]
+      "chassis-navy": {
+        "role": "tertiary",
+        "displayName": "Chassis Navy (Navbar/Footer/結尾 CTA 限定)",
+        "canonical": "#1A1A2E",
+        "tonalRamp": ["#0D0D17", "#12121F", "#1A1A2E", "#24243C", "#38385A", "#5C5C86", "#9494B4", "#D8D8E4"]
       },
       "whatsapp-green": {
         "role": "tertiary",
@@ -54,18 +48,19 @@
       }
     },
     "typographyMeta": {
-      "display": { "displayName": "Display", "purpose": "Hero 標題專用；Barlow Condensed 700，第二行可整行套 Calibration Orange。" },
-      "headline": { "displayName": "Headline", "purpose": "區塊標題，常配 heading-accent 橙色底線。" },
-      "body": { "displayName": "Body", "purpose": "內文；DM Sans 400，行長 ≤72ch，CJK fallback 供 zh-tw。" },
-      "label": { "displayName": "Eyebrow / Label", "purpose": "橙色大寫細字距小標（eyebrow utility）— 具名品牌排版系統。" }
+      "display": { "displayName": "Display / H1", "purpose": "DM Sans 500 正常大小寫 40–48px；禁全大寫、禁 700+。" },
+      "headline": { "displayName": "Headline / H2", "purpose": "DM Sans 500，26–32px，區塊標題。" },
+      "title": { "displayName": "Title / H3", "purpose": "產品名、卡片標題，16–18px medium。" },
+      "body": { "displayName": "Body", "purpose": "14–15px #666，lh 1.6–1.7，行長 ≤72ch。" },
+      "label": { "displayName": "Eyebrow", "purpose": "唯一的 Barlow Condensed 與唯一的大寫；淺底 #B84D08、深底 #F47920。" }
     },
     "shadows": [
-      { "name": "card-resting", "value": "0 1px 2px 0 rgba(0,0,0,0.05)", "purpose": "白卡在暖灰底段落上的靜態浮起（Tailwind shadow-sm）。純白段落上不用；深色區塊一律無陰影。" },
-      { "name": "floating-chrome", "value": "0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1)", "purpose": "懸浮層（sticky Navbar、下拉、FloatingCTA）脫離頁面（Tailwind shadow-lg）。hover 不得升級陰影。" }
+      { "name": "card-resting", "value": "0 1px 2px 0 rgba(0,0,0,0.05)", "purpose": "白卡在 #F5F6F7 分節上的極輕浮起（shadow-sm）。白底上的卡改用 1px #ECECEC 邊框。" },
+      { "name": "floating-chrome", "value": "0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1)", "purpose": "sticky Navbar、下拉、FloatingCTA（shadow-md）。hover 不得升級陰影。" }
     ],
     "motion": [
-      { "name": "gsap-reveal", "value": "y: 24-28px + fade, power ease-out, optional stagger", "purpose": "統一進場動效（components/gsap/Reveal），內建 prefers-reduced-motion 防護。" },
-      { "name": "transition-colors", "value": "150ms ease", "purpose": "hover 只換色不位移——克制而確實的元件手感。" }
+      { "name": "gsap-reveal", "value": "y: 16-24px + fade, power ease-out, optional stagger", "purpose": "統一進場動效；明亮版面位移幅度縮小、一屏一事各自進場；prefers-reduced-motion 防護。" },
+      { "name": "transition-colors", "value": "150ms ease", "purpose": "hover 只換色不位移——克制而確實。" }
     ],
     "breakpoints": [
       { "name": "sm", "value": "640px" },
@@ -81,81 +76,82 @@
       "refersTo": "button-primary",
       "description": "橙色主 CTA（Get a Quote）；每頁至少一個。",
       "html": "<a class=\"ds-btn-primary\" href=\"#\">Get a Quote</a>",
-      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: var(--color-orange, #F47920); color: #fff; padding: 12px 24px; font-size: 14px; font-weight: 600; border-radius: 4px; text-decoration: none; transition: background-color 150ms ease; } .ds-btn-primary:hover { background: var(--color-orange-hover, #D9640C); } .ds-btn-primary:focus-visible { outline: 2px solid #F47920; outline-offset: 2px; }"
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: var(--color-orange, #F47920); color: #fff; padding: 12px 24px; font-size: 14px; font-weight: 500; border-radius: 4px; text-decoration: none; transition: background-color 150ms ease; } .ds-btn-primary:hover { background: var(--color-orange-hover, #D8681A); } .ds-btn-primary:focus-visible { outline: 2px solid #F47920; outline-offset: 2px; }"
     },
     {
-      "name": "Outline Button (dark stage)",
+      "name": "Ghost Button (light page)",
       "kind": "button",
-      "refersTo": "button-outline-light",
-      "description": "深色 Hero 上的次要 CTA。",
-      "html": "<a class=\"ds-btn-outline-light\" href=\"#\">Explore Products</a>",
-      "css": ".ds-btn-outline-light { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 12px 24px; font-size: 14px; font-weight: 600; border-radius: 4px; text-decoration: none; transition: border-color 150ms ease; } .ds-btn-outline-light:hover { border-color: rgba(255,255,255,0.7); } .ds-btn-outline-light:focus-visible { outline: 2px solid #F47920; outline-offset: 2px; }"
-    },
-    {
-      "name": "Outline Button (light page)",
-      "kind": "button",
-      "refersTo": "button-outline-dark",
-      "description": "白底內頁的次要按鈕；hover 轉橙。",
-      "html": "<a class=\"ds-btn-outline-dark\" href=\"#\">View Specs</a>",
-      "css": ".ds-btn-outline-dark { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: transparent; color: #1A1A1A; border: 1px solid #E5E7EB; padding: 12px 24px; font-size: 14px; font-weight: 600; border-radius: 4px; text-decoration: none; transition: border-color 150ms ease, color 150ms ease; } .ds-btn-outline-dark:hover { border-color: #F47920; color: #F47920; } .ds-btn-outline-dark:focus-visible { outline: 2px solid #F47920; outline-offset: 2px; }"
+      "refersTo": "button-ghost",
+      "description": "白底頁次要按鈕：border-strong 邊框，hover 轉橙。",
+      "html": "<a class=\"ds-btn-ghost\" href=\"#\">View Specs</a>",
+      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: transparent; color: #1A1A1A; border: 1px solid #D5D5D5; padding: 12px 24px; font-size: 14px; font-weight: 500; border-radius: 4px; text-decoration: none; transition: border-color 150ms ease, color 150ms ease; } .ds-btn-ghost:hover { border-color: #F47920; color: #B84D08; } .ds-btn-ghost:focus-visible { outline: 2px solid #F47920; outline-offset: 2px; }"
     },
     {
       "name": "Eyebrow + Heading",
       "kind": "custom",
       "refersTo": "label",
-      "description": "具名品牌排版系統：橙色大寫小標 + condensed 粗標題 + 橙色底線。",
-      "html": "<div class=\"ds-heading-block\"><p class=\"ds-eyebrow\">Why Motoknife</p><h2 class=\"ds-headline\">Precision You Can Trust</h2></div>",
-      "css": ".ds-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #F47920; margin: 0 0 12px; } .ds-headline { font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-size: 34px; font-weight: 700; line-height: 1.15; color: #1A1A1A; margin: 0; } .ds-headline::after { content: ''; display: block; margin-top: 12px; height: 4px; width: 64px; background: #F47920; }"
+      "description": "橙色大寫小標（Barlow Condensed）+ DM Sans 500 正常大小寫標題；v1 橙色底線已廢除。",
+      "html": "<div class=\"ds-heading-block\"><p class=\"ds-eyebrow\">Why Motoknife</p><h2 class=\"ds-headline\">Precision you can trust</h2></div>",
+      "css": ".ds-eyebrow { font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase; color: #B84D08; margin: 0 0 12px; } .ds-headline { font-family: 'DM Sans', sans-serif; font-size: 30px; font-weight: 500; line-height: 1.2; color: #1A1A1A; margin: 0; }"
     },
     {
-      "name": "Trust Fact Strip (dark)",
+      "name": "Product Card (light)",
+      "kind": "card",
+      "description": "白底產品卡：#FAFAFA 圖片底 + hover 細橙邊框，不位移。",
+      "html": "<a class=\"ds-product-card\" href=\"#\"><div class=\"ds-product-img\"></div><h3 class=\"ds-product-name\">A410 Shear Cut Holder</h3><p class=\"ds-product-desc\">Precision shear slitting for metallic foils and heavy board.</p></a>",
+      "css": ".ds-product-card { display: block; background: #fff; border: 1px solid transparent; border-radius: 8px; padding: 16px; max-width: 280px; text-decoration: none; box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05); transition: border-color 150ms ease; } .ds-product-card:hover { border-color: #F47920; } .ds-product-img { aspect-ratio: 4 / 3; background: #FAFAFA; border-radius: 4px; } .ds-product-name { font-family: 'DM Sans', sans-serif; font-size: 17px; font-weight: 500; color: #1A1A1A; margin: 14px 0 0; } .ds-product-desc { font-size: 14px; line-height: 1.65; color: #666; margin: 6px 0 0; }"
+    },
+    {
+      "name": "Neutral Image Slot",
       "kind": "custom",
-      "description": "深色信任數字條：頂部細線 + 細線分欄，無卡片框、無裝飾條。數字必須是可驗證事實。",
-      "html": "<div class=\"ds-fact-strip\"><div class=\"ds-fact\"><p class=\"ds-fact-value\">36+</p><p class=\"ds-fact-label\">Years of precision manufacturing in Taiwan</p></div><div class=\"ds-fact\"><p class=\"ds-fact-value\">3-Day</p><p class=\"ds-fact-label\">Dispatch for warehouse-ready models</p></div></div>",
-      "css": ".ds-fact-strip { display: flex; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 32px; background: #12121F; } .ds-fact { padding-right: 24px; } .ds-fact + .ds-fact { border-left: 1px solid rgba(255,255,255,0.1); padding-left: 24px; } .ds-fact-value { font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-size: 34px; font-weight: 700; color: #F47920; margin: 0; } .ds-fact-label { font-size: 14px; line-height: 1.625; color: rgba(255,255,255,0.6); margin: 8px 0 0; }"
+      "description": "素材未到位的標準佔位：#FAFAFA 色塊 + 固定比例，無任何文字。禁止開發註記上線。",
+      "html": "<div class=\"ds-img-slot\" role=\"img\" aria-label=\"Product image forthcoming\"></div>",
+      "css": ".ds-img-slot { aspect-ratio: 16 / 9; width: 100%; max-width: 480px; background: #FAFAFA; border-radius: 8px; }"
     },
     {
       "name": "Text Input",
       "kind": "input",
       "refersTo": "input",
-      "description": "詢價表單欄位：白底 + hairline 邊框 + 4px 圓角。",
+      "description": "表單欄位：#FAFAFA 底 + border-strong。",
       "html": "<input class=\"ds-input\" type=\"text\" placeholder=\"Your material (e.g. BOPP film, 20µm)\" />",
-      "css": ".ds-input { width: 100%; max-width: 320px; background: #fff; color: #1A1A1A; border: 1px solid #E5E7EB; border-radius: 4px; padding: 10px 12px; font-size: 14px; font-family: inherit; } .ds-input::placeholder { color: #64748B; } .ds-input:focus { outline: 2px solid #F47920; outline-offset: -1px; border-color: #F47920; }"
+      "css": ".ds-input { width: 100%; max-width: 320px; background: #FAFAFA; color: #1A1A1A; border: 1px solid #D5D5D5; border-radius: 4px; padding: 10px 12px; font-size: 14px; font-family: inherit; } .ds-input::placeholder { color: #666; } .ds-input:focus { outline: 2px solid #F47920; outline-offset: -1px; border-color: #F47920; }"
     }
   ],
   "narrative": {
-    "northStar": "The Precision Instrument",
-    "overview": "整套系統像一件經過公差檢驗的精密儀器：每個元素都有明確功能、精確尺寸與克制的表面處理。深色舞台承載大面積留白，Barlow Condensed 緊湊大寫標題像機殼上的雷射刻字，唯一的飽和色 Calibration Orange 如精密量具上的校準標記，只出現在需要視線落點的位置。內頁回到白底，像一本排版嚴謹的技術型錄。動效由 GSAP Reveal 統一管理，永遠不延遲規格資訊的取得。",
+    "northStar": "The Bright Workshop",
+    "overview": "明亮、精密、值得信賴的現代工廠。像 DJI 展示無人機那樣展示刀組：白色舞台上產品即主角，頁面本體幾乎無色——色彩讓給產品渲染圖與唯一的動作色 Calibration Orange。區塊以 #FFFFFF ↔ #F5F6F7 交替呼吸。排版走 Apple 式紀律（中等字重、正常大小寫、極短文案），內容走 Tesla 式節奏（一屏一事、圖片 ≥60%）。深色僅保留 Navbar（可選）、Footer、結尾 CTA。",
     "keyCharacteristics": [
-      "深色舞台 + 白底型錄的明暗分幕",
-      "單一飽和色（橙）作為全站唯一視線錨點",
-      "緊湊粗體 condensed 標題 vs 溫和幾何 sans 內文的強對比",
-      "全站零陰影：深度靠色階與 1px 邊框",
-      "事實密度優先：數字、規格、專利是視覺主角"
+      "白色舞台 + 淺灰分節的明暗呼吸（非深色戲劇）",
+      "橘色嚴格限定動作色：按鈕、連結、eyebrow，佔畫面 ≤5%",
+      "中等字重（500）正常大小寫標題——自信不喊叫",
+      "產品圖片是視覺主角；素材未到位用中性留白圖位",
+      "事實密度不變：規格、專利、年資仍是說服主力"
     ],
     "rules": [
-      { "name": "The One Accent Rule", "body": "Calibration Orange 是全站唯一飽和色，任一畫面佔比 ≤10%。第二個飽和色（除 WhatsApp 綠的功能性例外）一律禁止。", "section": "colors" },
-      { "name": "The Legible Orange Rule", "body": "淺底上小於 18px 的橙色文字一律用 Calibration Orange Text (#B84D08)；#F47920 於淺底僅限大字、icon 底色與非文字元素。深色底上 #F47920 直接可用。", "section": "colors" },
-      { "name": "The Tonal Stage Rule", "body": "深色區文字用 white / white/60 / white/55 三階透明度（white/40 對小字不足 4.5:1，禁用於內文），禁止灰色文字直接壓深色底。", "section": "colors" },
-      { "name": "The Condensed-Is-For-Headings Rule", "body": "Barlow Condensed 只用於標題與大數字；內文、表單、規格表一律 DM Sans。", "section": "typography" },
-      { "name": "The Resting Shadow Rule", "body": "陰影只存在於靜止狀態：白卡 shadow-sm、懸浮層 shadow-lg。hover 不升級陰影、不位移、不縮放——互動回饋一律換色。深色區塊無陰影。", "section": "elevation" }
+      { "name": "The Action Color Rule", "body": "橘色只做動作色：按鈕、連結、eyebrow。任一畫面橙佔比 ≤5%，第二飽和色禁止（WhatsApp 綠例外）。", "section": "colors" },
+      { "name": "The Legible Orange Rule", "body": "白/淺灰是全站預設場地：小於 18px 的橙色文字（含 eyebrow、連結）一律 #B84D08；#F47920 僅限按鈕底色、大字與深色底。", "section": "colors" },
+      { "name": "The White Stage Rule", "body": "區塊切換用 #FFFFFF ↔ #F5F6F7 背景交替，不用線條硬切。深色區塊全站僅三處：Navbar（可選）、Footer、結尾 CTA。", "section": "colors" },
+      { "name": "The Documented Exception", "body": "橙底白字按鈕 2.76:1 為業主核可的品牌級例外（2026-07-08），audit 不再重報；其餘文字一律嚴格 WCAG AA。", "section": "colors" },
+      { "name": "The Medium-Weight Rule", "body": "標題一律 font-weight 500；700+ 字重與 Condensed 全大寫大標題全站禁止。", "section": "typography" },
+      { "name": "The Condensed-Is-For-Labels Rule", "body": "Barlow Condensed 只准出現在 eyebrow 小型標籤；其餘一律 DM Sans。", "section": "typography" },
+      { "name": "The Resting Shadow Rule", "body": "陰影只存在於靜止狀態：白卡 shadow-sm、懸浮元件 shadow-md。hover 不升級陰影、不位移、不縮放。", "section": "elevation" }
     ],
     "dos": [
-      "Do 讓 Calibration Orange (#F47920) 保持稀有——每個畫面一個主 CTA、少量強調，佔比 ≤10%。",
-      "Do 淺底小字橙一律用 Calibration Orange Text (#B84D08)；#F47920 留給大字與深色底。",
-      "Do 用色階（instrument-black → navy 三階 → 白）與 1px 邊框建立深度；陰影僅限靜態 shadow-sm（白卡）與 shadow-lg（懸浮層）。",
-      "Do 用可驗證事實當視覺主角：年資、專利數、規格數字。",
-      "Do 所有進場動效走 GSAP Reveal（含 reduced-motion 防護），hover 只換色。",
-      "Do 深色底文字用 white / white/60 / white/55 三階（下限 white/55）；白底小字內文用 Ink (#1A1A1A)。"
+      "Do 讓產品圖片當主角：每個敘事區塊圖片佔比 ≥60%，一屏只講一個主張。",
+      "Do 區塊節奏用 #FFFFFF ↔ #F5F6F7 背景交替，深色只留 Navbar（可選）/Footer/結尾 CTA。",
+      "Do 標題 DM Sans 500 正常大小寫；eyebrow 是唯一的 Barlow Condensed 與唯一的大寫。",
+      "Do 淺底小字橙一律 #B84D08；#F47920 留給按鈕底色與深色底。",
+      "Do 素材缺位用中性留白圖位（#FAFAFA + aspect-ratio），保持結構就緒。",
+      "Do 規格前置：DJI 式 hero 疊關鍵數字，用可驗證事實說服。"
     ],
     "donts": [
-      "Don't generic AI SaaS look：Inter font、purple-blue gradients、glassmorphism、icon-tile 三欄 feature cards、裝飾性 big-number-small-label stat blocks。",
+      "Don't Condensed 全大寫粗體大標題、700+ 字重標題（v1 遺產，全站廢除）。",
+      "Don't generic AI SaaS look：Inter font、purple-blue gradients、glassmorphism、icon-tile 三欄 feature cards、裝飾性 stat blocks。",
       "Don't cheap industrial-supplier template：red/blue 主色、雜亂產品格、badge walls、握手/地球 stock photos。",
-      "Don't over-animated portfolio：parallax、scroll-jacking、任何延遲買家讀規格的裝飾動效。",
-      "Don't dark-mode-with-neon-accent：深色是舞台不是主題，霓虹色一律禁止。",
-      "Don't hover 陰影升級（hover:shadow-*）、hover 位移/縮放、gradient text、彩色粗左邊框、巢狀卡片。",
-      "Don't 引入第二個飽和色或把 WhatsApp 綠用在 WhatsApp 按鈕以外。",
-      "Don't 用 Barlow Condensed 排內文，或用 Slate Secondary (#64748B) 排白底小字內文。"
+      "Don't over-animated portfolio：parallax、scroll-jacking、延遲讀規格的裝飾動效。",
+      "Don't hover 陰影升級、hover 位移/縮放、gradient text、彩色粗左邊框、巢狀卡片。",
+      "Don't 用 Text Muted (#999) 排須閱讀的小字；說明文字用 Text Secondary (#666)。",
+      "Don't 讓開發註記或假素材上線——留白圖位裡不放任何文字。"
     ]
   }
 }

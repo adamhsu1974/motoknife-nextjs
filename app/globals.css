@@ -1,19 +1,27 @@
 @import "tailwindcss";
 
 /*
- * MOTOKNIFE Design Tokens
- * 風格方向：Devialet 式歐洲高端 B2B 工業美學 —
- * 深色大面積留白、精準的橙色點綴、緊湊大寫標題
+ * MOTOKNIFE Design Tokens — v2 "The Bright Workshop"
+ * 風格方向：DJI 式白底明亮工業展示 —
+ * 白色舞台、產品即主角、橘色僅做動作色（≤5%）
+ * 深色僅保留：Navbar（可選）、Footer、結尾 CTA
  */
 @theme inline {
-  /* Brand */
+  /* Brand — 橘色只做動作色 */
   --color-orange: #f47920;
-  --color-orange-hover: #d9640c;
+  --color-orange-hover: #d8681a;
   --color-orange-soft: #fef1e6;
-  /* 淺底小字專用深橙：#f47920 在白底僅 2.8:1，此值於 white/bg-warm/orange-soft 均 ≥4.5:1 */
+  /* 淺底小字專用深橙（Legible Orange Rule）：#f47920 在白底僅 2.8:1，此值 ≥4.5:1 */
   --color-orange-text: #b84d08;
 
-  /* Dark surfaces */
+  /* Light stage（v2 主場） */
+  --color-bg-secondary: #f5f6f7;
+  --color-bg-tertiary: #fafafa;
+  --color-border-strong: #d5d5d5;
+  /* 僅限裝飾性標籤（2.85:1）；須閱讀的文字用 text-secondary */
+  --color-text-muted: #999999;
+
+  /* Dark surfaces — 僅 Navbar/Footer/結尾 CTA */
   --color-navy: #1a1a2e;
   --color-navy-dark: #12121f;
   --color-navy-light: #24243c;
@@ -21,10 +29,11 @@
 
   /* Neutrals */
   --color-text-primary: #1a1a1a;
-  --color-text-secondary: #64748b;
+  --color-text-secondary: #666666;
+  /* deprecated（v1 遺產，part 2/3 改版時以 white/bg-secondary/bg-tertiary 汰換） */
   --color-bg-warm: #f7f7f5;
   --color-bg-card: #f1f1ed;
-  --color-border: #e5e7eb;
+  --color-border: #ececec;
 
   /* Typography（CJK fallback 供 zh-tw 內容） */
   --font-sans: var(--font-dm-sans), "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
