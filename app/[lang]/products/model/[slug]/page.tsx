@@ -131,7 +131,7 @@ export default async function ProductModelPage({ params }: ProductModelPageProps
 
                 <div className="flex flex-wrap items-center gap-2">
                   {series && (
-                    <span className="rounded-sm bg-orange-soft px-2.5 py-1 text-xs font-semibold text-orange">
+                    <span className="rounded-sm bg-orange-soft px-2.5 py-1 text-xs font-semibold text-orange-text">
                       {series.cuttingMethod}
                     </span>
                   )}
@@ -221,7 +221,7 @@ export default async function ProductModelPage({ params }: ProductModelPageProps
                           href={`/${lang}/solutions/${solution.slug}`}
                           className="group block rounded border border-border p-4 transition-colors hover:border-orange"
                         >
-                          <p className="text-sm font-semibold text-text-primary transition-colors group-hover:text-orange">
+                          <p className="text-sm font-semibold text-text-primary transition-colors group-hover:text-orange-text">
                             {solution.material}
                           </p>
                           <p className="mt-1 line-clamp-2 text-xs text-text-secondary">
@@ -351,7 +351,7 @@ function OverviewPanel({
               <Link
                 key={app.slug}
                 href={`/${lang}/applications/${app.slug}`}
-                className="rounded-sm bg-orange-soft px-3 py-1.5 text-sm font-medium text-orange transition-colors hover:bg-orange hover:text-white"
+                className="rounded-sm bg-orange-soft px-3 py-1.5 text-sm font-medium text-orange-text transition-colors hover:bg-orange hover:text-white"
               >
                 {app.title} →
               </Link>
@@ -378,7 +378,7 @@ function KeyFigure({ label, value, note }: { label: string; value: string; note?
         <span className="font-heading text-4xl font-bold text-text-primary">{number}</span>
         {unit && <span className="text-sm font-medium text-text-secondary">{unit}</span>}
       </p>
-      {note && <p className="mt-1 text-xs text-orange">{note}</p>}
+      {note && <p className="mt-1 text-xs text-orange-text">{note}</p>}
       <div className="mt-3 h-1.5 w-full rounded-full bg-gradient-to-r from-orange via-orange/60 to-orange/15" />
     </div>
   );
@@ -451,7 +451,7 @@ function SpecsPanel({ product, dict }: { product: Product; dict: Dictionary }) {
                   <td className="px-3 py-2.5 text-text-primary">
                     {spec.value}
                     {spec.note && (
-                      <span className="ml-2 text-xs text-orange">({spec.note})</span>
+                      <span className="ml-2 text-xs text-orange-text">({spec.note})</span>
                     )}
                   </td>
                 </tr>

@@ -84,7 +84,7 @@ export default async function SolutionPage({ params }: SolutionPageProps) {
                   {series && (
                     <Link
                       href={`/${lang}/products/${series.slug}`}
-                      className="rounded-sm bg-orange-soft px-2.5 py-1 text-xs font-semibold text-orange transition-colors hover:bg-orange hover:text-white"
+                      className="rounded-sm bg-orange-soft px-2.5 py-1 text-xs font-semibold text-orange-text transition-colors hover:bg-orange hover:text-white"
                     >
                       {series.cuttingMethod}
                     </Link>
@@ -125,7 +125,7 @@ export default async function SolutionPage({ params }: SolutionPageProps) {
                       <div className="mt-3 flex gap-2">
                         <Link
                           href={`/${lang}/products/model/${modelSlug(model)}`}
-                          className="rounded border border-border px-4 py-2 text-sm font-medium text-text-primary transition-colors hover:border-orange hover:text-orange"
+                          className="rounded border border-border px-4 py-2 text-sm font-medium text-text-primary transition-colors hover:border-orange hover:text-orange-text"
                         >
                           {dict.products.viewDetails}
                         </Link>
@@ -146,7 +146,7 @@ export default async function SolutionPage({ params }: SolutionPageProps) {
                     {dict.products.relatedApplications}:{" "}
                     <Link
                       href={`/${lang}/applications/${application.slug}`}
-                      className="font-semibold text-orange hover:text-orange-hover"
+                      className="font-semibold text-orange-text underline-offset-4 hover:underline"
                     >
                       {application.title} →
                     </Link>
@@ -194,7 +194,7 @@ export default async function SolutionPage({ params }: SolutionPageProps) {
                         <li key={s.slug}>
                           <Link
                             href={`/${lang}/solutions/${s.slug}`}
-                            className="text-sm text-text-secondary transition-colors hover:text-orange"
+                            className="text-sm text-text-secondary transition-colors hover:text-orange-text"
                           >
                             {s.material} · {getSeriesInfo(s.cuttingMethod)?.name}
                           </Link>

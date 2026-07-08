@@ -86,13 +86,13 @@ export default async function ApplicationsPage({ params }: ApplicationsPageProps
           <Link
             key={app.slug}
             href={`/${locale}/applications/${app.slug}`}
-            className="group rounded-lg bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
+            className="group rounded-lg border border-transparent bg-white p-6 shadow-sm transition-colors hover:border-orange"
           >
             <h2 className="text-lg font-semibold text-text-primary">{app.title}</h2>
             <p className="mt-1 line-clamp-2 text-sm text-text-secondary">
               {(app.coverage ?? []).map((c) => c.material).join(", ")}
             </p>
-            <span className="mt-3 inline-block text-sm font-medium text-orange">
+            <span className="mt-3 inline-block text-sm font-medium text-orange-text">
               {dict.common.learnMore} →
             </span>
           </Link>

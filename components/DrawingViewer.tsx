@@ -175,7 +175,7 @@ export default function DrawingViewer({
             type="button"
             onClick={reset}
             aria-label={resetLabel}
-            className="flex h-9 w-9 items-center justify-center rounded bg-white/90 text-text-primary shadow-sm transition-colors hover:bg-white hover:text-orange"
+            className="flex h-9 w-9 items-center justify-center rounded bg-white/90 text-text-primary shadow-sm transition-colors hover:bg-white hover:text-orange-text"
           >
             <ResetIcon />
           </button>
@@ -183,7 +183,7 @@ export default function DrawingViewer({
             type="button"
             onClick={toggleFullscreen}
             aria-label={fullscreenLabel}
-            className="flex h-9 w-9 items-center justify-center rounded bg-white/90 text-text-primary shadow-sm transition-colors hover:bg-white hover:text-orange"
+            className="flex h-9 w-9 items-center justify-center rounded bg-white/90 text-text-primary shadow-sm transition-colors hover:bg-white hover:text-orange-text"
           >
             <FullscreenIcon />
           </button>

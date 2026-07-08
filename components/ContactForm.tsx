@@ -447,7 +447,7 @@ function FormField({
 function OfficeInfo({ title, lines }: { title: string; lines: string[] }) {
   return (
     <div>
-      <p className="text-xs font-semibold uppercase tracking-wider text-orange">{title}</p>
+      <p className="text-xs font-semibold uppercase tracking-wider text-orange-text">{title}</p>
       <div className="mt-2 space-y-1 text-sm text-text-secondary">
         {lines.map((line) => (
           <p key={line}>{line}</p>

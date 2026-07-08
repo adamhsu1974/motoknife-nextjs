@@ -10,6 +10,18 @@
         "canonical": "#F47920",
         "tonalRamp": ["#3D1E08", "#6B3410", "#9A4A15", "#C85F1A", "#F47920", "#F79A54", "#FABC8B", "#FDE3CB"]
       },
+      "calibration-orange-text": {
+        "role": "primary",
+        "displayName": "Calibration Orange Text",
+        "canonical": "#B84D08",
+        "tonalRamp": ["#2E1302", "#5C2604", "#8A3A06", "#B84D08", "#D9640C", "#F47920", "#F79A54", "#FDE3CB"]
+      },
+      "pure-white": {
+        "role": "neutral",
+        "displayName": "Pure White",
+        "canonical": "#FFFFFF",
+        "tonalRamp": ["#1A1A1A", "#454545", "#7A7A7A", "#9E9E9E", "#C4C4C4", "#E5E7EB", "#F7F7F5", "#FFFFFF"]
+      },
       "instrument-black": {
         "role": "neutral",
         "displayName": "Instrument Black",
@@ -47,7 +59,10 @@
       "body": { "displayName": "Body", "purpose": "內文；DM Sans 400，行長 ≤72ch，CJK fallback 供 zh-tw。" },
       "label": { "displayName": "Eyebrow / Label", "purpose": "橙色大寫細字距小標（eyebrow utility）— 具名品牌排版系統。" }
     },
-    "shadows": [],
+    "shadows": [
+      { "name": "card-resting", "value": "0 1px 2px 0 rgba(0,0,0,0.05)", "purpose": "白卡在暖灰底段落上的靜態浮起（Tailwind shadow-sm）。純白段落上不用；深色區塊一律無陰影。" },
+      { "name": "floating-chrome", "value": "0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1)", "purpose": "懸浮層（sticky Navbar、下拉、FloatingCTA）脫離頁面（Tailwind shadow-lg）。hover 不得升級陰影。" }
+    ],
     "motion": [
       { "name": "gsap-reveal", "value": "y: 24-28px + fade, power ease-out, optional stagger", "purpose": "統一進場動效（components/gsap/Reveal），內建 prefers-reduced-motion 防護。" },
       { "name": "transition-colors", "value": "150ms ease", "purpose": "hover 只換色不位移——克制而確實的元件手感。" }
@@ -93,11 +108,11 @@
       "css": ".ds-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #F47920; margin: 0 0 12px; } .ds-headline { font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-size: 34px; font-weight: 700; line-height: 1.15; color: #1A1A1A; margin: 0; } .ds-headline::after { content: ''; display: block; margin-top: 12px; height: 4px; width: 64px; background: #F47920; }"
     },
     {
-      "name": "Trust Stat Card (dark)",
-      "kind": "card",
-      "description": "深色信任數字卡：white/3% 底 + white/10 邊框 + 橙色 condensed 大數字。數字必須是可驗證事實。",
-      "html": "<div class=\"ds-stat-card\"><p class=\"ds-stat-value\">36+</p><p class=\"ds-stat-label\">Years of precision manufacturing in Taiwan</p></div>",
-      "css": ".ds-stat-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 24px; max-width: 260px; } .ds-stat-value { font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-size: 34px; font-weight: 700; color: #F47920; margin: 0; } .ds-stat-label { font-size: 14px; line-height: 1.625; color: rgba(255,255,255,0.6); margin: 8px 0 0; }"
+      "name": "Trust Fact Strip (dark)",
+      "kind": "custom",
+      "description": "深色信任數字條：頂部細線 + 細線分欄，無卡片框、無裝飾條。數字必須是可驗證事實。",
+      "html": "<div class=\"ds-fact-strip\"><div class=\"ds-fact\"><p class=\"ds-fact-value\">36+</p><p class=\"ds-fact-label\">Years of precision manufacturing in Taiwan</p></div><div class=\"ds-fact\"><p class=\"ds-fact-value\">3-Day</p><p class=\"ds-fact-label\">Dispatch for warehouse-ready models</p></div></div>",
+      "css": ".ds-fact-strip { display: flex; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 32px; background: #12121F; } .ds-fact { padding-right: 24px; } .ds-fact + .ds-fact { border-left: 1px solid rgba(255,255,255,0.1); padding-left: 24px; } .ds-fact-value { font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-size: 34px; font-weight: 700; color: #F47920; margin: 0; } .ds-fact-label { font-size: 14px; line-height: 1.625; color: rgba(255,255,255,0.6); margin: 8px 0 0; }"
     },
     {
       "name": "Text Input",
@@ -120,23 +135,25 @@
     ],
     "rules": [
       { "name": "The One Accent Rule", "body": "Calibration Orange 是全站唯一飽和色，任一畫面佔比 ≤10%。第二個飽和色（除 WhatsApp 綠的功能性例外）一律禁止。", "section": "colors" },
-      { "name": "The Tonal Stage Rule", "body": "深色區文字用 white / white/60 / white/40 三階透明度，禁止灰色文字直接壓深色底。", "section": "colors" },
+      { "name": "The Legible Orange Rule", "body": "淺底上小於 18px 的橙色文字一律用 Calibration Orange Text (#B84D08)；#F47920 於淺底僅限大字、icon 底色與非文字元素。深色底上 #F47920 直接可用。", "section": "colors" },
+      { "name": "The Tonal Stage Rule", "body": "深色區文字用 white / white/60 / white/55 三階透明度（white/40 對小字不足 4.5:1，禁用於內文），禁止灰色文字直接壓深色底。", "section": "colors" },
       { "name": "The Condensed-Is-For-Headings Rule", "body": "Barlow Condensed 只用於標題與大數字；內文、表單、規格表一律 DM Sans。", "section": "typography" },
-      { "name": "The No-Shadow Rule", "body": "box-shadow 全域禁止。若元素浮不起來，答案是調整背景色階或邊框對比，不是加陰影。", "section": "elevation" }
+      { "name": "The Resting Shadow Rule", "body": "陰影只存在於靜止狀態：白卡 shadow-sm、懸浮層 shadow-lg。hover 不升級陰影、不位移、不縮放——互動回饋一律換色。深色區塊無陰影。", "section": "elevation" }
     ],
     "dos": [
       "Do 讓 Calibration Orange (#F47920) 保持稀有——每個畫面一個主 CTA、少量強調，佔比 ≤10%。",
-      "Do 用色階（instrument-black → navy 三階 → 白）與 1px 邊框建立深度，全站零陰影。",
+      "Do 淺底小字橙一律用 Calibration Orange Text (#B84D08)；#F47920 留給大字與深色底。",
+      "Do 用色階（instrument-black → navy 三階 → 白）與 1px 邊框建立深度；陰影僅限靜態 shadow-sm（白卡）與 shadow-lg（懸浮層）。",
       "Do 用可驗證事實當視覺主角：年資、專利數、規格數字。",
       "Do 所有進場動效走 GSAP Reveal（含 reduced-motion 防護），hover 只換色。",
-      "Do 深色底文字用 white / white/60 兩階；白底小字內文用 Ink (#1A1A1A)。"
+      "Do 深色底文字用 white / white/60 / white/55 三階（下限 white/55）；白底小字內文用 Ink (#1A1A1A)。"
     ],
     "donts": [
       "Don't generic AI SaaS look：Inter font、purple-blue gradients、glassmorphism、icon-tile 三欄 feature cards、裝飾性 big-number-small-label stat blocks。",
       "Don't cheap industrial-supplier template：red/blue 主色、雜亂產品格、badge walls、握手/地球 stock photos。",
       "Don't over-animated portfolio：parallax、scroll-jacking、任何延遲買家讀規格的裝飾動效。",
       "Don't dark-mode-with-neon-accent：深色是舞台不是主題，霓虹色一律禁止。",
-      "Don't box-shadow、gradient text、彩色粗左邊框、巢狀卡片。",
+      "Don't hover 陰影升級（hover:shadow-*）、hover 位移/縮放、gradient text、彩色粗左邊框、巢狀卡片。",
       "Don't 引入第二個飽和色或把 WhatsApp 綠用在 WhatsApp 按鈕以外。",
       "Don't 用 Barlow Condensed 排內文，或用 Slate Secondary (#64748B) 排白底小字內文。"
     ]

@@ -179,7 +179,7 @@ export default function ApplicationSelector({ lang, dict, materials }: Applicati
               >
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                   <div>
-                    <span className="inline-block rounded-sm bg-orange/10 px-2.5 py-1 text-xs font-semibold text-orange">
+                    <span className="inline-block rounded-sm bg-orange/10 px-2.5 py-1 text-xs font-semibold text-orange-text">
                       {rec.methodLabel}
                     </span>
                     <div className="mt-3 flex flex-wrap gap-2">
@@ -187,7 +187,7 @@ export default function ApplicationSelector({ lang, dict, materials }: Applicati
                         <Link
                           key={p.slug}
                           href={`/${lang}/products/model/${p.slug}`}
-                          className="rounded bg-bg-card px-3 py-1.5 text-sm font-bold transition-colors hover:bg-orange-soft hover:text-orange"
+                          className="rounded bg-bg-card px-3 py-1.5 text-sm font-bold transition-colors hover:bg-orange-soft hover:text-orange-text"
                         >
                           {p.model}
                         </Link>
@@ -201,7 +201,7 @@ export default function ApplicationSelector({ lang, dict, materials }: Applicati
                   </div>
                   <Link
                     href={`/${lang}/products/${rec.seriesSlug}`}
-                    className="shrink-0 rounded border border-border px-4 py-2 text-center text-sm font-medium text-text-primary transition-colors hover:border-orange hover:text-orange"
+                    className="shrink-0 rounded border border-border px-4 py-2 text-center text-sm font-medium text-text-primary transition-colors hover:border-orange hover:text-orange-text"
                   >
                     {dict.selector.viewSeries}
                   </Link>

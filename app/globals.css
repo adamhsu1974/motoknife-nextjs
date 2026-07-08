@@ -10,6 +10,8 @@
   --color-orange: #f47920;
   --color-orange-hover: #d9640c;
   --color-orange-soft: #fef1e6;
+  /* 淺底小字專用深橙：#f47920 在白底僅 2.8:1，此值於 white/bg-warm/orange-soft 均 ≥4.5:1 */
+  --color-orange-text: #b84d08;
 
   /* Dark surfaces */
   --color-navy: #1a1a2e;

@@ -137,11 +137,11 @@ export default function Footer({ lang, dict, distributorCountries }: FooterProps
 
         {/* Bottom Bar */}
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 sm:flex-row">
-          <p className="text-xs text-white/40">
+          <p className="text-xs text-white/55">
             &copy; {new Date().getFullYear()} {dict.footer.companyLegalName}.{" "}
             {dict.footer.allRightsReserved}
           </p>
-          <div className="flex gap-4 text-xs text-white/40">
+          <div className="flex gap-4 text-xs text-white/55">
             <Link href="/en" className={lang === "en" ? "text-white/80" : "hover:text-white/70"}>
               EN
             </Link>

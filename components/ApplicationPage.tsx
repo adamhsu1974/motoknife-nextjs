@@ -75,7 +75,7 @@ export default function ApplicationPage({
                     <Link
                       key={method}
                       href={`/${lang}/products/${method}`}
-                      className="rounded-sm bg-orange/10 px-3 py-1.5 text-sm font-semibold text-orange"
+                      className="rounded-sm bg-orange/10 px-3 py-1.5 text-sm font-semibold text-orange-text"
                     >
                       {getSeriesInfo(method)?.cuttingMethod ?? method}
                     </Link>
@@ -120,7 +120,7 @@ export default function ApplicationPage({
                       key={rec.id ?? rec.cuttingMethod}
                       className="rounded border border-border p-4"
                     >
-                      <span className="inline-block rounded-sm bg-orange/10 px-2.5 py-1 text-xs font-semibold text-orange">
+                      <span className="inline-block rounded-sm bg-orange/10 px-2.5 py-1 text-xs font-semibold text-orange-text">
                         {getSeriesInfo(rec.cuttingMethod)?.cuttingMethod ?? rec.cuttingMethod}
                       </span>
                       <div className="mt-3 flex flex-wrap gap-2">
@@ -128,7 +128,7 @@ export default function ApplicationPage({
                           <Link
                             key={p.slug}
                             href={`/${lang}/products/model/${p.slug}`}
-                            className="rounded bg-bg-card px-3 py-1.5 text-sm font-bold text-text-primary transition-colors hover:bg-orange-soft hover:text-orange"
+                            className="rounded bg-bg-card px-3 py-1.5 text-sm font-bold text-text-primary transition-colors hover:bg-orange-soft hover:text-orange-text"
                           >
                             {p.model}
                           </Link>
@@ -154,7 +154,7 @@ export default function ApplicationPage({
                         href={`/${lang}/solutions/${solution.slug}`}
                         className="group block rounded border border-border p-4 transition-colors hover:border-orange"
                       >
-                        <p className="text-sm font-semibold text-text-primary transition-colors group-hover:text-orange">
+                        <p className="text-sm font-semibold text-text-primary transition-colors group-hover:text-orange-text">
                           {solution.material} ·{" "}
                           {getSeriesInfo(solution.cuttingMethod)?.name}
                         </p>
@@ -199,7 +199,7 @@ export default function ApplicationPage({
                     <li key={app.slug}>
                       <Link
                         href={`/${lang}/applications/${app.slug}`}
-                        className="text-sm text-text-secondary transition-colors hover:text-orange"
+                        className="text-sm text-text-secondary transition-colors hover:text-orange-text"
                       >
                         {app.title}
                       </Link>

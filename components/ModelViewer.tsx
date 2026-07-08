@@ -106,7 +106,7 @@ export default function ModelViewer({ src, alt, fullscreenLabel }: ModelViewerPr
         type="button"
         onClick={toggleFullscreen}
         aria-label={fullscreenLabel}
-        className="absolute right-3 top-3 z-20 flex h-9 w-9 items-center justify-center rounded bg-white/90 text-text-primary shadow-sm transition-colors hover:bg-white hover:text-orange"
+        className="absolute right-3 top-3 z-20 flex h-9 w-9 items-center justify-center rounded bg-white/90 text-text-primary shadow-sm transition-colors hover:bg-white hover:text-orange-text"
       >
         <FullscreenIcon />
       </button>

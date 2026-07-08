@@ -27,14 +27,14 @@ export default function FloatingCTA({ lang, dict }: FloatingCTAProps) {
         target="_blank"
         rel="noopener noreferrer"
         aria-label={dict.contact.whatsappCta}
-        className="flex h-12 w-12 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl"
+        className="flex h-12 w-12 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-colors hover:bg-[#1EBE5A]"
       >
         <WhatsAppIcon size={22} />
       </a>
 
       <Link
         href={`/${lang}/contact`}
-        className="flex items-center gap-2 rounded-lg bg-orange px-5 py-3 text-sm font-semibold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:bg-orange-hover hover:shadow-xl"
+        className="flex items-center gap-2 rounded-lg bg-orange px-5 py-3 text-sm font-semibold text-white shadow-lg transition-colors hover:bg-orange-hover"
       >
         <SearchIcon />
         <span className="hidden sm:inline">{dict.common.findTheRightSolution}</span>

@@ -125,7 +125,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                         <li key={entry.id}>
                           <a
                             href={`#${entry.id}`}
-                            className="text-sm text-text-secondary transition-colors hover:text-orange"
+                            className="text-sm text-text-secondary transition-colors hover:text-orange-text"
                           >
                             {entry.text}
                           </a>
@@ -172,7 +172,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                     {related.map((a) => (
                       <li key={a.slug}>
                         <Link href={`/${lang}/news/${a.slug}`} className="group block">
-                          <p className="text-sm font-medium leading-snug text-text-primary transition-colors group-hover:text-orange">
+                          <p className="text-sm font-medium leading-snug text-text-primary transition-colors group-hover:text-orange-text">
                             {a.title}
                           </p>
                           <time
@@ -187,7 +187,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   </ul>
                   <Link
                     href={`/${lang}/news`}
-                    className="mt-4 inline-block text-sm font-semibold text-orange transition-colors hover:text-orange-hover"
+                    className="mt-4 inline-block text-sm font-semibold text-orange-text underline-offset-4 transition-colors hover:underline"
                   >
                     {dict.news.backToNews} →
                   </Link>

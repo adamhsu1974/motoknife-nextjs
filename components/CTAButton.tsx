@@ -7,7 +7,7 @@ const VARIANT_CLASSES: Record<CTAVariant, string> = {
   primary: "bg-orange text-white hover:bg-orange-hover",
   "outline-light": "border border-white/30 text-white hover:border-white/70",
   "outline-dark": "border border-border text-text-primary hover:border-orange hover:text-orange",
-  white: "bg-white text-orange hover:bg-white/90",
+  white: "bg-white text-orange-text hover:bg-white/90",
 };
 
 const SIZE_CLASSES: Record<CTASize, string> = {

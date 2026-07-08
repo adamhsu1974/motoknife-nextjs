@@ -102,13 +102,6 @@ export default async function Home({ params }: HomePageProps) {
               {dict.home.ctaButton}
             </CTAButton>
           </div>
-
-          {/* Hero product visual placeholder */}
-          <div className="mt-16 flex h-56 w-full max-w-4xl items-center justify-center rounded-lg border border-white/10 bg-white/[0.03] md:h-72">
-            <span className="text-sm text-white/25">
-              Product Hero Image — 3D Render (Higgsfield, Phase 3)
-            </span>
-          </div>
         </Reveal>
       </section>
 
@@ -122,12 +115,9 @@ export default async function Home({ params }: HomePageProps) {
             {dict.home.advantagesHeading}
           </h2>
           <Reveal stagger className="mt-12 grid gap-10 md:grid-cols-3">
-            {dict.home.advantages.map((adv, i) => (
+            {dict.home.advantages.map((adv) => (
               <div key={adv.title} className="border-t-2 border-border pt-6">
-                <span className="font-heading text-4xl font-bold text-orange/25">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h3 className="mt-3 text-xl font-bold text-text-primary">{adv.title}</h3>
+                <h3 className="text-xl font-bold text-text-primary">{adv.title}</h3>
                 <p className="mt-3 leading-relaxed text-text-secondary">{adv.text}</p>
               </div>
             ))}
@@ -147,7 +137,7 @@ export default async function Home({ params }: HomePageProps) {
             </div>
             <Link
               href={`/${locale}/products`}
-              className="shrink-0 text-sm font-semibold text-orange transition-colors hover:text-orange-hover"
+              className="shrink-0 text-sm font-semibold text-orange-text underline-offset-4 transition-colors hover:underline"
             >
               {dict.home.viewAllProducts} →
             </Link>
@@ -158,9 +148,8 @@ export default async function Home({ params }: HomePageProps) {
               <Link
                 key={method.slug}
                 href={`/${locale}/products/${method.slug}`}
-                className="group relative rounded-lg bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg"
+                className="group rounded-lg border border-transparent bg-white p-6 shadow-sm transition-colors duration-200 hover:border-orange"
               >
-                <div className="absolute left-0 top-0 h-full w-1 rounded-l-lg bg-orange opacity-0 transition-opacity group-hover:opacity-100" />
                 <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-orange-soft text-orange">
                   <MethodIcon slug={method.slug} />
                 </div>
@@ -168,7 +157,7 @@ export default async function Home({ params }: HomePageProps) {
                 <p className="mt-2 text-sm leading-relaxed text-text-secondary">
                   {method.description}
                 </p>
-                <p className="mt-4 text-xs font-semibold uppercase tracking-wider text-orange">
+                <p className="mt-4 text-xs font-semibold uppercase tracking-wider text-orange-text">
                   {method.spec}
                 </p>
               </Link>
@@ -189,7 +178,7 @@ export default async function Home({ params }: HomePageProps) {
             </div>
             <Link
               href={`/${locale}/applications`}
-              className="shrink-0 text-sm font-semibold text-orange transition-colors hover:text-orange-hover"
+              className="shrink-0 text-sm font-semibold text-orange-text underline-offset-4 transition-colors hover:underline"
             >
               {dict.home.viewAllApplications} →
             </Link>
@@ -218,7 +207,7 @@ export default async function Home({ params }: HomePageProps) {
                   {solution && (
                     <Link
                       href={`/${locale}/solutions/${solution.slug}`}
-                      className="text-xs text-white/40 underline-offset-2 transition-colors hover:text-orange hover:underline"
+                      className="text-xs text-white/55 underline-offset-2 transition-colors hover:text-orange hover:underline"
                     >
                       {solution.material} →
                     </Link>
@@ -260,7 +249,7 @@ export default async function Home({ params }: HomePageProps) {
                       <p className="text-sm font-semibold text-white transition-colors group-hover:text-orange">
                         {country.countryName}
                       </p>
-                      <p className="text-xs text-white/40">{country.region}</p>
+                      <p className="text-xs text-white/55">{country.region}</p>
                     </div>
                   </Link>
                 ))}

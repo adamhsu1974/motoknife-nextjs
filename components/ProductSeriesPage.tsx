@@ -47,7 +47,7 @@ export default function ProductSeriesPage({ series, products, lang }: ProductSer
                   </span>
                 </div>
 
-                <span className="inline-block rounded-sm bg-orange-soft px-2.5 py-1 text-xs font-medium text-orange">
+                <span className="inline-block rounded-sm bg-orange-soft px-2.5 py-1 text-xs font-medium text-orange-text">
                   {series.cuttingMethod}
                 </span>
                 <h1 className="mt-3 text-2xl font-bold text-text-primary md:text-3xl">
@@ -67,7 +67,7 @@ export default function ProductSeriesPage({ series, products, lang }: ProductSer
                       </p>
                       <p className="mt-0.5 text-xs text-text-secondary">
                         {spec.label}
-                        {spec.note && <span className="text-orange"> ({spec.note})</span>}
+                        {spec.note && <span className="text-orange-text"> ({spec.note})</span>}
                       </p>
                     </div>
                   ))}
@@ -121,7 +121,7 @@ export default function ProductSeriesPage({ series, products, lang }: ProductSer
                         <div className="flex shrink-0 gap-2">
                           <Link
                             href={`/${lang}/products/model/${product.slug}`}
-                            className="rounded border border-border px-4 py-2 text-center text-sm font-medium text-text-primary transition-colors hover:border-orange hover:text-orange"
+                            className="rounded border border-border px-4 py-2 text-center text-sm font-medium text-text-primary transition-colors hover:border-orange hover:text-orange-text"
                           >
                             Details
                           </Link>
@@ -143,7 +143,7 @@ export default function ProductSeriesPage({ series, products, lang }: ProductSer
                               {spec.value}
                             </span>
                             {spec.note && (
-                              <span className="ml-1 text-xs text-orange">({spec.note})</span>
+                              <span className="ml-1 text-xs text-orange-text">({spec.note})</span>
                             )}
                           </div>
                         ))}
@@ -181,7 +181,7 @@ export default function ProductSeriesPage({ series, products, lang }: ProductSer
                       <li key={s.slug}>
                         <Link
                           href={`/${lang}/products/${s.slug}`}
-                          className="text-sm text-text-secondary transition-colors hover:text-orange"
+                          className="text-sm text-text-secondary transition-colors hover:text-orange-text"
                         >
                           {s.name}
                         </Link>

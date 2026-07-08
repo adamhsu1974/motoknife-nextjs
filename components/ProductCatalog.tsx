@@ -127,7 +127,7 @@ export default function ProductCatalog({ lang, dict, products }: ProductCatalogP
 
             <div className="flex items-center gap-2">
               {product.cuttingMethod && (
-                <span className="rounded-sm bg-orange-soft px-2 py-0.5 text-xs font-semibold text-orange">
+                <span className="rounded-sm bg-orange-soft px-2 py-0.5 text-xs font-semibold text-orange-text">
                   {filterLabel(product.cuttingMethod)}
                 </span>
               )}
@@ -151,7 +151,7 @@ export default function ProductCatalog({ lang, dict, products }: ProductCatalogP
                   <span className="text-right font-medium text-text-primary">
                     {spec.value}
                     {spec.note && (
-                      <span className="ml-1 text-xs font-normal text-orange">({spec.note})</span>
+                      <span className="ml-1 text-xs font-normal text-orange-text">({spec.note})</span>
                     )}
                   </span>
                 </div>
@@ -172,7 +172,7 @@ export default function ProductCatalog({ lang, dict, products }: ProductCatalogP
                 ))}
             </div>
 
-            <span className="mt-auto inline-flex items-center gap-1 pt-4 text-sm font-medium text-orange">
+            <span className="mt-auto inline-flex items-center gap-1 pt-4 text-sm font-medium text-orange-text">
               {dict.products.viewDetails}
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="9 18 15 12 9 6" />

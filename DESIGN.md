@@ -4,7 +4,9 @@ description: 台灣精密分條刀具製造商官網 — Devialet 式歐洲高�
 colors:
   calibration-orange: "#F47920"
   calibration-orange-deep: "#D9640C"
+  calibration-orange-text: "#B84D08"
   calibration-orange-tint: "#FEF1E6"
+  pure-white: "#FFFFFF"
   instrument-black: "#0D0D14"
   chassis-navy: "#1A1A2E"
   chassis-navy-dark: "#12121F"
@@ -85,7 +87,7 @@ components:
 - 深色舞台 + 白底型錄的明暗分幕
 - 單一飽和色（橙）作為全站唯一視線錨點
 - 緊湊粗體 condensed 標題 vs 溫和幾何 sans 內文的強對比
-- 全站零陰影：深度靠色階與 1px 邊框
+- 深度靠色階與 1px 邊框；陰影只有靜態兩階（卡片 shadow-sm / 懸浮層 shadow-lg），hover 一律只換色
 - 事實密度優先：數字、規格、專利是視覺主角
 
 ## 2. Colors
@@ -94,7 +96,8 @@ components:
 
 ### Primary
 - **Calibration Orange** (#F47920)：全站唯一飽和色。CTA 按鈕、eyebrow 小標、關鍵數字、heading 底線、::selection。像精密量具上的校準漆點——稀有性就是它的力量。
-- **Calibration Orange Deep** (#D9640C)：橙色元素的 hover 態，只換色不位移。
+- **Calibration Orange Deep** (#D9640C)：橙色底色元素的 hover 態，只換色不位移。
+- **Calibration Orange Text** (#B84D08)：淺底小字專用深橙。#F47920 在白底僅 2.8:1，此值於 white / bg-warm / orange-soft 均 ≥4.5:1。
 - **Calibration Orange Tint** (#FEF1E6)：橙色的淺底衍生，用於標籤底色與高亮區塊，白底頁上的低調呼應。
 
 ### Neutral
@@ -108,7 +111,8 @@ components:
 
 ### Named Rules
 **The One Accent Rule.** Calibration Orange 是全站唯一飽和色，任一畫面佔比 ≤10%。第二個飽和色（除 WhatsApp 綠的功能性例外）一律禁止。
-**The Tonal Stage Rule.** 深色區文字用 white / white/60 / white/40 三階透明度，禁止灰色文字直接壓深色底（會顯得髒）。
+**The Legible Orange Rule.** 淺底上小於 18px 的橙色文字一律用 Calibration Orange Text (#B84D08)；#F47920 於淺底僅限大字、icon 底色與非文字元素。深色底上 #F47920 直接可用（≈6:1）。
+**The Tonal Stage Rule.** 深色區文字用 white / white/60 / white/55 三階透明度（white/40 對小字不足 4.5:1，禁用於內文），禁止灰色文字直接壓深色底（會顯得髒）。
 
 ## 3. Typography
 
@@ -129,10 +133,14 @@ components:
 
 ## 4. Elevation
 
-**全站零陰影（flat + 色階分層）。** components/ 目錄經掃描確認 0 個 box-shadow。深度由兩件事承擔：背景色階（instrument-black → chassis-navy 三階 → workshop-white）與 1px 邊框（白底用 Hairline #E5E7EB，深色底用 white/10）。深色卡片可加 bg-white/[0.03] 的微升起底色。懸浮元素（下拉選單、FloatingCTA、比較列）同樣以實色背景 + 邊框與頁面區隔，不用陰影。
+**安靜陰影 + 色階分層。** 深度主要由背景色階（instrument-black → chassis-navy 三階 → workshop-white）與 1px 邊框承擔（白底用 Hairline #E5E7EB，深色底用 white/10）。陰影詞彙只有兩個且皆為靜態：白卡在暖灰底上的安靜浮起（`shadow-sm`），與懸浮層（sticky Navbar、下拉選單、FloatingCTA）脫離頁面的 `shadow-lg`。深色區塊一律無陰影，深色卡改用 bg-white/[0.03] 微升起底色。
+
+### Shadow Vocabulary
+- **Card resting**（`shadow-sm`）：bg-white 卡片壓在 bg-warm/bg-card 段落上時的靜態浮起。純白段落上的白卡不需要。
+- **Floating chrome**（`shadow-lg`，Navbar 可加 shadow-black/20 調深色）：sticky header、下拉選單、FloatingCTA、比較浮動列——真正懸浮於內容之上的元素。
 
 ### Named Rules
-**The No-Shadow Rule.** box-shadow 全域禁止。若元素「浮不起來」，答案是調整背景色階或邊框對比，不是加陰影。
+**The Resting Shadow Rule.** 陰影只存在於靜止狀態。hover 不升級陰影（禁 `hover:shadow-*`）、不位移（禁 `hover:-translate-*`）、不縮放——互動回饋一律換色（文字、邊框或底色）。若元素「浮不起來」，先調背景色階或邊框對比，不是加更深的陰影。
 
 ## 5. Components
 
@@ -148,8 +156,8 @@ components:
 
 ### Cards / Containers
 - **Corner Style:** 8px（`rounded-lg`）
-- **深色卡（信任數字等）:** bg-white/[0.03] + border-white/10，數字用 Barlow Condensed 橙色大字
-- **白底卡:** Workshop Card (#F1F1ED) 或白底 + Hairline 邊框
+- **白卡（暖灰底段落上）:** bg-white + `shadow-sm` 靜態浮起；hover affordance 用 `border border-transparent hover:border-orange`（換色，不位移）
+- **深色卡:** bg-white/[0.03] + border-white/10，無陰影
 - **Internal Padding:** 24px（p-6）
 - **Border:** 一律 1px；嚴禁彩色粗左邊框（side-stripe）
 
@@ -171,16 +179,17 @@ components:
 
 ### Do:
 - **Do** 讓 Calibration Orange (#F47920) 保持稀有——每個畫面一個主 CTA、少量強調，佔比 ≤10%。
-- **Do** 用色階（instrument-black → navy 三階 → 白）與 1px 邊框建立深度，全站零陰影。
+- **Do** 淺底小字橙一律用 Calibration Orange Text (#B84D08)；#F47920 留給大字與深色底。
+- **Do** 用色階（instrument-black → navy 三階 → 白）與 1px 邊框建立深度；陰影僅限靜態 shadow-sm（白卡）與 shadow-lg（懸浮層）。
 - **Do** 用可驗證事實當視覺主角：年資、專利數、規格數字（信任數字區的數字必須有據，非裝飾統計）。
 - **Do** 所有進場動效走 GSAP Reveal（含 reduced-motion 防護），hover 只換色。
-- **Do** 深色底文字用 white / white/60 兩階；白底小字內文用 Ink (#1A1A1A)。
+- **Do** 深色底文字用 white / white/60 / white/55 三階（下限 white/55）；白底小字內文用 Ink (#1A1A1A)。
 
 ### Don't:
 - **Don't** generic AI SaaS look：Inter font、purple-blue gradients、glassmorphism、icon-tile 三欄 feature cards、裝飾性 big-number-small-label stat blocks（引自 PRODUCT.md，逐字）。
 - **Don't** cheap industrial-supplier template：red/blue 主色、雜亂產品格、badge walls（沒有的 ISO logo 不掛）、握手/地球 stock photos。
 - **Don't** over-animated portfolio：parallax、scroll-jacking、任何延遲買家讀規格的裝飾動效。
 - **Don't** dark-mode-with-neon-accent：深色是舞台不是主題，霓虹色一律禁止——we are a precision manufacturer, not a crypto dashboard。
-- **Don't** box-shadow、gradient text（background-clip: text）、彩色粗左邊框、巢狀卡片。
+- **Don't** hover 陰影升級（hover:shadow-*）、hover 位移/縮放、gradient text（background-clip: text）、彩色粗左邊框、巢狀卡片。
 - **Don't** 引入第二個飽和色或把 WhatsApp 綠用在 WhatsApp 按鈕以外。
 - **Don't** 用 Barlow Condensed 排內文，或用 Slate Secondary (#64748B) 排白底小字內文（對比不足）。

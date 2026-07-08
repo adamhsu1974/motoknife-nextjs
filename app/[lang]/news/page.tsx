@@ -46,7 +46,7 @@ export default async function NewsPage({ params }: NewsPageProps) {
           <Link
             key={article.slug}
             href={`/${lang}/news/${article.slug}`}
-            className="group flex flex-col overflow-hidden rounded-lg bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
+            className="group flex flex-col overflow-hidden rounded-lg border border-transparent bg-white shadow-sm transition-colors hover:border-orange"
           >
             {/* Thumbnail placeholder */}
             <div className="flex h-44 items-center justify-center bg-bg-card">
@@ -57,7 +57,7 @@ export default async function NewsPage({ params }: NewsPageProps) {
 
             <div className="flex flex-1 flex-col p-6">
               <div className="flex items-center gap-3 text-xs">
-                <span className="rounded-sm bg-orange-soft px-2 py-0.5 font-semibold text-orange">
+                <span className="rounded-sm bg-orange-soft px-2 py-0.5 font-semibold text-orange-text">
                   {categoryLabel(article.category, dict)}
                 </span>
                 <time dateTime={article.publishedDate} className="text-text-secondary">
@@ -72,7 +72,7 @@ export default async function NewsPage({ params }: NewsPageProps) {
                   {article.excerpt}
                 </p>
               )}
-              <span className="mt-auto inline-flex items-center gap-1 pt-4 text-sm font-medium text-orange">
+              <span className="mt-auto inline-flex items-center gap-1 pt-4 text-sm font-medium text-orange-text">
                 {dict.news.readMore}
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="9 18 15 12 9 6" />

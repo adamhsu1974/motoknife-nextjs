@@ -62,11 +62,11 @@ export default async function ProductsPage({ params }: ProductsPageProps) {
             <Link
               key={s.slug}
               href={`/${lang}/products/${s.slug}`}
-              className="group rounded-lg bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
+              className="group rounded-lg border border-transparent bg-white p-6 shadow-sm transition-colors hover:border-orange"
             >
               <h3 className="text-lg font-semibold text-text-primary">{s.fullName}</h3>
               <p className="mt-1 text-sm text-text-secondary">{s.tagline}</p>
-              <span className="mt-3 inline-block text-sm font-medium text-orange">
+              <span className="mt-3 inline-block text-sm font-medium text-orange-text">
                 {dict.common.viewSeries} →
               </span>
             </Link>

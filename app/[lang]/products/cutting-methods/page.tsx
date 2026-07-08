@@ -71,14 +71,14 @@ export default async function CuttingMethodsPage({ params }: CuttingMethodsPageP
                       <Link
                         key={p.slug}
                         href={`/${lang}/products/model/${p.slug}`}
-                        className="rounded-sm bg-bg-card px-2.5 py-1 text-xs font-medium text-text-primary transition-colors hover:bg-orange-soft hover:text-orange"
+                        className="rounded-sm bg-bg-card px-2.5 py-1 text-xs font-medium text-text-primary transition-colors hover:bg-orange-soft hover:text-orange-text"
                       >
                         {p.model}
                       </Link>
                     ))}
                     <Link
                       href={`/${lang}/products/${method.slug}`}
-                      className="rounded-sm px-2.5 py-1 text-xs font-semibold text-orange transition-colors hover:text-orange-hover"
+                      className="rounded-sm px-2.5 py-1 text-xs font-semibold text-orange-text underline-offset-4 transition-colors hover:underline"
                     >
                       {dict.common.viewSeries} →
                     </Link>

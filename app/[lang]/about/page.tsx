@@ -91,7 +91,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
       {/* Hero */}
       <section className="bg-navy py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          <nav className="mb-8 text-sm text-white/40">
+          <nav className="mb-8 text-sm text-white/55">
             <Link href={`/${lang}`} className="hover:text-white/70">{dict.common.home}</Link>
             <span className="mx-2">/</span>
             <span className="text-white/70">{dict.nav.about}</span>
@@ -354,7 +354,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
           </p>
           <Link
             href={`/${lang}/distributors`}
-            className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-orange transition-colors hover:text-orange-hover"
+            className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-orange-text underline-offset-4 transition-colors hover:underline"
           >
             {dict.nav.distributors}
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -376,7 +376,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
           </p>
           <Link
             href={`/${lang}/contact`}
-            className="mt-8 inline-block rounded bg-white px-10 py-3.5 text-sm font-semibold text-orange transition-colors hover:bg-white/90"
+            className="mt-8 inline-block rounded bg-white px-10 py-3.5 text-sm font-semibold text-orange-text transition-colors hover:bg-white/90"
           >
             Get in Touch
           </Link>

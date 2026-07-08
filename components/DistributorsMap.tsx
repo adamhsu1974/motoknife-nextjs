@@ -190,7 +190,7 @@ function DistributorPanel({
 }) {
   return (
     <div className="rounded-lg bg-white p-6 shadow-sm">
-      <p className="text-xs font-semibold uppercase tracking-wider text-orange">
+      <p className="text-xs font-semibold uppercase tracking-wider text-orange-text">
         {dict.distributors.hasDistributor}
       </p>
       <h2 className="mt-1 text-xl font-bold text-text-primary">{country.countryName}</h2>
