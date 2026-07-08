@@ -178,7 +178,7 @@ export default async function Home({ params }: HomePageProps) {
             </div>
             <Link
               href={`/${locale}/applications`}
-              className="shrink-0 text-sm font-semibold text-orange-text underline-offset-4 transition-colors hover:underline"
+              className="shrink-0 text-sm font-semibold text-orange underline-offset-4 transition-colors hover:underline"
             >
               {dict.home.viewAllApplications} →
             </Link>
