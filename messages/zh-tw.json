@@ -16,7 +16,8 @@
     "exploreProducts": "探索產品",
     "cuttingMethods": "切割方式",
     "faqHeading": "常見問題",
-    "mainAria": "主要內容"
+    "mainAria": "主要內容",
+    "lastUpdated": "最後更新"
   },
   "footer": {
     "productsTitle": "產品",
@@ -35,11 +36,11 @@
   "meta": {
     "home": {
       "title": "MOTOKNIFE 友聚工業 — 台灣精密分條刀具專家",
-      "description": "高性能分條刀座與刀片，適用軟性材料加工。壓切、剪切、半切、熱切系統，±0.005mm 精度。1990 年創立於台灣。"
+      "description": "MOTOKNIFE 自 1990 年起在台灣製造精密分條刀座，外銷 50 多國。標準機型 3 個工作天內出貨。"
     },
     "products": {
       "title": "產品總覽",
-      "description": "MOTOKNIFE 分條刀座：壓切、剪切、半切、熱切系統、精密刀片與導桿。±0.005mm 精度。"
+      "description": "壓切（碾切）、剪切、半切、熱切刀座，以及分條刀片與導桿——適用薄膜、金屬箔、紙類與不織布分條。"
     },
     "cuttingMethods": {
       "title": "切割方式",
@@ -55,7 +56,7 @@
     },
     "about": {
       "title": "關於友聚工業",
-      "description": "35 年台灣精密分條刀具製造。±0.005mm 精度、垂直整合製造、多國專利、全球銷售網絡。"
+      "description": "MOTOKNIFE 自 1990 年起於台灣桃園製造分條刀座，從 CNC 加工到出貨全程自製，標準機型 3 個工作天內出貨，外銷 50 多國。"
     },
     "contact": {
       "title": "聯絡與詢價",
@@ -67,7 +68,7 @@
     },
     "services": {
       "title": "服務與支援",
-      "description": "免費材料測試 3 個工作天出具完整報告、刀片研磨、維修保養、技術諮詢——MOTOKNIFE 服務生態系統。"
+      "description": "免費材料測試：寄送樣品，3 個工作天內取得切割方式與刀座型號建議，附實切照片與測試影片。"
     }
   },
   "contact": {
@@ -231,7 +232,7 @@
     "advantagesHeading": "MOTOKNIFE 的與眾不同",
     "advantages": [
       {
-        "title": "35 年專業經驗",
+        "title": "36 年專業經驗",
         "text": "1990 年創立，三十五年專注氣動刀座——每個零件 ±0.005mm 精度。"
       },
       {

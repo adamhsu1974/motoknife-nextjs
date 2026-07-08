@@ -16,7 +16,8 @@
     "exploreProducts": "Explore Products",
     "cuttingMethods": "Cutting Methods",
     "faqHeading": "Frequently Asked Questions",
-    "mainAria": "Main content"
+    "mainAria": "Main content",
+    "lastUpdated": "Last updated"
   },
   "footer": {
     "productsTitle": "Products",
@@ -35,11 +36,11 @@
   "meta": {
     "home": {
       "title": "MOTOKNIFE — Precision Slitting Solutions, Made in Taiwan",
-      "description": "High-performance knife holders and slitting knives for flexible material converting. Score Cut, Shear Cut, Half Cut, Hot Cut systems with ±0.005mm precision. Made in Taiwan since 1990."
+      "description": "MOTOKNIFE manufactures precision slitting knife holders in Taiwan since 1990, exporting to 50+ countries. Standard models ship within 3 working days."
     },
     "products": {
       "title": "Products",
-      "description": "MOTOKNIFE slitting knife holders: Score Cut, Shear Cut, Half Cut, Hot Cut systems, precision blades, and guide bars. ±0.005mm tolerance."
+      "description": "Score cut (crush cut), shear cut, half cut, and hot cut knife holders, plus slitting knives and guide bars — for film, foil, paper, and nonwoven slitting."
     },
     "cuttingMethods": {
       "title": "Cutting Methods",
@@ -55,7 +56,7 @@
     },
     "about": {
       "title": "About MOTOKNIFE",
-      "description": "35 years of precision slitting knife manufacturing in Taiwan. ±0.005mm tolerance, vertical integration, multi-country patents, worldwide distribution."
+      "description": "Since 1990, MOTOKNIFE has manufactured slitting knife holders in Taoyuan, Taiwan. In-house full process from CNC machining to shipping. 50+ countries served."
     },
     "contact": {
       "title": "Contact & Get a Quote",
@@ -67,7 +68,7 @@
     },
     "services": {
       "title": "Services & Support",
-      "description": "Free material test with full report in 3 working days, blade regrinding, repair & maintenance, and technical consulting — MOTOKNIFE service ecosystem."
+      "description": "Free material test and report in 3 working days: send your sample, receive cutting method and knife holder recommendations with photos and test video."
     }
   },
   "contact": {
@@ -231,7 +232,7 @@
     "advantagesHeading": "The MOTOKNIFE Difference",
     "advantages": [
       {
-        "title": "35 Years Expertise",
+        "title": "36 Years Expertise",
         "text": "Founded in 1990, we have spent three and a half decades perfecting pneumatic knife holders — ±0.005mm tolerance on every part."
       },
       {
