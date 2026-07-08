@@ -101,7 +101,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
           </h1>
           <div className="mt-3 h-1 w-16 bg-orange" />
           <p className="mt-6 max-w-2xl text-lg text-white/60">
-            35 years. 50+ countries. All precision. All Taiwan.
+            36 years. 50+ countries. All precision. All Taiwan.
           </p>
           <p className="mt-4 max-w-2xl leading-relaxed text-white/50">
             MOTOKNIFE (友聚工業股份有限公司) is a Taiwan-based manufacturer
@@ -110,6 +110,47 @@ export default async function AboutPage({ params }: AboutPageProps) {
             companies worldwide, delivering cutting solutions with ±0.005mm
             tolerance.
           </p>
+        </div>
+      </section>
+
+      {/* Company Facts（AEO：事實密集、可直接提取的公司概述） */}
+      <section className="bg-white py-16 md:py-24">
+        <div className="mx-auto max-w-7xl px-4 lg:px-8">
+          <h2 className="heading-accent text-2xl font-bold text-text-primary md:text-3xl">
+            Company Overview
+          </h2>
+          <div className="mt-8 max-w-3xl space-y-5 leading-relaxed text-text-secondary">
+            <p>
+              MOTOKNIFE (Moto Industries Co., Ltd.) has been manufacturing
+              precision slitting knife holders and industrial cutting blades in
+              Taoyuan, Taiwan since 1990. With over 36 years of experience, the
+              company exports to more than 50 countries across Asia, Europe,
+              the Americas, and the Middle East.
+            </p>
+            <p>
+              All manufacturing processes — from design and CNC machining to
+              assembly, quality inspection, and shipping — are completed
+              in-house at the company&apos;s own facility. This vertically
+              integrated approach ensures consistent quality control and
+              reliable delivery times, with standard models dispatched within 3
+              working days from warehouse stock.
+            </p>
+            <p>
+              The factory operates Japanese Mazak CNC lathes and milling
+              machines for precision component machining, complemented by
+              robotic automation systems to maintain consistency across
+              production runs. The facility also features a solar power
+              generation system as part of the company&apos;s commitment to
+              sustainable manufacturing.
+            </p>
+            <p>
+              MOTOKNIFE offers a free material test and report service:
+              customers can send a material sample and receive a comprehensive
+              cutting test report within 3 working days, including recommended
+              cutting method, suggested knife holder model, actual cut sample
+              photographs, and test video footage.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -205,7 +246,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
             Multi-Country Patents
           </h2>
           <p className="mt-4 max-w-2xl text-text-secondary">
-            Innovation milestones registered across four countries — 35 years
+            Innovation milestones registered across four countries — 36 years
             of original engineering, never imitation.
           </p>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
