@@ -28,6 +28,13 @@
 - `docs/competitor-research.md` — 13 間競爭對手第一手分析（UI/UX 決策依據）
 - `README.md` — 啟動步驟、環境變數、seed 指令
 
+### Design Context
+
+任何 UI/設計相關工作前，先讀：
+
+- `PRODUCT.md` — 策略層：register（brand）、買家輪廓、北極星（3 分鐘信任 + 詢價）、anti-references、設計原則、WCAG 2.1 AA
+- `DESIGN.md` — 視覺層：North Star「The Precision Instrument」、色彩/字體 token、Named Rules（單一橙色錨點、全站零陰影、condensed 只用於標題）、Do's & Don'ts
+
 ---
 
 ## 頁面路由架構（現況）
