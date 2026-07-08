@@ -148,6 +148,13 @@ export default async function ProductModelPage({ params }: ProductModelPageProps
                 {product.tagline && (
                   <p className="mt-4 leading-relaxed text-text-secondary">{product.tagline}</p>
                 )}
+                <p className="mt-3 text-xs text-text-secondary">
+                  {dict.common.lastUpdated}:{" "}
+                  {new Date(product.updatedAt).toLocaleDateString(
+                    lang === "zh-tw" ? "zh-TW" : "en-US",
+                    { year: "numeric", month: "long" },
+                  )}
+                </p>
 
                 {/* Tabs */}
                 <div className="mt-8">
@@ -423,12 +430,24 @@ function SpecsPanel({ product, dict }: { product: Product; dict: Dictionary }) {
             {dict.products.specifications}
           </h2>
           <table className="mt-4 w-full text-sm">
+            <caption className="sr-only">
+              {product.model} {product.title} specifications
+            </caption>
+            <thead className="sr-only">
+              <tr>
+                <th scope="col">Parameter</th>
+                <th scope="col">Value</th>
+              </tr>
+            </thead>
             <tbody>
               {product.detailedSpecs.map((spec, i) => (
                 <tr key={spec.id ?? spec.label} className={i % 2 === 0 ? "bg-bg-card" : ""}>
-                  <td className="px-3 py-2.5 font-medium text-text-secondary">
+                  <th
+                    scope="row"
+                    className="px-3 py-2.5 text-left font-medium text-text-secondary"
+                  >
                     {spec.label}
-                  </td>
+                  </th>
                   <td className="px-3 py-2.5 text-text-primary">
                     {spec.value}
                     {spec.note && (
@@ -473,6 +492,61 @@ function getProductReviews(): { author: string; reviewBody: string; ratingValue:
   return [];
 }
 
+const CUTTING_METHOD_LABELS: Record<string, string> = {
+  "score-cut": "Score cut (crush cut)",
+  "shear-cut": "Shear cut",
+  "half-cut": "Half cut (kiss cut)",
+  "hot-cut": "Hot cut (heat cut)",
+};
+
+const PRODUCT_CATEGORY_LABELS: Record<Product["productType"], string> = {
+  "knife-holder": "Slitting Knife Holder",
+  knife: "Industrial Slitting Knife",
+  "guide-bar": "Slitter Guide Bar",
+  accessory: "Slitting Machine Accessory",
+};
+
+/** 雙值標示原則：standard 為主值，max + condition 附註於後 */
+function formatDualSpec(spec?: {
+  standard?: string | null;
+  max?: string | null;
+  condition?: string | null;
+}): string | undefined {
+  if (!spec?.standard) return undefined;
+  if (!spec.max) return spec.standard;
+  const condition = spec.condition ? ` — ${spec.condition}` : "";
+  return `${spec.standard} (up to ${spec.max}${condition})`;
+}
+
+function buildAdditionalProperties(product: Product) {
+  const props: { "@type": "PropertyValue"; name: string; value: string }[] = [];
+  const push = (name: string, value?: string | null) => {
+    if (value) props.push({ "@type": "PropertyValue", name, value });
+  };
+
+  push(
+    "Cutting Method",
+    product.cuttingMethod ? CUTTING_METHOD_LABELS[product.cuttingMethod] : undefined,
+  );
+  push("Minimum Slit Width", formatDualSpec(product.keySpecs?.minSlitWidth));
+  push("Maximum Speed", formatDualSpec(product.keySpecs?.maxSpeed));
+  push("Maximum Temperature", formatDualSpec(product.keySpecs?.maxTemperature));
+  push("Air Pressure", product.keySpecs?.airPressure);
+  push("Machining Tolerance", product.keySpecs?.tolerance);
+
+  for (const spec of product.detailedSpecs ?? []) {
+    push(spec.label, spec.note ? `${spec.value} (${spec.note})` : spec.value);
+  }
+
+  const applications = populated<Application>(product.applications)
+    .map((app) => app.title)
+    .filter(Boolean);
+  push("Applicable Materials & Industries", applications.join(", ") || undefined);
+  push("Country of Manufacture", "Taiwan");
+
+  return props;
+}
+
 function ProductModelJsonLd({ product }: { product: Product }) {
   const aggregateRating = getProductRating();
   const reviews = getProductReviews();
@@ -500,11 +574,15 @@ function ProductModelJsonLd({ product }: { product: Product }) {
     brand: { "@type": "Brand", name: "MOTOKNIFE" },
     manufacturer: {
       "@type": "Organization",
-      name: "友聚工業股份有限公司",
+      name: "Moto Industries Co., Ltd. (友聚工業股份有限公司)",
       url: "https://motoknife.com",
+      foundingDate: "1990",
+      address: { "@type": "PostalAddress", addressCountry: "TW" },
     },
     description: product.tagline ?? product.title,
-    category: "Industrial Slitting Equipment",
+    category: PRODUCT_CATEGORY_LABELS[product.productType] ?? "Industrial Slitting Equipment",
+    additionalProperty: buildAdditionalProperties(product),
+    dateModified: product.updatedAt,
     offers: {
       "@type": "Offer",
       availability: "https://schema.org/InStock",
