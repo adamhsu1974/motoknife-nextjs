@@ -8,6 +8,7 @@ import Navbar from "@/components/Navbar";
 import { LOCALES, htmlLang, isLocale, ogLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { fetchDistributorCountries } from "@/lib/cms";
+import { WHATSAPP_NUMBER } from "@/lib/whatsapp";
 
 import "../globals.css";
 
@@ -76,10 +77,12 @@ function OrganizationJsonLd() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "MOTOKNIFE",
-    legalName: "友聚工業股份有限公司",
+    legalName: "Moto Industries Co., Ltd. (友聚工業股份有限公司)",
     url: SITE_URL,
     logo: `${SITE_URL}/og-default.png`,
     foundingDate: "1990",
+    description:
+      "Taiwan-based manufacturer of precision slitting knife holders and industrial cutting blades, exporting to over 50 countries. In-house full process from design to delivery.",
     address: {
       "@type": "PostalAddress",
       streetAddress: "No. 155, Ln. 65, Xinjiang Rd., Yangmei Dist.",
@@ -97,6 +100,19 @@ function OrganizationJsonLd() {
         availableLanguage: ["en", "zh-TW"],
       },
     ],
+    areaServed: "Worldwide",
+    numberOfEmployees: { "@type": "QuantitativeValue", value: 50 },
+    knowsAbout: [
+      "slitting knife holders",
+      "industrial cutting blades",
+      "shear cut slitting",
+      "crush cut slitting",
+      "score cut slitting",
+      "hot cut slitting",
+      "razor cut slitting",
+      "converting industry tooling",
+    ],
+    sameAs: [`https://wa.me/${WHATSAPP_NUMBER}`],
   };
 
   return (
