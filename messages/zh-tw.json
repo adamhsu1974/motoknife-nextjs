@@ -11,6 +11,7 @@
   "common": {
     "home": "首頁",
     "findTheRightSolution": "找到合適的解決方案",
+    "findSolutionShort": "快速選型",
     "learnMore": "了解更多",
     "viewSeries": "查看系列",
     "exploreProducts": "探索產品",
@@ -227,8 +228,8 @@
   "home": {
     "heroEyebrow": "台灣製造 · 創立於 1990",
     "heroLine1": "精密分條",
-    "heroLine2": "解決方案",
-    "heroSubtitle": "高性能分條刀座與刀片，服務全球 50+ 國軟性材料加工客戶。",
+    "heroLine2": "刀座與刀片",
+    "heroSubtitle": "分條刀座與刀片，精準分切薄膜、金屬箔、紙張與不織布——服務全球 50+ 國加工廠。",
     "advantagesHeading": "MOTOKNIFE 的與眾不同",
     "advantages": [
       {
@@ -256,7 +257,8 @@
     "mapCta": "尋找您的代理商",
     "ctaHeading": "準備好找到合適的切割方案了嗎？",
     "ctaText": "告訴我們您的材料，我們將為您的應用推薦最合適的刀座。",
-    "ctaButton": "立即詢價"
+    "ctaButton": "立即詢價",
+    "ctaReassurance": "提供免費材料試切 · 24–48 小時內回覆"
   },
   "distributors": {
     "heading": "全球銷售網絡",

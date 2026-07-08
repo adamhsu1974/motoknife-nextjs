@@ -11,6 +11,7 @@
   "common": {
     "home": "Home",
     "findTheRightSolution": "Find the Right Solution",
+    "findSolutionShort": "Find Solution",
     "learnMore": "Learn More",
     "viewSeries": "View Series",
     "exploreProducts": "Explore Products",
@@ -227,8 +228,8 @@
   "home": {
     "heroEyebrow": "Made in Taiwan · Since 1990",
     "heroLine1": "PRECISION SLITTING",
-    "heroLine2": "SOLUTIONS",
-    "heroSubtitle": "High-performance knife holders and slitting knives for flexible material converting — trusted by converters in 50+ countries.",
+    "heroLine2": "KNIFE HOLDERS & KNIVES",
+    "heroSubtitle": "Knife holders and slitting knives that cut film, foil, paper, and nonwovens to precise width — trusted by converters in 50+ countries.",
     "advantagesHeading": "The MOTOKNIFE Difference",
     "advantages": [
       {
@@ -256,7 +257,8 @@
     "mapCta": "Find Your Distributor",
     "ctaHeading": "Ready to Find the Right Cutting Solution?",
     "ctaText": "Tell us your material and we'll recommend the perfect knife holder for your application.",
-    "ctaButton": "Request a Quote"
+    "ctaButton": "Get a Quote",
+    "ctaReassurance": "Free material test available · We reply within 24–48 hours."
   },
   "distributors": {
     "heading": "Global Distribution Network",

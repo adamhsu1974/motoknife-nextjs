@@ -260,17 +260,27 @@ export default async function Home({ params }: HomePageProps) {
       </section>
 
       {/* ── Section 6: Quote CTA ────────────────────────────── */}
-      <section className="bg-orange py-16 md:py-20">
-        <Reveal className="mx-auto max-w-3xl px-4 text-center">
+      <section className="relative overflow-hidden bg-hero-black py-16 md:py-20">
+        {/* Stage glow — 與 Hero 呼應的書擋 */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 80% 60% at 50% 110%, rgba(244,121,32,0.12), transparent 60%)",
+          }}
+        />
+        <Reveal className="relative mx-auto max-w-3xl px-4 text-center">
           <h2 className="text-2xl font-bold text-white md:text-3xl">
             {dict.home.ctaHeading}
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-white/80">{dict.home.ctaText}</p>
+          <p className="mx-auto mt-4 max-w-xl text-white/60">{dict.home.ctaText}</p>
           <div className="mt-8">
-            <CTAButton href={`/${locale}/contact`} variant="white" size="lg">
+            <CTAButton href={`/${locale}/contact`} size="lg">
               {dict.home.ctaButton}
             </CTAButton>
           </div>
+          <p className="mt-4 text-sm text-white/60">{dict.home.ctaReassurance}</p>
         </Reveal>
       </section>
     </div>

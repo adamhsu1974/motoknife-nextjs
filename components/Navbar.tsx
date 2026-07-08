@@ -95,6 +95,15 @@ export default function Navbar({ lang, dict }: NavbarProps) {
             className="relative"
             onMouseEnter={() => setIsProductsOpen(true)}
             onMouseLeave={() => setIsProductsOpen(false)}
+            onFocus={() => setIsProductsOpen(true)}
+            onBlur={(e) => {
+              if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
+                setIsProductsOpen(false);
+              }
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Escape") setIsProductsOpen(false);
+            }}
           >
             <Link
               href={`/${lang}/products`}

@@ -16,8 +16,8 @@ interface FloatingCTAProps {
 export default function FloatingCTA({ lang, dict }: FloatingCTAProps) {
   const pathname = usePathname();
 
-  // Hide on contact page to avoid overlapping the form
-  if (pathname === `/${lang}/contact`) return null;
+  // Hide on contact page (overlaps the form) and on applications (its own destination)
+  if (pathname === `/${lang}/contact` || pathname === `/${lang}/applications`) return null;
 
   return (
     <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-3">
@@ -33,12 +33,12 @@ export default function FloatingCTA({ lang, dict }: FloatingCTAProps) {
       </a>
 
       <Link
-        href={`/${lang}/contact`}
+        href={`/${lang}/applications`}
         className="flex items-center gap-2 rounded-lg bg-orange px-5 py-3 text-sm font-semibold text-white shadow-lg transition-colors hover:bg-orange-hover"
       >
         <SearchIcon />
         <span className="hidden sm:inline">{dict.common.findTheRightSolution}</span>
-        <span className="sm:hidden">{dict.nav.getAQuote}</span>
+        <span className="sm:hidden">{dict.common.findSolutionShort}</span>
       </Link>
     </div>
   );
