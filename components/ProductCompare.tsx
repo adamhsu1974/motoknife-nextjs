@@ -53,7 +53,7 @@ export function CompareBar({ products, dict, onRemove, onClear, onCompare }: Com
           type="button"
           onClick={onCompare}
           disabled={products.length < 2}
-          className="rounded bg-orange px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-orange-hover disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded bg-orange px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-orange-hover disabled:cursor-not-allowed disabled:opacity-40"
         >
           {products.length < 2 ? dict.products.compareBarHint : dict.products.compareNow}
         </button>
@@ -177,7 +177,7 @@ export function CompareModal({ products, lang, dict, onClose }: CompareModalProp
           <p className="text-xs text-text-secondary">{dict.products.maxCompareNote}</p>
           <Link
             href={quoteHref}
-            className="rounded bg-orange px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-hover"
+            className="rounded bg-orange px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-orange-hover"
           >
             {dict.products.compareQuote}
           </Link>

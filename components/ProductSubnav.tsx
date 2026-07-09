@@ -80,7 +80,7 @@ export default function ProductSubnav({
 
         <Link
           href={quoteHref}
-          className="shrink-0 rounded bg-orange px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-orange-hover md:text-sm"
+          className="shrink-0 rounded bg-orange px-4 py-2 text-xs font-medium text-white transition-colors hover:bg-orange-hover md:text-sm"
         >
           {quoteLabel}
         </Link>

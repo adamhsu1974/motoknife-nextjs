@@ -15,16 +15,17 @@ import "../globals.css";
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
   subsets: ["latin", "latin-ext"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
   preload: true,
   fallback: ["system-ui", "PingFang TC", "Microsoft JhengHei", "sans-serif"],
 });
 
+// eyebrow 是全站唯一的 Barlow 使用處，僅需 600
 const barlow = Barlow_Condensed({
   variable: "--font-barlow",
   subsets: ["latin", "latin-ext"],
-  weight: ["400", "600", "700"],
+  weight: ["600"],
   display: "swap",
   preload: true,
   fallback: ["Arial Narrow", "system-ui", "sans-serif"],

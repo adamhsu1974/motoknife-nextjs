@@ -63,7 +63,7 @@ export default function PdfDownloadButton({
       type="button"
       onClick={handleDownload}
       disabled={state === "generating"}
-      className={`inline-flex items-center justify-center gap-2 rounded font-semibold transition-colors disabled:cursor-wait disabled:opacity-60 ${className}`}
+      className={`inline-flex items-center justify-center gap-2 rounded font-medium transition-colors disabled:cursor-wait disabled:opacity-60 ${className}`}
     >
       <PdfIcon />
       {state === "generating" ? generatingLabel : state === "error" ? errorLabel : label}

@@ -13,29 +13,6 @@ import { primarySolutionForApplication } from "@/lib/data/solutions";
 
 export const revalidate = 3600;
 
-const CUTTING_METHODS = [
-  {
-    slug: "score-cut",
-    name: "Score Cut",
-    description: "Circular blade against a hardened anvil roller — clean edges on films, paper, and nonwovens.",
-  },
-  {
-    slug: "shear-cut",
-    name: "Shear Cut",
-    description: "Scissor-action precision for metallic foils, heavy board, and thick films.",
-  },
-  {
-    slug: "half-cut",
-    name: "Half Cut",
-    description: "Cuts the top layer, keeps the liner intact — built for medical laminates and labels.",
-  },
-  {
-    slug: "hot-cut",
-    name: "Hot Cut",
-    description: "Heated blade fuses synthetic edges while cutting — no fraying, no loose fibers.",
-  },
-] as const;
-
 interface HomePageProps {
   params: Promise<{ lang: string }>;
 }
@@ -61,6 +38,20 @@ export default async function Home({ params }: HomePageProps) {
     fetchApplications(locale),
     fetchDistributorCountries(locale),
   ]);
+
+  const countryList = new Intl.ListFormat(locale, {
+    style: "long",
+    type: "conjunction",
+  }).format(distributorCountries.map((c) => c.countryName));
+  // 單一國家時 "{count} Countries" 文法不成立，退回通用標題
+  const mapHeading =
+    distributorCountries.length >= 2
+      ? dict.home.mapHeading.replace("{count}", String(distributorCountries.length))
+      : dict.home.mapHeadingFallback;
+  const mapText =
+    distributorCountries.length > 0
+      ? dict.home.mapText.replace("{countries}", countryList)
+      : dict.home.mapTextFallback;
 
   return (
     <div>
@@ -120,7 +111,7 @@ export default async function Home({ params }: HomePageProps) {
           </div>
 
           <Reveal stagger className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2">
-            {CUTTING_METHODS.map((method) => (
+            {dict.home.cuttingMethodCards.map((method) => (
               <Link
                 key={method.slug}
                 href={`/${locale}/products/${method.slug}`}
@@ -143,7 +134,8 @@ export default async function Home({ params }: HomePageProps) {
         </div>
       </section>
 
-      {/* ── Section 4: Industry Applications ────────────────── */}
+      {/* ── Section 4: Industry Applications（CMS 無資料時整段隱藏） ── */}
+      {applications.length > 0 && (
       <section className="bg-white py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
           <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
@@ -162,16 +154,22 @@ export default async function Home({ params }: HomePageProps) {
           </div>
 
           <Reveal stagger className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-            {applications.map((app) => {
+            {applications.map((app, index) => {
               const solution = primarySolutionForApplication(app.slug);
+              // 行動版 2 欄且總數為奇數時，最後一格橫跨兩欄避免孤兒格
+              const isOddLast =
+                index === applications.length - 1 && applications.length % 2 === 1;
               return (
                 <div
                   key={app.slug}
-                  className="flex flex-col items-center gap-3 rounded-lg border border-border p-6 text-center transition-colors hover:border-orange"
+                  className={`group relative flex flex-col items-center rounded-lg border border-border p-6 pb-3 text-center transition-colors focus-within:border-orange hover:border-orange ${
+                    isOddLast ? "col-span-2 sm:col-span-1" : ""
+                  }`}
                 >
+                  {/* 主連結延伸覆蓋整張卡（after:inset-0），副連結以 z-10 疊於其上 */}
                   <Link
                     href={`/${locale}/applications/${app.slug}`}
-                    className="group flex flex-col items-center gap-4"
+                    className="flex flex-col items-center gap-4 after:absolute after:inset-0 after:rounded-lg"
                   >
                     <div className="flex h-16 w-16 items-center justify-center rounded-full border border-border-strong text-text-secondary transition-colors group-hover:border-orange group-hover:text-orange-text">
                       <MaterialIcon slug={app.slug} />
@@ -180,11 +178,11 @@ export default async function Home({ params }: HomePageProps) {
                       {app.title}
                     </span>
                   </Link>
-                  {/* 副標 → 對應 solutions 長尾頁 */}
+                  {/* 副標 → 對應 solutions 長尾頁（44px 觸控高度） */}
                   {solution && (
                     <Link
                       href={`/${locale}/solutions/${solution.slug}`}
-                      className="text-xs text-text-secondary underline-offset-2 transition-colors hover:text-orange-text hover:underline"
+                      className="relative z-10 mt-1 inline-flex min-h-11 items-center px-3 text-xs text-text-secondary underline-offset-2 transition-colors hover:text-orange-text hover:underline"
                     >
                       {solution.material} →
                     </Link>
@@ -195,6 +193,7 @@ export default async function Home({ params }: HomePageProps) {
           </Reveal>
         </div>
       </section>
+      )}
 
       {/* ── Section 5: The MOTOKNIFE Difference ─────────────── */}
       <section className="bg-bg-secondary py-16 md:py-24">
@@ -216,13 +215,18 @@ export default async function Home({ params }: HomePageProps) {
       {/* ── Section 6: Distributor Map Preview ──────────────── */}
       <section className="bg-white py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          <Reveal stagger className="grid items-center gap-12 lg:grid-cols-2">
-            <div>
+          <Reveal
+            stagger
+            className={`grid items-center gap-12 ${
+              distributorCountries.length > 0 ? "lg:grid-cols-2" : ""
+            }`}
+          >
+            <div className={distributorCountries.length > 0 ? "" : "max-w-2xl"}>
               <p className="eyebrow">{dict.home.mapEyebrow}</p>
               <h2 className="mt-3 text-[1.75rem]/[1.2] font-medium text-text-primary md:text-[2rem]/[1.2]">
-                {dict.home.mapHeading}
+                {mapHeading}
               </h2>
-              <p className="mt-5 leading-relaxed text-text-secondary">{dict.home.mapText}</p>
+              <p className="mt-5 leading-relaxed text-text-secondary">{mapText}</p>
               <div className="mt-8">
                 <CTAButton href={`/${locale}/distributors`} size="lg">
                   {dict.home.mapCta}
@@ -230,29 +234,34 @@ export default async function Home({ params }: HomePageProps) {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              {distributorCountries.map((country) => (
-                <Link
-                  key={country.countryCode}
-                  href={`/${locale}/distributors`}
-                  className="group flex items-center gap-3 rounded border border-border px-4 py-3 transition-colors hover:border-orange"
-                >
-                  <span className="h-2 w-2 shrink-0 rounded-full bg-orange" />
-                  <div>
-                    <p className="text-sm font-medium text-text-primary transition-colors group-hover:text-orange-text">
-                      {country.countryName}
-                    </p>
-                    <p className="text-xs text-text-secondary">{country.region}</p>
-                  </div>
-                </Link>
-              ))}
-            </div>
+            {distributorCountries.length > 0 && (
+              <div className="grid grid-cols-2 gap-4">
+                {distributorCountries.map((country) => (
+                  <Link
+                    key={country.countryCode}
+                    href={`/${locale}/distributors`}
+                    className="group flex items-center gap-3 rounded border border-border px-4 py-3 transition-colors hover:border-orange"
+                  >
+                    <span className="h-2 w-2 shrink-0 rounded-full bg-orange" />
+                    <div>
+                      <p className="text-sm font-medium text-text-primary transition-colors group-hover:text-orange-text">
+                        {country.countryName}
+                      </p>
+                      <p className="text-xs text-text-secondary">{country.region}</p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
           </Reveal>
         </div>
       </section>
 
-      {/* ── Section 7: Quote CTA（深色收尾重心） ─────────────── */}
-      <section className="relative overflow-hidden bg-hero-black py-16 md:py-20">
+      {/* ── Section 7: Quote CTA（深色收尾重心；進視窗時 FloatingCTA 淡出） ── */}
+      <section
+        data-hide-floating-cta
+        className="relative overflow-hidden bg-hero-black py-16 md:py-20"
+      >
         {/* Stage glow */}
         <div
           aria-hidden

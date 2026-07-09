@@ -350,7 +350,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
           </p>
           <Link
             href={`/${lang}/contact`}
-            className="mt-8 inline-block rounded bg-orange px-10 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-orange-hover"
+            className="mt-8 inline-block rounded bg-orange px-10 py-3.5 text-sm font-medium text-white transition-colors hover:bg-orange-hover"
           >
             Get in Touch
           </Link>

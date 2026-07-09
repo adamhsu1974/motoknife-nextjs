@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -15,12 +16,32 @@ interface FloatingCTAProps {
 
 export default function FloatingCTA({ lang, dict }: FloatingCTAProps) {
   const pathname = usePathname();
+  // 頁面自帶詢價重心（如首頁結尾 CTA）進入視窗時淡出，讓該區獨佔收尾。
+  // 以 pathname 為 key，換頁後舊的抑制狀態自動失效，無須同步重設。
+  const [suppressedPath, setSuppressedPath] = useState<string | null>(null);
+  const isSuppressed = suppressedPath === pathname;
+
+  useEffect(() => {
+    const target = document.querySelector("[data-hide-floating-cta]");
+    if (!target) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setSuppressedPath(entry.isIntersecting ? pathname : null),
+      { threshold: 0.2 },
+    );
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [pathname]);
 
   // Hide on contact page (overlaps the form) and on applications (its own destination)
   if (pathname === `/${lang}/contact` || pathname === `/${lang}/applications`) return null;
 
   return (
-    <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-3">
+    <div
+      aria-hidden={isSuppressed}
+      className={`fixed bottom-6 right-6 z-40 flex flex-col items-end gap-3 transition-opacity duration-300 motion-reduce:transition-none ${
+        isSuppressed ? "pointer-events-none opacity-0" : "opacity-100"
+      }`}
+    >
       {/* WhatsApp 快速入口 */}
       <a
         href={whatsappHref()}
@@ -34,7 +55,7 @@ export default function FloatingCTA({ lang, dict }: FloatingCTAProps) {
 
       <Link
         href={`/${lang}/applications`}
-        className="flex items-center gap-2 rounded-lg bg-orange px-5 py-3 text-sm font-semibold text-white shadow-md transition-colors hover:bg-orange-hover"
+        className="flex items-center gap-2 rounded-lg bg-orange px-5 py-3 text-sm font-medium text-white shadow-md transition-colors hover:bg-orange-hover"
       >
         <SearchIcon />
         <span className="hidden sm:inline">{dict.common.findTheRightSolution}</span>

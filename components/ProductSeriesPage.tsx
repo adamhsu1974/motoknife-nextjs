@@ -123,7 +123,7 @@ export default function ProductSeriesPage({ series, products, lang }: ProductSer
                           </Link>
                           <Link
                             href={`/${lang}/contact?product=${product.model}`}
-                            className="rounded bg-orange px-4 py-2 text-center text-sm font-semibold text-white transition-colors hover:bg-orange-hover"
+                            className="rounded bg-orange px-4 py-2 text-center text-sm font-medium text-white transition-colors hover:bg-orange-hover"
                           >
                             Get a Quote
                           </Link>
@@ -161,7 +161,7 @@ export default function ProductSeriesPage({ series, products, lang }: ProductSer
                   </p>
                   <Link
                     href={`/${lang}/contact`}
-                    className="mt-5 block rounded bg-orange py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-orange-hover"
+                    className="mt-5 block rounded bg-orange py-3 text-center text-sm font-medium text-white transition-colors hover:bg-orange-hover"
                   >
                     Get a Quote
                   </Link>

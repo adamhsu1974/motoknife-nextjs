@@ -25,14 +25,10 @@ export default function Navbar({ lang, dict }: NavbarProps) {
   const [isMobileProductsOpen, setIsMobileProductsOpen] = useState(false);
   const pathname = usePathname();
 
-  const productItems = [
-    { href: `/${lang}/products/score-cut`, label: "Score Cut" },
-    { href: `/${lang}/products/shear-cut`, label: "Shear Cut" },
-    { href: `/${lang}/products/half-cut`, label: "Half Cut" },
-    { href: `/${lang}/products/hot-cut`, label: "Hot Cut" },
-    { href: `/${lang}/products/knives`, label: "Knives" },
-    { href: `/${lang}/products/guide-bar`, label: "Guide Bar" },
-  ];
+  const productItems = dict.nav.series.map((series) => ({
+    href: `/${lang}/products/${series.slug}`,
+    label: series.label,
+  }));
 
   const navLinks = [
     { href: `/${lang}/applications`, label: dict.nav.applications },
@@ -70,6 +66,10 @@ export default function Navbar({ lang, dict }: NavbarProps) {
     return `/${target}${rest}`;
   }
 
+  function isActive(href: string): boolean {
+    return pathname === href || pathname.startsWith(`${href}/`);
+  }
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 border-b border-border bg-white transition-shadow duration-300 ${
@@ -105,9 +105,13 @@ export default function Navbar({ lang, dict }: NavbarProps) {
           >
             <Link
               href={`/${lang}/products`}
-              aria-haspopup="menu"
               aria-expanded={isProductsOpen}
-              className="relative flex items-center gap-1 px-3 py-2 text-sm font-medium text-text-secondary transition-colors hover:text-text-primary after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:scale-x-0 after:bg-orange after:transition-transform hover:after:scale-x-100"
+              aria-current={isActive(`/${lang}/products`) ? "page" : undefined}
+              className={`relative flex items-center gap-1 px-3 py-2 text-sm font-medium transition-colors hover:text-text-primary after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:bg-orange after:transition-transform hover:after:scale-x-100 ${
+                isActive(`/${lang}/products`)
+                  ? "text-text-primary after:scale-x-100"
+                  : "text-text-secondary after:scale-x-0"
+              }`}
             >
               {dict.nav.products}
               <ChevronDownIcon />
@@ -140,7 +144,12 @@ export default function Navbar({ lang, dict }: NavbarProps) {
             <Link
               key={link.href}
               href={link.href}
-              className="relative px-3 py-2 text-sm font-medium text-text-secondary transition-colors hover:text-text-primary after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:scale-x-0 after:bg-orange after:transition-transform hover:after:scale-x-100"
+              aria-current={isActive(link.href) ? "page" : undefined}
+              className={`relative px-3 py-2 text-sm font-medium transition-colors hover:text-text-primary after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:bg-orange after:transition-transform hover:after:scale-x-100 ${
+                isActive(link.href)
+                  ? "text-text-primary after:scale-x-100"
+                  : "text-text-secondary after:scale-x-0"
+              }`}
             >
               {link.label}
             </Link>
@@ -149,12 +158,22 @@ export default function Navbar({ lang, dict }: NavbarProps) {
 
         {/* Desktop Right Section */}
         <div className="hidden items-center gap-4 lg:flex">
-          {/* Language Switcher */}
-          <div className="relative">
+          {/* Language Switcher（blur containment：焦點移入選單不關閉） */}
+          <div
+            className="relative"
+            onBlur={(e) => {
+              if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
+                setIsLangOpen(false);
+              }
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Escape") setIsLangOpen(false);
+            }}
+          >
             <button
               type="button"
               onClick={() => setIsLangOpen(!isLangOpen)}
-              onBlur={() => setTimeout(() => setIsLangOpen(false), 150)}
+              aria-expanded={isLangOpen}
               className="flex items-center gap-1 rounded px-2 py-1 text-sm text-text-secondary transition-colors hover:text-text-primary"
               aria-label="Switch language"
             >
@@ -185,7 +204,7 @@ export default function Navbar({ lang, dict }: NavbarProps) {
           {/* CTA Button */}
           <Link
             href={`/${lang}/contact`}
-            className="rounded bg-orange px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-orange-hover"
+            className="rounded bg-orange px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-orange-hover"
           >
             {dict.nav.getAQuote}
           </Link>
@@ -195,7 +214,7 @@ export default function Navbar({ lang, dict }: NavbarProps) {
         <div className="flex items-center gap-3 lg:hidden">
           <Link
             href={`/${lang}/contact`}
-            className="rounded bg-orange px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-orange-hover"
+            className="relative rounded bg-orange px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-orange-hover before:absolute before:inset-x-0 before:-inset-y-1 before:content-['']"
             onClick={closeMobileMenu}
           >
             {dict.nav.getAQuote}
@@ -203,6 +222,7 @@ export default function Navbar({ lang, dict }: NavbarProps) {
           <button
             type="button"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-expanded={isMobileMenuOpen}
             className="flex h-10 w-10 items-center justify-center text-text-primary"
             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
           >
@@ -259,7 +279,10 @@ export default function Navbar({ lang, dict }: NavbarProps) {
                 key={link.href}
                 href={link.href}
                 onClick={closeMobileMenu}
-                className="border-b border-border py-4 text-lg font-medium text-text-primary transition-colors hover:text-orange-text"
+                aria-current={isActive(link.href) ? "page" : undefined}
+                className={`border-b border-border py-4 text-lg font-medium transition-colors hover:text-orange-text ${
+                  isActive(link.href) ? "text-orange-text" : "text-text-primary"
+                }`}
               >
                 {link.label}
               </Link>
@@ -289,7 +312,7 @@ export default function Navbar({ lang, dict }: NavbarProps) {
             <Link
               href={`/${lang}/contact`}
               onClick={closeMobileMenu}
-              className="block w-full rounded bg-orange py-4 text-center text-base font-semibold text-white transition-colors hover:bg-orange-hover"
+              className="block w-full rounded bg-orange py-4 text-center text-base font-medium text-white transition-colors hover:bg-orange-hover"
             >
               {dict.nav.getAQuote}
             </Link>

@@ -175,7 +175,7 @@ export default function ContactForm({
             <button
               type="button"
               onClick={() => setStatus("idle")}
-              className="mt-8 rounded bg-orange px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-hover"
+              className="mt-8 rounded bg-orange px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-orange-hover"
             >
               {dict.contact.submitAnother}
             </button>
@@ -235,7 +235,7 @@ export default function ContactForm({
                 href={whatsappHref()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 rounded bg-[#25D366] px-6 py-3.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+                className="flex items-center justify-center gap-2 rounded bg-[#25D366] px-6 py-3.5 text-sm font-medium text-white transition-opacity hover:opacity-90"
               >
                 <WhatsAppIcon />
                 {dict.contact.whatsappCta}
@@ -395,7 +395,7 @@ export default function ContactForm({
               <button
                 type="submit"
                 disabled={status === "submitting"}
-                className="w-full rounded bg-orange py-3.5 text-sm font-semibold text-white transition-colors hover:bg-orange-hover disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:px-12"
+                className="w-full rounded bg-orange py-3.5 text-sm font-medium text-white transition-colors hover:bg-orange-hover disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:px-12"
               >
                 {status === "submitting" ? dict.contact.submitting : dict.contact.submit}
               </button>

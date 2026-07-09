@@ -6,7 +6,15 @@
     "distributors": "Distributors",
     "about": "About",
     "contact": "Contact",
-    "getAQuote": "Get a Quote"
+    "getAQuote": "Get a Quote",
+    "series": [
+      { "slug": "score-cut", "label": "Score Cut" },
+      { "slug": "shear-cut", "label": "Shear Cut" },
+      { "slug": "half-cut", "label": "Half Cut" },
+      { "slug": "hot-cut", "label": "Hot Cut" },
+      { "slug": "knives", "label": "Knives" },
+      { "slug": "guide-bar", "label": "Guide Bar" }
+    ]
   },
   "common": {
     "home": "Home",
@@ -259,13 +267,37 @@
     ],
     "productsHeading": "Our Products",
     "productsSub": "Four cutting methods. One precision standard.",
+    "cuttingMethodCards": [
+      {
+        "slug": "score-cut",
+        "name": "Score Cut",
+        "description": "Circular blade against a hardened anvil roller — clean edges on films, paper, and nonwovens."
+      },
+      {
+        "slug": "shear-cut",
+        "name": "Shear Cut",
+        "description": "Scissor-action precision for metallic foils, heavy board, and thick films."
+      },
+      {
+        "slug": "half-cut",
+        "name": "Half Cut",
+        "description": "Cuts the top layer, keeps the liner intact — built for medical laminates and labels."
+      },
+      {
+        "slug": "hot-cut",
+        "name": "Hot Cut",
+        "description": "Heated blade fuses synthetic edges while cutting — no fraying, no loose fibers."
+      }
+    ],
     "viewAllProducts": "View All Products",
     "applicationsHeading": "What Are You Cutting?",
     "applicationsSub": "Start from your material and find the right knife holder in minutes.",
     "viewAllApplications": "View All Applications",
     "mapEyebrow": "Global Network",
-    "mapHeading": "Distributors in 6 Countries — Direct Support Everywhere Else",
-    "mapText": "Authorized partners in Germany, the Netherlands, Russia, India, South Korea, and Chile. No distributor in your region? Our Taiwan headquarters serves you directly, with a 24–48 hour response commitment.",
+    "mapHeading": "Distributors in {count} Countries — Direct Support Everywhere Else",
+    "mapHeadingFallback": "Direct Support from Taiwan, Worldwide",
+    "mapText": "Authorized partners in {countries}. No distributor in your region? Our Taiwan headquarters serves you directly, with a 24–48 hour response commitment.",
+    "mapTextFallback": "Our Taiwan headquarters serves converters in 50+ countries directly, with a 24–48 hour response commitment.",
     "mapCta": "Find Your Distributor",
     "ctaHeading": "Ready to Find the Right Cutting Solution?",
     "ctaText": "Tell us your material and we'll recommend the perfect knife holder for your application.",

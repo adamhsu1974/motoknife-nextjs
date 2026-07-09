@@ -51,7 +51,7 @@ export default async function DistributorsPage({ params }: DistributorsPageProps
           <h2 className="text-xl font-medium text-text-primary">{dict.distributors.becomeDistributor}</h2>
           <Link
             href={`/${lang}/contact`}
-            className="shrink-0 rounded bg-orange px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-hover"
+            className="shrink-0 rounded bg-orange px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-orange-hover"
           >
             {dict.distributors.applyNow}
           </Link>

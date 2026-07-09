@@ -220,7 +220,7 @@ export default function ApplicationSelector({ lang, dict, materials }: Applicati
             href={`/${lang}/contact?material=${encodeURIComponent(material.name)}&thickness=${encodeURIComponent(option.label)}&models=${encodeURIComponent(
               option.products.map((p) => p.model).join(", "),
             )}`}
-            className="mt-5 inline-block rounded bg-orange px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-hover"
+            className="mt-5 inline-block rounded bg-orange px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-orange-hover"
           >
             {dict.selector.quoteCta}
           </Link>

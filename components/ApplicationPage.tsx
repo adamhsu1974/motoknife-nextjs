@@ -183,7 +183,7 @@ export default function ApplicationPage({
                 </p>
                 <Link
                   href={`/${lang}/contact?material=${encodeURIComponent(application.title)}`}
-                  className="mt-5 block rounded bg-orange py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-orange-hover"
+                  className="mt-5 block rounded bg-orange py-3 text-center text-sm font-medium text-white transition-colors hover:bg-orange-hover"
                 >
                   Get a Recommendation
                 </Link>

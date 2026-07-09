@@ -214,7 +214,7 @@ function DistributorPanel({
 
       <Link
         href={`/${lang}/contact?country=${encodeURIComponent(country.countryName)}`}
-        className="mt-6 block rounded border border-border-strong py-3 text-center text-sm font-semibold text-text-primary transition-colors hover:border-orange hover:text-orange-text"
+        className="mt-6 block rounded border border-border-strong py-3 text-center text-sm font-medium text-text-primary transition-colors hover:border-orange hover:text-orange-text"
       >
         {dict.distributors.contactDirectly}
       </Link>
@@ -299,7 +299,7 @@ function InquiryPanel({ countryName, dict }: { countryName: string; dict: Dictio
         <button
           type="submit"
           disabled={status === "submitting"}
-          className="w-full rounded bg-orange py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-hover disabled:cursor-not-allowed disabled:opacity-60"
+          className="w-full rounded bg-orange py-3 text-sm font-medium text-white transition-colors hover:bg-orange-hover disabled:cursor-not-allowed disabled:opacity-60"
         >
           {status === "submitting" ? "..." : dict.distributors.sendInquiry}
         </button>

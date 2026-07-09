@@ -6,7 +6,15 @@
     "distributors": "全球代理",
     "about": "關於友聚",
     "contact": "聯絡我們",
-    "getAQuote": "立即詢價"
+    "getAQuote": "立即詢價",
+    "series": [
+      { "slug": "score-cut", "label": "壓切刀座" },
+      { "slug": "shear-cut", "label": "剪切刀座" },
+      { "slug": "half-cut", "label": "半切刀座" },
+      { "slug": "hot-cut", "label": "熱切刀座" },
+      { "slug": "knives", "label": "刀片系列" },
+      { "slug": "guide-bar", "label": "導桿" }
+    ]
   },
   "common": {
     "home": "首頁",
@@ -259,13 +267,37 @@
     ],
     "productsHeading": "產品系列",
     "productsSub": "四種切割方式，同一個精度標準。",
+    "cuttingMethodCards": [
+      {
+        "slug": "score-cut",
+        "name": "壓切刀座",
+        "description": "圓形刀片壓向硬化底輥切割——薄膜、紙類與不織布皆能獲得平整切邊。"
+      },
+      {
+        "slug": "shear-cut",
+        "name": "剪切刀座",
+        "description": "剪刀式精密剪切——適用金屬箔、厚紙板與厚膜。"
+      },
+      {
+        "slug": "half-cut",
+        "name": "半切刀座",
+        "description": "只切上層、保留底紙——專為醫療貼材與標籤設計。"
+      },
+      {
+        "slug": "hot-cut",
+        "name": "熱切刀座",
+        "description": "加熱刀片邊切邊熔合化纖切邊——不脫紗、不起毛。"
+      }
+    ],
     "viewAllProducts": "查看所有產品",
     "applicationsHeading": "您要切割什麼材料？",
     "applicationsSub": "從材料出發，幾分鐘內找到合適的刀座。",
     "viewAllApplications": "查看所有應用",
     "mapEyebrow": "全球網絡",
-    "mapHeading": "6 國授權代理——其他地區由總部直接服務",
-    "mapText": "德國、荷蘭、俄羅斯、印度、韓國、智利設有授權代理商。您的地區沒有代理商？台灣總部直接為您服務，承諾 24–48 小時回覆。",
+    "mapHeading": "{count} 國授權代理——其他地區由總部直接服務",
+    "mapHeadingFallback": "台灣總部直接服務全球",
+    "mapText": "於{countries}設有授權代理商。您的地區沒有代理商？台灣總部直接為您服務，承諾 24–48 小時回覆。",
+    "mapTextFallback": "台灣總部直接服務全球 50+ 國加工廠，承諾 24–48 小時回覆。",
     "mapCta": "尋找您的代理商",
     "ctaHeading": "準備好找到合適的切割方案了嗎？",
     "ctaText": "告訴我們您的材料，我們將為您的應用推薦最合適的刀座。",

@@ -131,7 +131,7 @@ export default async function SolutionPage({ params }: SolutionPageProps) {
                         </Link>
                         <Link
                           href={`/${lang}/contact?product=${model}`}
-                          className="rounded bg-orange px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-orange-hover"
+                          className="rounded bg-orange px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-orange-hover"
                         >
                           {dict.nav.getAQuote}
                         </Link>

@@ -34,7 +34,7 @@ export default function CTAButton({
   return (
     <Link
       href={href}
-      className={`inline-flex items-center justify-center gap-2 rounded font-semibold transition-colors ${VARIANT_CLASSES[variant]} ${SIZE_CLASSES[size]} ${className}`}
+      className={`inline-flex items-center justify-center gap-2 rounded font-medium transition-colors ${VARIANT_CLASSES[variant]} ${SIZE_CLASSES[size]} ${className}`}
     >
       {children}
     </Link>

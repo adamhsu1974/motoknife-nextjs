@@ -107,7 +107,7 @@ export default async function ProductsPage({ params }: ProductsPageProps) {
           </div>
           <Link
             href={`/${lang}/products/cutting-methods`}
-            className="shrink-0 rounded bg-orange px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-hover"
+            className="shrink-0 rounded bg-orange px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-orange-hover"
           >
             {dict.common.learnMore}
           </Link>

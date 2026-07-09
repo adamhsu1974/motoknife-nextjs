@@ -16,14 +16,10 @@ export default function Footer({ lang, dict, distributorCountries }: FooterProps
   const footerNav = [
     {
       title: dict.footer.productsTitle,
-      links: [
-        { href: `/${lang}/products/score-cut`, label: "Score Cut" },
-        { href: `/${lang}/products/shear-cut`, label: "Shear Cut" },
-        { href: `/${lang}/products/half-cut`, label: "Half Cut" },
-        { href: `/${lang}/products/hot-cut`, label: "Hot Cut" },
-        { href: `/${lang}/products/knives`, label: "Knives" },
-        { href: `/${lang}/products/guide-bar`, label: "Guide Bar" },
-      ],
+      links: dict.nav.series.map((series) => ({
+        href: `/${lang}/products/${series.slug}`,
+        label: series.label,
+      })),
     },
     {
       title: dict.footer.companyTitle,
@@ -53,7 +49,7 @@ export default function Footer({ lang, dict, distributorCountries }: FooterProps
 
             <div className="mt-6 space-y-5 text-sm">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-wider text-white/80">
+                <p className="text-sm font-medium text-white/80">
                   {dict.footer.taiwanHq}
                 </p>
                 <div className="mt-2 space-y-1 text-white/60">
@@ -73,7 +69,7 @@ export default function Footer({ lang, dict, distributorCountries }: FooterProps
                 </div>
               </div>
               <div>
-                <p className="text-xs font-semibold uppercase tracking-wider text-white/80">
+                <p className="text-sm font-medium text-white/80">
                   {dict.footer.shanghaiOffice}
                 </p>
                 <div className="mt-2 space-y-1 text-white/60">
@@ -89,7 +85,7 @@ export default function Footer({ lang, dict, distributorCountries }: FooterProps
           {/* Nav Columns */}
           {footerNav.map((section) => (
             <div key={section.title}>
-              <h3 className="text-sm font-semibold uppercase tracking-wider text-white/80">
+              <h3 className="text-sm font-medium text-white/80">
                 {section.title}
               </h3>
               <ul className="mt-4 space-y-2">
@@ -109,7 +105,7 @@ export default function Footer({ lang, dict, distributorCountries }: FooterProps
 
           {/* Distributor quick links */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-white/80">
+            <h3 className="text-sm font-medium text-white/80">
               {dict.footer.distributorsTitle}
             </h3>
             <ul className="mt-4 space-y-2">

@@ -15,8 +15,8 @@ export default function WhyMotoknife({ dict }: { dict: Dictionary }) {
             key={item.label}
             className="border-border pr-4 lg:border-l lg:pl-8 lg:first:border-l-0 lg:first:pl-0"
           >
-            <p className="text-sm font-medium text-text-primary">{item.value}</p>
-            <p className="mt-1 text-[11px] leading-relaxed text-text-muted">
+            <p className="text-base font-medium text-text-primary">{item.value}</p>
+            <p className="mt-1 text-xs leading-relaxed text-text-secondary">
               {item.label}
             </p>
           </div>

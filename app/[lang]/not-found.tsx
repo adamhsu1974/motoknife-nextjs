@@ -73,7 +73,7 @@ export default function NotFound() {
 
         <Link
           href={`/${lang}/contact`}
-          className="mt-10 inline-block rounded bg-orange px-8 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-orange-hover"
+          className="mt-10 inline-block rounded bg-orange px-8 py-3.5 text-sm font-medium text-white transition-colors hover:bg-orange-hover"
         >
           {copy.cta}
         </Link>
