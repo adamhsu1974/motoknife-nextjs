@@ -7,6 +7,9 @@
     "about": "About",
     "contact": "Contact",
     "getAQuote": "Get a Quote",
+    "switchLanguage": "Switch language",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
     "series": [
       { "slug": "score-cut", "label": "Score Cut" },
       { "slug": "shear-cut", "label": "Shear Cut" },
@@ -18,6 +21,7 @@
   },
   "common": {
     "home": "Home",
+    "skipToContent": "Skip to main content",
     "findTheRightSolution": "Find the Right Solution",
     "findSolutionShort": "Find Solution",
     "learnMore": "Learn More",

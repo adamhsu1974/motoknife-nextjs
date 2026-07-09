@@ -107,10 +107,10 @@ export default function Navbar({ lang, dict }: NavbarProps) {
               href={`/${lang}/products`}
               aria-expanded={isProductsOpen}
               aria-current={isActive(`/${lang}/products`) ? "page" : undefined}
-              className={`relative flex items-center gap-1 px-3 py-2 text-sm font-medium transition-colors hover:text-text-primary after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:bg-orange after:transition-transform hover:after:scale-x-100 ${
+              className={`relative flex items-center gap-1 px-3 py-2 text-sm font-medium transition-colors hover:text-text-primary after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:bg-orange after:transition-opacity motion-reduce:after:transition-none hover:after:opacity-100 ${
                 isActive(`/${lang}/products`)
-                  ? "text-text-primary after:scale-x-100"
-                  : "text-text-secondary after:scale-x-0"
+                  ? "text-text-primary after:opacity-100"
+                  : "text-text-secondary after:opacity-0"
               }`}
             >
               {dict.nav.products}
@@ -145,10 +145,10 @@ export default function Navbar({ lang, dict }: NavbarProps) {
               key={link.href}
               href={link.href}
               aria-current={isActive(link.href) ? "page" : undefined}
-              className={`relative px-3 py-2 text-sm font-medium transition-colors hover:text-text-primary after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:bg-orange after:transition-transform hover:after:scale-x-100 ${
+              className={`relative px-3 py-2 text-sm font-medium transition-colors hover:text-text-primary after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:bg-orange after:transition-opacity motion-reduce:after:transition-none hover:after:opacity-100 ${
                 isActive(link.href)
-                  ? "text-text-primary after:scale-x-100"
-                  : "text-text-secondary after:scale-x-0"
+                  ? "text-text-primary after:opacity-100"
+                  : "text-text-secondary after:opacity-0"
               }`}
             >
               {link.label}
@@ -175,7 +175,7 @@ export default function Navbar({ lang, dict }: NavbarProps) {
               onClick={() => setIsLangOpen(!isLangOpen)}
               aria-expanded={isLangOpen}
               className="flex items-center gap-1 rounded px-2 py-1 text-sm text-text-secondary transition-colors hover:text-text-primary"
-              aria-label="Switch language"
+              aria-label={dict.nav.switchLanguage}
             >
               <GlobeIcon />
               <span>{LANGUAGE_LABELS[lang]}</span>
@@ -224,7 +224,7 @@ export default function Navbar({ lang, dict }: NavbarProps) {
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-expanded={isMobileMenuOpen}
             className="flex h-10 w-10 items-center justify-center text-text-primary"
-            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-label={isMobileMenuOpen ? dict.nav.closeMenu : dict.nav.openMenu}
           >
             {isMobileMenuOpen ? <CloseIcon /> : <HamburgerIcon />}
           </button>

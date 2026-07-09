@@ -142,9 +142,19 @@ export default async function RootLayout({
       className={`${dmSans.variable} ${barlow.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded focus:bg-orange focus:px-4 focus:py-2.5 focus:text-sm focus:font-medium focus:text-white"
+        >
+          {dict.common.skipToContent}
+        </a>
         <OrganizationJsonLd />
         <Navbar lang={lang} dict={dict} />
-        <main aria-label={dict.common.mainAria} className="flex-1 pt-[56px]">
+        <main
+          id="main-content"
+          aria-label={dict.common.mainAria}
+          className="flex-1 pt-[56px]"
+        >
           {children}
         </main>
         <Footer lang={lang} dict={dict} distributorCountries={distributorCountries} />

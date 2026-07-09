@@ -7,6 +7,9 @@
     "about": "關於友聚",
     "contact": "聯絡我們",
     "getAQuote": "立即詢價",
+    "switchLanguage": "切換語言",
+    "openMenu": "開啟選單",
+    "closeMenu": "關閉選單",
     "series": [
       { "slug": "score-cut", "label": "壓切刀座" },
       { "slug": "shear-cut", "label": "剪切刀座" },
@@ -18,6 +21,7 @@
   },
   "common": {
     "home": "首頁",
+    "skipToContent": "跳至主要內容",
     "findTheRightSolution": "找到合適的解決方案",
     "findSolutionShort": "快速選型",
     "learnMore": "了解更多",

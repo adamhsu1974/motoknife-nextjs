@@ -72,12 +72,10 @@ export default async function Home({ params }: HomePageProps) {
           <p className="mx-auto mt-5 max-w-xl leading-relaxed text-text-secondary">
             {dict.home.heroSubtitle}
           </p>
-          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          {/* 首屏單一 CTA：詢價由導覽列常駐橙鈕承擔 */}
+          <div className="mt-8">
             <CTAButton href={`/${locale}/products`} size="lg">
               {dict.common.exploreProducts}
-            </CTAButton>
-            <CTAButton href={`/${locale}/contact`} variant="outline-dark" size="lg">
-              {dict.home.ctaButton}
             </CTAButton>
           </div>
           {/* Neutral image slot — 產品渲染圖位（素材到位原位替換，零位移） */}
