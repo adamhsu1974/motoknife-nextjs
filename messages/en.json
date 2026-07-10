@@ -27,6 +27,7 @@
     "learnMore": "Learn More",
     "viewSeries": "View Series",
     "exploreProducts": "Explore Products",
+    "contactUs": "Contact Us",
     "cuttingMethods": "Cutting Methods",
     "faqHeading": "Frequently Asked Questions",
     "mainAria": "Main content",
@@ -251,7 +252,8 @@
   },
   "home": {
     "heroEyebrow": "Made in Taiwan · Since 1990",
-    "heroLine1": "Built to perform.",
+    "heroTitleLead": "Built to ",
+    "heroTitleAccent": "perform.",
     "heroLine2": "Every cut, every shift, every year.",
     "heroSubtitle": "Knife holders and slitting knives that cut film, foil, paper, and nonwovens to precise width — trusted by converters in 50+ countries.",
     "advantagesHeading": "The MOTOKNIFE Difference",

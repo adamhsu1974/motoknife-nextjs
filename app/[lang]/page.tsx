@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import CTAButton from "@/components/CTAButton";
 import Reveal from "@/components/gsap/Reveal";
+import HeroBackground from "@/components/HeroBackground";
 import WhyMotoknife from "@/components/WhyMotoknife";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
@@ -55,36 +56,49 @@ export default async function Home({ params }: HomePageProps) {
 
   return (
     <div>
-      {/* ── Section 1: Hero（白色舞台 + 產品渲染圖位） ─────────── */}
-      <section className="bg-white">
+      {/* ── Section 1: Hero（深色影片背景 + 白字疊層） ─────────── */}
+      <section className="relative flex min-h-[600px] items-center overflow-hidden bg-hero-black md:min-h-[720px]">
+        {/* Layer 1: video BG（mobile / reduced-motion 僅顯示 poster） */}
+        <HeroBackground />
+        {/* Layer 2: 深色遮罩，提升白字對比（不夠可調至 /30） */}
+        <div aria-hidden className="absolute inset-0 bg-black/25" />
+        {/* Layer 3: 內容 */}
         <Reveal
           mode="mount"
           stagger
           y={16}
-          className="mx-auto max-w-7xl px-4 pt-14 text-center md:pt-20"
+          className="relative z-10 mx-auto w-full max-w-7xl px-4 py-24 text-center md:py-32"
         >
-          <p className="eyebrow">{dict.home.heroEyebrow}</p>
-          <h1 className="mx-auto mt-4 max-w-3xl text-[clamp(2.5rem,2rem+1.5vw,3rem)] font-medium leading-[1.15] tracking-[-0.01em] text-text-primary">
-            {dict.home.heroLine1}
-            <br />
-            {dict.home.heroLine2}
+          <p className="eyebrow eyebrow-dark">{dict.home.heroEyebrow}</p>
+          <h1 className="mx-auto mt-4 max-w-3xl text-[clamp(2.5rem,2rem+1.5vw,3rem)] font-medium leading-[1.15] tracking-[-0.01em] text-white">
+            {dict.home.heroTitleLead}
+            {/* Accent：Latin 用襯線斜體橙、CJK 只上色（合成斜體不美） */}
+            <em
+              className={`text-orange ${locale === "en" ? "font-serif italic" : "not-italic"}`}
+            >
+              {dict.home.heroTitleAccent}
+            </em>
           </h1>
-          <p className="mx-auto mt-5 max-w-xl leading-relaxed text-text-secondary">
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-white md:text-xl">
+            {dict.home.heroLine2}
+          </p>
+          <p className="mx-auto mt-4 max-w-xl leading-relaxed text-white/80">
             {dict.home.heroSubtitle}
           </p>
-          {/* 首屏單一 CTA：詢價由導覽列常駐橙鈕承擔 */}
-          <div className="mt-8">
-            <CTAButton href={`/${locale}/products`} size="lg">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <CTAButton href={`/${locale}/products`} size="lg" shape="pill">
               {dict.common.exploreProducts}
             </CTAButton>
+            <CTAButton
+              href={`/${locale}/contact`}
+              size="lg"
+              shape="pill"
+              variant="outline-light"
+            >
+              {dict.common.contactUs}
+            </CTAButton>
           </div>
-          {/* Neutral image slot — 產品渲染圖位（素材到位原位替換，零位移） */}
-          <div
-            aria-hidden
-            className="mx-auto mt-12 aspect-[16/7] w-full max-w-5xl rounded-lg bg-bg-tertiary"
-          />
         </Reveal>
-        <div className="h-14 md:h-20" />
       </section>
 
       {/* ── Section 2: Why MOTOKNIFE 信任條 ─────────────────── */}

@@ -2,7 +2,7 @@
 **Repo**: adamhsu1974/motoknife-nextjs
 **Branch**: design-refresh
 **Stack**: Next.js 16 + Payload CMS 3 + PostgreSQL + Tailwind CSS
-**Last updated**: 2026-07-10
+**Last updated**: 2026-07-10 (Hero 深色影片背景版)
 
 ## 現狀
 - Impeccable critique: 30/40, P0=0 (code), code-fixable backlog cleared
@@ -19,6 +19,21 @@
 ## 品牌決策（不可變更，除非 GM 明確指示）
 - Hero copy: "Built to perform." / "Every cut, every shift, every year."
 - 中文: "為表現而生。" / "每一刀、每一班、每一年。"
+- Hero CTA: 雙 CTA — Explore Products（主，橘色實心膠囊）+ Contact Us（次，膠囊描邊）
+  - 2026-07-10 從單一 CTA 恢復；當初單一 CTA 的理由是「詢價由導覽列常駐橙鈕承擔」，
+    但 Hero 引入品牌宣示 "Built to perform." 後，需要在首屏就提供
+    一個較低門檻的次要入口（Contact Us）給非採購動機的訪客（研究、媒體、代理商詢問等），
+    否則他們得捲到 Section 7 才看到聯絡入口
+
+## Hero 方案演進（2026-07）
+1. **v1 白底 + 16:7 產品渲染圖位**（Bright Workshop 初版）— 素材未到位，用灰佔位
+2. **v2 白底 + 波浪動畫**（HeroWaves）— 短暫過渡，覺得不夠有工廠現場感
+3. **v3 深色影片背景**（現行）— 白底 Bright Workshop 定調保留在其他 section；
+   Hero 單獨走深色沉浸感（video → 遮罩 → 白字）以襯托 "Built to perform." 品牌宣示
+   - 影片 `public/hero-bg.mp4` + poster `public/hero-poster.jpg` 為**靜態資產，不進 CMS**
+     （避免每個 render 拉 CMS，影片變更透過 git commit 上版）
+   - 手機 / prefers-reduced-motion → 只顯示 poster，video 不下載（preload="none"）
+   - `components/HeroWaves.tsx` **保留檔案**但已從首頁移除，可能未來 About/Applications 頁面沿用
 - Trust pillars: Since 1990 / 50+ Countries / In-house Full Process / 3-Day Dispatch
 - 首頁不放價格主張
 - ±0.005mm 只在個別產品 Specs tab

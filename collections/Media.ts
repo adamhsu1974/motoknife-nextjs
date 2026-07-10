@@ -16,7 +16,7 @@ export const Media: CollectionConfig = {
       { name: "card", width: 800 },
       { name: "large", width: 1200 },
     ],
-    mimeTypes: ["image/*", "application/pdf", "model/gltf-binary"],
+    mimeTypes: ["image/*", "application/pdf", "model/gltf-binary", "video/mp4"],
   },
   fields: [
     {

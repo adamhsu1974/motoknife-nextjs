@@ -13,6 +13,7 @@ import type {
   Distributor,
   Faq,
   News,
+  Page,
   Product,
 } from "@/lib/payload-types";
 
@@ -154,6 +155,22 @@ export const fetchArticleBySlug = cache(
     const payload = await client();
     const result = await payload.find({
       collection: "news",
+      locale,
+      where: { slug: { equals: slug } },
+      limit: 1,
+      depth: 1,
+    });
+    return result.docs[0];
+  },
+);
+
+/* ─── Pages ───────────────────────────────────────────────── */
+
+export const fetchPage = cache(
+  async (locale: Locale, slug: string): Promise<Page | undefined> => {
+    const payload = await client();
+    const result = await payload.find({
+      collection: "pages",
       locale,
       where: { slug: { equals: slug } },
       limit: 1,

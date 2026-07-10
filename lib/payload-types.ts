@@ -608,6 +608,10 @@ export interface Page {
     heading?: string | null;
     subheading?: string | null;
     image?: (number | null) | Media;
+    /**
+     * Hero 背景影片（mp4）。若同時提供 image，image 會作為 poster。
+     */
+    video?: (number | null) | Media;
     ctaLabel?: string | null;
     ctaLink?: string | null;
   };
@@ -1040,6 +1044,7 @@ export interface PagesSelect<T extends boolean = true> {
         heading?: T;
         subheading?: T;
         image?: T;
+        video?: T;
         ctaLabel?: T;
         ctaLink?: T;
       };

@@ -137,6 +137,15 @@ export const Pages: CollectionConfig = {
         },
         { name: "subheading", type: "textarea", localized: true },
         { name: "image", type: "upload", relationTo: "media" },
+        {
+          name: "video",
+          type: "upload",
+          relationTo: "media",
+          filterOptions: { mimeType: { contains: "video" } },
+          admin: {
+            description: "Hero 背景影片（mp4）。若同時提供 image，image 會作為 poster。",
+          },
+        },
         { name: "ctaLabel", type: "text", localized: true },
         { name: "ctaLink", type: "text" },
       ],
