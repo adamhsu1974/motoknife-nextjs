@@ -22,13 +22,21 @@ export default function FloatingCTA({ lang, dict }: FloatingCTAProps) {
   const isSuppressed = suppressedPath === pathname;
 
   useEffect(() => {
-    const target = document.querySelector("[data-hide-floating-cta]");
-    if (!target) return;
+    const targets = document.querySelectorAll("[data-hide-floating-cta]");
+    if (targets.length === 0) return;
+    // 多目標：任一 target 可見即抑制；用 Set 追蹤目前正相交的元素
+    const intersecting = new Set<Element>();
     const observer = new IntersectionObserver(
-      ([entry]) => setSuppressedPath(entry.isIntersecting ? pathname : null),
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) intersecting.add(entry.target);
+          else intersecting.delete(entry.target);
+        }
+        setSuppressedPath(intersecting.size > 0 ? pathname : null);
+      },
       { threshold: 0.2 },
     );
-    observer.observe(target);
+    targets.forEach((t) => observer.observe(t));
     return () => observer.disconnect();
   }, [pathname]);
 

@@ -57,17 +57,18 @@ export default async function Home({ params }: HomePageProps) {
   return (
     <div>
       {/* ── Section 1: Hero（深色影片背景 + 白字疊層） ─────────── */}
-      <section className="relative flex min-h-[600px] items-center overflow-hidden bg-hero-black md:min-h-[720px]">
-        {/* Layer 1: video BG（mobile / reduced-motion 僅顯示 poster） */}
+      {/* pt-20 md:pt-24 為 fixed navbar（~68px）預留 clearance，避免 eyebrow 被遮 */}
+      <section className="relative flex min-h-[600px] items-center overflow-hidden bg-hero-black pt-20 pb-16 md:min-h-[720px] md:pt-24 md:pb-20">
+        {/* Layer 1: video BG（reduced-motion 僅顯示 poster；桌面用 hero-bg.mp4、手機 hero-bg-720.mp4） */}
         <HeroBackground />
-        {/* Layer 2: 深色遮罩，提升白字對比（不夠可調至 /30） */}
-        <div aria-hidden className="absolute inset-0 bg-black/25" />
+        {/* Layer 2: 深色遮罩；行動版加深至 /40 補對比，桌面維持 /25 */}
+        <div aria-hidden className="absolute inset-0 bg-black/40 md:bg-black/25" />
         {/* Layer 3: 內容 */}
         <Reveal
           mode="mount"
           stagger
           y={16}
-          className="relative z-10 mx-auto w-full max-w-7xl px-4 py-24 text-center md:py-32"
+          className="relative z-10 mx-auto w-full max-w-7xl px-4 text-center"
         >
           <p className="eyebrow eyebrow-dark">{dict.home.heroEyebrow}</p>
           <h1 className="mx-auto mt-4 max-w-3xl text-[clamp(2.5rem,2rem+1.5vw,3rem)] font-medium leading-[1.15] tracking-[-0.01em] text-white">
@@ -105,7 +106,8 @@ export default async function Home({ params }: HomePageProps) {
       <WhyMotoknife dict={dict} />
 
       {/* ── Section 3: Products（2×2 白卡） ─────────────────── */}
-      <section className="bg-bg-secondary py-16 md:py-24">
+      {/* data-hide-floating-cta：進入視窗時淡出 FloatingCTA，避免橘色浮動鈕擋到卡片 */}
+      <section data-hide-floating-cta className="bg-bg-secondary py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
           <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
             <div>

@@ -4,7 +4,7 @@ import type { Dictionary } from "@/lib/i18n/dictionaries";
 /** Why MOTOKNIFE 信任條 — 白底一行四點、細分隔線（首頁 Hero 後與 About 頁共用） */
 export default function WhyMotoknife({ dict }: { dict: Dictionary }) {
   return (
-    <section className="border-y border-border bg-white">
+    <section data-hide-floating-cta className="border-y border-border bg-white">
       <h2 className="sr-only">{dict.why.heading}</h2>
       <Reveal
         stagger
