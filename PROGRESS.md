@@ -2,7 +2,7 @@
 **Repo**: adamhsu1974/motoknife-nextjs
 **Branch**: design-refresh
 **Stack**: Next.js 16 + Payload CMS 3 + PostgreSQL + Tailwind CSS
-**Last updated**: 2026-07-10 (Hero 深色影片背景版)
+**Last updated**: 2026-07-11 (iPhone hydration debug — 已結案)
 
 ## 現狀
 - Impeccable critique: 30/40, P0=0 (code), code-fixable backlog cleared
@@ -41,6 +41,60 @@
 - 切法: score / shear / half / hot（四種，無 razor）
 - North Star: The Bright Workshop
 - 參考配方: DJI 明亮色系 + Apple 排版 + UR 應用導向 + Tesla 一屏一事
+
+## Debug 記錄
+
+### 2026-07-11 — iPhone 實機 hydration 失敗（✅ 已結案）
+**結論**：**dev streaming × 熱點網路環境問題，程式碼無需修改。**
+同一 iPhone、同一熱點網路下，改跑 **production build（`npm run build && npm start`）
+一切正常**——影片自動播放、漢堡選單、所有互動皆 OK。確認問題僅存在於
+「`next dev` 的 HTTP streaming + 個人熱點網路（172.20.10.x）」這個特定組合，
+**正式部署（非 dev streaming）不受影響**。GERR debug code 已全數移除。
+
+> ⚠️ **日後開發備註**：在熱點網路環境開發時，dev server 的 streaming 回應
+> 可能被該網路破壞，導致 iPhone 實機 hydration 失敗（此為環境假象，非程式 bug）。
+> **iPhone 實機測試請改用 production build（`npm run build && npm start`）驗證**，
+> 或改用一般 Wi-Fi。
+
+---
+（以下為原始排查記錄，保留供日後參考）
+
+
+**症狀**：iPhone 17 Pro Max 實機開首頁，整頁 JS 互動全失效（漢堡選單無反應、
+Hero 影片不播）；SSR HTML 正常（poster/文字/按鈕外觀都在）、23 個 JS chunk
+全載入、`window.__next_f` 存在，但 `HeroBackground` 的 console.log 零輸出、
+`querySelector('video')` = null → React 整棵樹在 hydration 早期放棄掛載。
+**同頁在 Mac Safari（含回應式手機寬度）完全正常。**
+
+**排查歷程**：
+1. HeroBackground 加 debug log（state / `play()` resolve-reject / onPlay / onError）
+   → iPhone 零輸出，確認 hydration 根本沒跑到該元件
+2. layout 加全域錯誤捕捉（`window.onerror` + `unhandledrejection`）
+   → 只有 `[GERR] handlers installed`，無任何 error/rejection 被捕捉
+   → 排除「拋出未捕捉例外」，指向被 React 吞掉的 hydration mismatch
+3. patch `console.error` 撈 hydration mismatch 完整 diff（React 只用 console.error
+   印、不 throw）→ **實測未見任何 mismatch**，排除 SSR vs client 內容不一致
+4. GERR script 幾經修正（`<script>` in JSX → next/script beforeInteractive
+   置於 `<html>` 子層違反 HTML 結構 → 最終移入 `<body>` 開頭）
+
+**逐項排除**：
+- 程式碼寬度相關問題 → 排除（Mac 手機寬度正常）
+- 影片檔本身 → 排除（iPhone console 手動 `createElement('video')` 載入
+  `/hero-bg-720.mp4` 自動播放成功）
+- iOS 相容性嫌疑（matchMedia.addEventListener / Array.at / structuredClone /
+  regex lookbehind / module-scope API）→ 全站 grep 排除，且 iPhone 17 為新機
+- hydration mismatch → 排除（console.error patch 未捕捉到）
+- 瀏覽器延伸功能 / VPN / iCloud Private Relay → 逐一關閉排除
+
+**最終嫌疑（待驗證）**：iPhone 個人熱點網路（172.20.10.x 網段）破壞
+dev server 的 HTTP streaming 回應，與 debug 期間持續出現的
+WebSocket「無法剖析回應」為**同根源**——即 hydration 用的 streamed RSC payload
+在該網路下被截斷／改寫，導致 React 無法完成 client hydration。
+若成立，則**非程式碼問題**，正式站（非 dev streaming）可能不受影響。
+
+- [x] **重測 iPhone hydration** → 同熱點網路改用 production build 一切正常，
+      確認為 dev server streaming × 熱點網路交互問題（環境因素，非 code）
+- [x] GERR debug 機制已全數移除（`app/[lang]/layout.tsx` + `components/HeroBackground.tsx`）
 
 ## 上線前 Checklist
 - [ ] 後台密碼改強密碼（上線前必須更換，見 admin）
