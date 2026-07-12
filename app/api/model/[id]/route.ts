@@ -11,9 +11,9 @@ import { getPayload } from "payload";
 
 import config from "@payload-config";
 
-export const dynamic = "force-dynamic";
+import { MEDIA_DIR } from "@/lib/media-dir";
 
-const MEDIA_DIR = path.resolve(process.cwd(), "media");
+export const dynamic = "force-dynamic";
 
 export async function GET(
   _request: Request,
