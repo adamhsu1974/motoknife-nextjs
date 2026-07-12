@@ -1,0 +1,2 @@
+# git hooks 由 sh 執行，必須維持 LF（否則 Windows autocrlf checkout 會弄壞 hook）
+scripts/pre-commit text eol=lf

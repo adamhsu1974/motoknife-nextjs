@@ -1,0 +1,32 @@
+#!/bin/sh
+# MOTOKNIFE pre-commit hook — migrations 模式防呆(2026-07-12)
+# 改了 collections/ 卻沒新增 migration 檔 → 擋下 commit
+# 各機安裝:copy scripts\pre-commit .git\hooks\pre-commit(Windows)
+#           cp scripts/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit(Mac)
+# 確定不影響 schema 時可用 git commit --no-verify 跳過
+
+collections_changed=$(git diff --cached --name-only | grep '^collections/')
+migrations_added=$(git diff --cached --name-only --diff-filter=A | grep '^migrations/')
+
+if [ -n "$collections_changed" ] && [ -z "$migrations_added" ]; then
+  echo ""
+  echo "=========================================================="
+  echo "  X  collections/ 有變更,但沒有包含新的 migration 檔"
+  echo "=========================================================="
+  echo ""
+  echo "  變更的檔案:"
+  echo "$collections_changed" | sed 's/^/    - /'
+  echo ""
+  echo "  請先執行:"
+  echo "    npx payload migrate:create <描述性名稱>"
+  echo "    npx payload migrate"
+  echo "    git add migrations/"
+  echo "  然後重新 commit。"
+  echo ""
+  echo "  若此變更確定不影響資料庫 schema(僅改 label/admin UI):"
+  echo "    git commit --no-verify"
+  echo ""
+  exit 1
+fi
+
+exit 0

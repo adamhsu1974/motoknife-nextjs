@@ -184,3 +184,34 @@ ApplicationSelector（選型器）、ApplicationPage、DistributorsMap（react-s
 | v1.0 | 2026-03-25 | 初始建立，整合競品研究與網站架構規劃 |
 | v1.1 | 2026-07-07 | Payload CMS 完整整合：admin 掛載（app/(payload)）、seed script（npm run seed）、前台改接 Local API + ISR（revalidate 3600）；Applications 改為 docs/PLANNING.md 第六章 9 分類（路由以 PLANNING.md 為準）；新增 Faqs collection；README 重寫 |
 | v1.2 | 2026-07-07 | 任務 18-20 + 手機優化 + 圖庫 + Feature Highlights：3D/工程圖檢視器、產品頁 Tab UI、Services 頁（Test & Report）、Why MOTOKNIFE 信任區塊、WhatsApp 整合、手機體驗優化（pinch zoom / tabs 滾動 / 地圖下拉 / next/image）、SEO 深度優化（10 個 Solutions 長尾頁 + 內部連結網絡 + twitter card + images.formats）、產品圖庫（主圖 + 縮圖切換）、Feature Highlights 圖文敘事區塊 |
+
+---
+
+## Payload CMS Schema 變更規則(migrations 模式,2026-07-12 起)
+
+本專案已設 `push: false`(payload.config.ts),dev-push 已停用。
+資料庫為三機共用(NAS 192.168.0.106:5433,motoknife-db 容器),
+含真實產品資料,任何破壞性操作會同時影響三台開發機。
+
+每當修改 `collections/` 下任何檔案、或 `payload.config.ts` 中
+影響資料庫 schema 的設定,必須在同一次工作中依序完成:
+
+1. `npx payload migrate:create <描述性名稱>`(英文命名,例:add_product_downloads)
+2. `npx payload migrate`(套用到共用資料庫,全部機器只需執行一次)
+3. 將 migration 檔(`migrations/`)連同 collection 變更一起 commit + push
+4. 更新 `CMS-GUIDE.md` 對應 collection 章節(欄位說明、填寫方式、前台效果)
+
+### 禁止事項
+
+- **嚴禁**執行 `npx payload migrate:fresh` —— 會 drop 三機共用資料庫的
+  全部真實資料(產品、media 記錄、admin 帳號)
+- **嚴禁**執行 `npm run seed`,除非使用者明確要求重建測試資料
+- 不可將 `push: false` 改回 `push: true`,或建議使用者這麼做
+- 修改 collection 定義後,不可只改程式碼而不建立 migration
+
+### 判斷基準
+
+- 只改後台顯示用的 label、admin UI 設定、hooks 邏輯而**不動欄位結構** →
+  通常不產生 schema 變更;若不確定,執行 `npx payload migrate:create test_check`
+  觀察生成的 SQL 是否為空,為空則刪除該 migration 檔即可
+- 動到 fields 的新增/刪除/改名/改型別 → 一定需要 migration

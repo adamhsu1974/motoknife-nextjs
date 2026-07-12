@@ -98,7 +98,7 @@ WebSocket「無法剖析回應」為**同根源**——即 hydration 用的 stre
 
 ## 上線前 Checklist
 - [ ] 後台密碼改強密碼（上線前必須更換，見 admin）
-- [ ] Payload 切換 migrations 模式
+- [x] Payload 切換 migrations 模式（2026-07-12 完成，commit c58374a）
 - [ ] 301 轉址地圖（舊站 /en-us/Products/detail/[id] → 新 slug）
 - [ ] .env 正式環境版本
 - [ ] zh-tw 翻譯完成
@@ -112,3 +112,45 @@ WebSocket「無法剖析回應」為**同根源**——即 hydration 用的 stre
 - 公司桌機: C:\Users\USER\motoknife-nextjs, PostgreSQL 16, 密碼 dev123
 - 家裡筆電: C:\Users\Lenovo\motoknife-nextjs, PostgreSQL 17, 密碼 dev123
 - Mac Mini M4: 尚未設定，參考 Notion 多機操作手冊
+
+---
+
+## 2026-07-12:切換 Migrations 模式 + NAS 資料庫基準化
+
+**動機**:三機共用 NAS PostgreSQL 後,dev-push 模式自動同步 schema 的行為
+(尤其 drop table 提示)對共用真實資料構成重大風險。在開始輸入 20 個產品
+資料之前完成切換,確保後續內容建置安全。
+
+**變更內容**:
+- `payload.config.ts`:`postgresAdapter` 加入 `push: false`,永久關閉 dev-push
+- 建立初始基準 migration:`migrations/20260712_085505_initial.ts`
+  (含 `.json` snapshot 與 `index.ts`)
+- NAS 資料庫(192.168.0.106:5433)以 `migrate:fresh` 清空重建,
+  狀態 100% 由 migration 檔定義;admin 帳號已重建(三機共用,存 NAS)
+- Commit:`c58374a` — "chore: switch to migrations mode, add initial baseline migration"
+
+**新工作流程(schema 變更)**:
+1. 修改 collection 定義
+2. `npx payload migrate:create <描述性名稱>`
+3. `npx payload migrate`(全部機器中只需執行一次,狀態記在共用 DB)
+4. migration 檔 commit + push
+5. 同步更新 `CMS-GUIDE.md`
+
+**防呆機制**:
+- `CLAUDE.md` 已加入 schema 變更規則與 migrate:fresh / seed 禁令
+- `scripts/pre-commit` hook:改了 collections/ 卻沒帶 migration 檔的
+  commit 會被擋下(各機需手動安裝到 .git/hooks/,見 Notion 手冊)
+
+**禁忌事項(三機共用資料庫)**:
+- ⚠️ `npx payload migrate:fresh`:會 drop 整個共用資料庫,嚴禁隨手執行
+- ⚠️ `npm run seed`:會覆寫共用資料,已從各機日常開工流程移除
+  (Notion 多機操作手冊已同步更新)
+
+**決策記錄**:
+- 桌機本機資料庫不做 pg_dump 搬移——內容僅數張 MT-A110 圖片,
+  直接在共用後台重傳(約數分鐘),桌機本機 PostgreSQL 之後可停用
+- 週一桌機接入 NAS 因此簡化為:掛 M:\ → 改 .env → git pull →
+  migrate:status 確認 → dev 驗證 → 重傳產品圖 → 安裝 pre-commit hook
+
+**Pre-launch checklist 更新**:
+- [x] 切換 Payload migrations 模式(2026-07-12 完成,commit c58374a)
