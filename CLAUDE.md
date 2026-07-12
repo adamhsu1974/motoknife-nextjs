@@ -12,7 +12,7 @@
 |------|------|------|
 | 前端框架 | Next.js 16 (App Router, Turbopack) | /app 目錄結構，SSG + ISR（revalidate 3600） |
 | CMS | Payload CMS 3.85 | admin 掛載於 app/(payload)，前台經 lib/cms.ts Local API 查詢 |
-| 資料庫 | PostgreSQL 16 | 開發用 dev push mode；上線前需切換 migrations |
+| 資料庫 | PostgreSQL 16（NAS 192.168.0.106:5433，三機共用） | migrations 模式（push: false，2026-07-12 起），schema 變更規則見文末章節 |
 | 樣式 | Tailwind CSS 4 + TypeScript | 設計 token 於 app/globals.css @theme |
 | 動效 | GSAP + @gsap/react | useGSAP hook，SSG 相容 + prefers-reduced-motion 防護 |
 | 部署 | DigitalOcean + Cloudflare | build 階段需可連線資料庫 |
@@ -160,7 +160,7 @@ ApplicationSelector（選型器）、ApplicationPage、DistributorsMap（react-s
 - ✅ GSAP 動效、手機體驗優化、WhatsApp 整合
 
 ### 待辦（依優先序）
-1. **部署**：DigitalOcean + Cloudflare、dev push → **Payload migrations**、舊站 301 轉址
+1. **部署**：DigitalOcean + Cloudflare、舊站 301 轉址（migrations 切換已於 2026-07-12 完成，commit c58374a）
 2. **內容**：zh-tw 翻譯（Phase 2）、GM 校正（規格表/選型厚度/時間軸年份/專利號）
 3. **素材**：產品照片/3D GLB/工程圖/工廠照上傳（Phase 3，Higgsfield 渲染）
 4. **上線後**：Lighthouse 驗證（目標 P>90/SEO>95/A11y>90）、Search Console sitemap 提交
@@ -173,7 +173,7 @@ ApplicationSelector（選型器）、ApplicationPage、DistributorsMap（react-s
 - 元件放 `/components/`、頁面放 `/app/[lang]/`、API 放 `/app/api/`
 - 前台資料一律經 `lib/cms.ts` 查詢；`lib/data/*` 僅供 seed
 - 介面文字透過 i18n 管理，不 hardcode 中文；產品文案採 slittec 三段式（技術特點 → 解決問題 → 適用材料）
-- 修改 `collections/*` 後必跑 `npm run generate:types`；**注意 dev push 對破壞性 schema 變更可能清空資料，改完 collection 後檢查資料量，必要時 `npm run seed`**
+- 修改 `collections/*` 後必跑 `npm run generate:types`，並依「Payload CMS Schema 變更規則」（見文末章節）建立 migration；**嚴禁 `migrate:fresh` 與 `npm run seed`（三機共用資料庫，會毀掉真實資料）**
 
 ---
 
@@ -184,6 +184,7 @@ ApplicationSelector（選型器）、ApplicationPage、DistributorsMap（react-s
 | v1.0 | 2026-03-25 | 初始建立，整合競品研究與網站架構規劃 |
 | v1.1 | 2026-07-07 | Payload CMS 完整整合：admin 掛載（app/(payload)）、seed script（npm run seed）、前台改接 Local API + ISR（revalidate 3600）；Applications 改為 docs/PLANNING.md 第六章 9 分類（路由以 PLANNING.md 為準）；新增 Faqs collection；README 重寫 |
 | v1.2 | 2026-07-07 | 任務 18-20 + 手機優化 + 圖庫 + Feature Highlights：3D/工程圖檢視器、產品頁 Tab UI、Services 頁（Test & Report）、Why MOTOKNIFE 信任區塊、WhatsApp 整合、手機體驗優化（pinch zoom / tabs 滾動 / 地圖下拉 / next/image）、SEO 深度優化（10 個 Solutions 長尾頁 + 內部連結網絡 + twitter card + images.formats）、產品圖庫（主圖 + 縮圖切換）、Feature Highlights 圖文敘事區塊 |
+| v1.3 | 2026-07-12 | 切換 migrations 模式（push: false，NAS 三機共用 DB）：新增 schema 變更規則章節、media 改 MEDIA_DIR 環境變數（NAS 集中存放）、清除舊 dev push 敘述、新增 CMS-GUIDE.md 與 pre-commit hook |
 
 ---
 
