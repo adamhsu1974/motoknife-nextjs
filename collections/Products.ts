@@ -17,7 +17,8 @@ export const CUTTING_METHOD_OPTIONS = [
 ] as const;
 
 export const FAMILY_TIER_OPTIONS = [
-  { label: "輕中型 Light / Medium Duty", value: "light-medium" },
+  { label: "輕型 Light Duty", value: "light-duty" },
+  { label: "中型 Medium Duty", value: "medium-duty" },
   { label: "重磅型 Heavy Duty", value: "heavy-duty" },
   { label: "精密型 Precision", value: "precision" },
   { label: "通用型 General Purpose", value: "general" },
@@ -91,7 +92,7 @@ export const Products: CollectionConfig = {
       options: [...FAMILY_TIER_OPTIONS],
       admin: {
         description:
-          "第六章型號家族分級：Score 輕中型（A110/A130/A160/B110/C121）vs 重磅型（A140/A170/A510）；Shear 精密型（A410/A450）vs 通用型（A650/A850/A880）",
+          "型號家族分級：Score 輕型 / 中型（A110/A130/A160/B110/C121）vs 重磅型（A140/A170/A510）；Shear 精密型（A410/A450）vs 通用型（A650/A850/A880）",
         condition: (data) => data?.productType === "knife-holder",
       },
     },

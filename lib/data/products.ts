@@ -1,6 +1,6 @@
 /**
  * 產品資料 — 型號依 PLANNING.md 第六章型號家族（真實型號）：
- * - Score Cut：A110 / A130 / A160 / B110 / C121（輕中型）＋ A140 / A170 / A510（重磅型）
+ * - Score Cut：A110 / A130 / A160 / B110 / C121（輕型 Light Duty，可視需要改為 Medium Duty）＋ A140 / A170 / A510（重磅型）
  * - Shear Cut：A410 / A450（精密型）＋ A650 / A850 / A880（通用型）
  * - Half Cut：A310 / A310H
  * - Hot Cut：A710
@@ -149,13 +149,13 @@ export const PRODUCT_SERIES: ProductSeries[] = [
 /* ─── Products ────────────────────────────────────────────── */
 
 export const PRODUCTS: Product[] = [
-  /* ── Score Cut · 輕中型 ─────────────────────────────────── */
+  /* ── Score Cut · 輕型 Light Duty ────────────────────────── */
   {
     model: "MT-A110",
     slug: "mt-a110",
     series: "score-cut",
     name: "Pneumatic Score Cut Knife Holder",
-    tier: "Light / Medium Duty",
+    tier: "Light Duty",
     summary:
       "The standard of the range — general-purpose pneumatic score cut holder for films, paper, tapes, and nonwovens.",
     description: [
@@ -184,12 +184,12 @@ export const PRODUCTS: Product[] = [
     slug: "mt-a130",
     series: "score-cut",
     name: "Compact Score Cut Knife Holder",
-    tier: "Light / Medium Duty",
+    tier: "Light Duty",
     summary: "Compact holder for narrow-web slitting where mounting space is limited.",
     description: [
       "A compact body built around a Ø57mm blade brings the minimum slit width down to 8mm while keeping the same double-acting pneumatic system and tool-free blade change as the full-size holders. Machined to ±0.005mm on MAZAK CNC centers.",
       "On narrow-web tape and label lines, full-size holders simply cannot be stacked densely enough — the holder body, not the blade, sets your minimum width. The MT-A130's slim footprint lets you mount more knives per meter of guide bar without sacrificing pressure control.",
-      "Suited to adhesive tapes, label stock, narrow film strips, and lightweight papers — the light-medium score cut family's answer to dense knife layouts.",
+      "Suited to adhesive tapes, label stock, narrow film strips, and lightweight papers — the light-duty score cut family's answer to dense knife layouts.",
     ],
     keySpecs: [
       { label: "Min. Slit Width", value: "8mm" },
@@ -211,10 +211,10 @@ export const PRODUCTS: Product[] = [
     slug: "mt-a160",
     series: "score-cut",
     name: "High-Speed Score Cut Knife Holder",
-    tier: "Light / Medium Duty",
+    tier: "Light Duty",
     summary: "Enhanced blade stability for high-speed paper and film lines.",
     description: [
-      "Upgraded bearing assemblies and a stiffened blade mount hold the cutting edge steady at line speeds up to 600 M/min. The pneumatic pressure system is shared with the rest of the light-medium score family, so blades and spare parts stay interchangeable.",
+      "Upgraded bearing assemblies and a stiffened blade mount hold the cutting edge steady at line speeds up to 600 M/min. The pneumatic pressure system is shared with the rest of the light-duty score family, so blades and spare parts stay interchangeable.",
       "At high web speeds, blade chatter is what turns a clean score cut into fuzzy edges and paper dust. The MT-A160 suppresses vibration at the source, keeping edge quality consistent as your line runs at full rated speed instead of the compromise speed your holders can tolerate.",
       "The first choice for high-speed lightweight paper converting — printing paper, release paper, masking paper — and fast film lines per the Paper & Board and Plastic Film application categories.",
     ],
@@ -238,7 +238,7 @@ export const PRODUCTS: Product[] = [
     slug: "mt-b110",
     series: "score-cut",
     name: "Slim Score Cut Knife Holder",
-    tier: "Light / Medium Duty",
+    tier: "Light Duty",
     summary: "Slim-body economical holder for narrow-width tape and label slitting.",
     description: [
       "A simplified slim-profile body keeps the proven pneumatic scoring action in a lighter, more economical package. Manufactured to the same ±0.005mm tolerance as every MOTOKNIFE holder — economy comes from the simpler construction, not looser machining.",
@@ -262,7 +262,7 @@ export const PRODUCTS: Product[] = [
     slug: "mt-c121",
     series: "score-cut",
     name: "Mini Score Cut Knife Holder",
-    tier: "Light / Medium Duty",
+    tier: "Light Duty",
     summary: "The smallest holder in the score cut range — for the narrowest slit widths.",
     description: [
       "The most compact format in the score cut family: a miniaturized pneumatic holder engineered for the narrowest slit widths and the densest knife arrangements the range supports.",

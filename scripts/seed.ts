@@ -76,7 +76,8 @@ function richText(nodes: ReturnType<typeof paragraphNode | typeof headingNode>[]
 /* ─── Mappings ────────────────────────────────────────────── */
 
 const FAMILY_TIER_MAP: Record<string, string> = {
-  "Light / Medium Duty": "light-medium",
+  "Light Duty": "light-duty",
+  "Medium Duty": "medium-duty",
   "Heavy Duty": "heavy-duty",
   Precision: "precision",
   "General Purpose": "general",

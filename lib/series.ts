@@ -118,7 +118,8 @@ export const SERIES: SeriesInfo[] = [
 ];
 
 export const FAMILY_TIER_LABELS: Record<string, string> = {
-  "light-medium": "Light / Medium Duty",
+  "light-duty": "Light Duty",
+  "medium-duty": "Medium Duty",
   "heavy-duty": "Heavy Duty",
   precision: "Precision",
   general: "General Purpose",

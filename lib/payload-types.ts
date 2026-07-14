@@ -153,9 +153,10 @@ export interface Product {
    */
   cuttingMethod?: ('score-cut' | 'shear-cut' | 'half-cut' | 'hot-cut') | null;
   /**
-   * 第六章型號家族分級：Score 輕中型（A110/A130/A160/B110/C121）vs 重磅型（A140/A170/A510）；Shear 精密型（A410/A450）vs 通用型（A650/A850/A880）
+   * 型號家族分級：Score 輕型 / 中型（A110/A130/A160/B110/C121）vs 重磅型（A140/A170/A510）；Shear 精密型（A410/A450）vs 通用型（A650/A850/A880）
    */
-  familyTier?: ('light-medium' | 'heavy-duty' | 'precision' | 'general' | 'medical' | 'heat-sealed') | null;
+  familyTier?:
+    ('light-duty' | 'medium-duty' | 'heavy-duty' | 'precision' | 'general' | 'medical' | 'heat-sealed') | null;
   /**
    * 一句話賣點，顯示於產品卡
    */

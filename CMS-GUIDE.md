@@ -65,7 +65,7 @@
 | title 🌐 | 文字 | ✅ | 產品顯示名稱,例:`Pneumatic Score Cut Knife Holder`(**Knife Holder 兩字分開寫**) | 型號頁 H1、產品卡副標 |
 | productType | 下拉 | ✅ | 刀組 knife-holder / 刀片 knife / 導桿 guide-bar / 配件 accessory,預設刀組 | 決定歸入哪個系列頁(knives / guide-bar 系列頁依此篩選) |
 | cuttingMethod | 下拉 | 刀組必填 | Score / Shear / Half / Hot Cut。僅 productType = 刀組時顯示 | 決定歸入哪個切法系列頁、產品篩選器 |
-| familyTier | 下拉 | — | 型號家族分級(輕中型/重磅型/精密型/通用型/醫療半斷/熱封切邊),對照 PLANNING.md 第六章 | 系列頁內的家族分組 |
+| familyTier | 下拉 | — | 型號家族分級(輕型 / 中型 / 重磅型 / 精密型 / 通用型 / 醫療半斷 / 熱封切邊)。原 `light-medium` 於 2026-07-14 拆分為 `light-duty` + `medium-duty` | 系列頁內的家族分組 |
 | tagline 🌐 | 文字 | — | 一句話賣點 | 產品卡副標 |
 | description 🌐 | richText | — | **slittec 三段式**:技術特點 → 解決什麼問題 → 適用材料 | 型號頁 Overview 段 |
 | keySpecs | 群組 | — | 核心規格,見下表 | 產品卡數字化呈現、型號頁 Specs、比較表 |
@@ -99,7 +99,7 @@
 
 1. Products → Create New
 2. model:`MT-A110`,slug:`mt-a110`,productType:`刀組 Knife Holder`
-3. cuttingMethod:`Score Cut 壓切`,familyTier:`輕中型 Light / Medium Duty`
+3. cuttingMethod:`Score Cut 壓切`,familyTier:`輕型 Light Duty`
 4. title(EN):`Pneumatic Score Cut Knife Holder`
 5. tagline(EN):一句賣點,例 `Economical slitting for paper and board`
 6. description:三段式——技術特點(氣動壓切、快速換刀)→ 解決問題(窄幅經濟分切)→ 適用材料(紙類、膠帶)
