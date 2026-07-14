@@ -29,6 +29,7 @@ export const FAMILY_TIER_OPTIONS = [
 export const Products: CollectionConfig = {
   slug: "products",
   labels: { singular: "Product", plural: "Products" },
+  orderable: true,
   admin: {
     useAsTitle: "model",
     defaultColumns: ["model", "cuttingMethod", "familyTier", "featured"],
@@ -273,7 +274,7 @@ export const Products: CollectionConfig = {
       name: "displayOrder",
       type: "number",
       defaultValue: 0,
-      admin: { description: "同分類內排序，數字小在前" },
+      admin: { description: "同分類內排序，數字小在前（保留給特殊置頂用；一般拖曳排序即可）" },
     },
     seoField,
   ],

@@ -26,7 +26,7 @@ export const fetchProducts = cache(async (locale: Locale): Promise<Product[]> =>
   const result = await payload.find({
     collection: "products",
     locale,
-    sort: "displayOrder",
+    sort: ["displayOrder", "_order", "model"],
     limit: 100,
     depth: 1,
   });
@@ -54,7 +54,7 @@ export const fetchProductsByMethod = cache(
       collection: "products",
       locale,
       where: { cuttingMethod: { equals: cuttingMethod } },
-      sort: "displayOrder",
+      sort: ["displayOrder", "_order", "model"],
       limit: 100,
       depth: 0,
     });
@@ -69,7 +69,7 @@ export const fetchProductsBySeriesType = cache(
       collection: "products",
       locale,
       where: { productType: { equals: productType } },
-      sort: "displayOrder",
+      sort: ["displayOrder", "_order", "model"],
       limit: 100,
       depth: 0,
     });

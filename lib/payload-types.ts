@@ -135,6 +135,7 @@ export interface UserAuthOperations {
  */
 export interface Product {
   id: number;
+  _order?: string | null;
   /**
    * 型號，例如 MT-A110、MT-A310H、MT-A710
    */
@@ -283,7 +284,7 @@ export interface Product {
    */
   featured?: boolean | null;
   /**
-   * 同分類內排序，數字小在前
+   * 同分類內排序，數字小在前（保留給特殊置頂用；一般拖曳排序即可）
    */
   displayOrder?: number | null;
   /**
@@ -861,6 +862,7 @@ export interface PayloadMigration {
  * via the `definition` "products_select".
  */
 export interface ProductsSelect<T extends boolean = true> {
+  _order?: T;
   model?: T;
   slug?: T;
   title?: T;

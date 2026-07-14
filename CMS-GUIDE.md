@@ -79,7 +79,8 @@
 | model3d | 上傳 | — | GLB 格式 3D 模型 | 型號頁 3D View 段(經 API 代理,不暴露下載 URL) |
 | relatedProducts | 關聯(多) | — | 相關型號(不可選自己) | 型號頁「相關型號」區 |
 | featured | 勾選 | — | ⚠️ 目前前台尚未讀取此欄位(預留) | — |
-| displayOrder | 數字 | — | 同分類內排序,小在前,預設 0 | 產品總覽/系列頁排序 |
+| displayOrder | 數字 | — | 手動強制置頂用,小在前,預設 0(一般不填,拖曳排序即可) | 產品總覽/系列頁排序第一層 |
+| _order | (系統) | — | Payload `orderable: true` 產生,**後台列表左側⋮⋮直接拖曳** | 產品總覽/系列頁排序第二層(displayOrder 相同時) |
 | seo | 群組 | — | 見附錄 C | `<title>`、meta description、og:image |
 
 ### keySpecs 子欄位(雙值標示原則)

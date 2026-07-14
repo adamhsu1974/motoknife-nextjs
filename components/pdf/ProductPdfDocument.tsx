@@ -245,7 +245,7 @@ export function FullCatalogDocument({ products }: { products: Product[] }) {
     .sort(
       (a, b) =>
         METHOD_ORDER.indexOf(a.cuttingMethod ?? "") - METHOD_ORDER.indexOf(b.cuttingMethod ?? "") ||
-        (a.displayOrder ?? 0) - (b.displayOrder ?? 0),
+        (a.model ?? "").localeCompare(b.model ?? ""),
     );
   const accessories = products.filter(
     (p) => p.productType === "knife" || p.productType === "guide-bar",
