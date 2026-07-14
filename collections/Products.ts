@@ -17,12 +17,22 @@ const MUTATING_OPS = new Set([
  *
  * 用 route pattern + 'page' type 一次清所有動態路徑實例
  * (每個 series / model slug / lang 組合),不需一頁頁列。
+ *
+ * revalidatePath 只在 Next.js request context 內可用;從獨立 Node
+ * script(例如 scripts/import-product-copy.ts)呼叫 payload.update()
+ * 時會抛「static generation store missing」,靜默略過即可 —— 批次
+ * 匯入場景不需要即時清快取,下次 request 或 revalidate=3600 到期
+ * 自然會刷新。
  */
 function revalidateAllProductPaths() {
-  revalidatePath("/[lang]", "page");
-  revalidatePath("/[lang]/products", "page");
-  revalidatePath("/[lang]/products/[series]", "page");
-  revalidatePath("/[lang]/products/model/[slug]", "page");
+  try {
+    revalidatePath("/[lang]", "page");
+    revalidatePath("/[lang]/products", "page");
+    revalidatePath("/[lang]/products/[series]", "page");
+    revalidatePath("/[lang]/products/model/[slug]", "page");
+  } catch {
+    /* 非 Next.js runtime,靜默略過 */
+  }
 }
 
 /**
