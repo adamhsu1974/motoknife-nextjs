@@ -1,6 +1,29 @@
 import type { CollectionConfig } from "payload";
+import { revalidatePath } from "next/cache";
 
 import { seoField } from "./fields/seo";
+
+const MUTATING_OPS = new Set([
+  "create",
+  "update",
+  "updateByID",
+  "delete",
+  "deleteByID",
+]);
+
+/**
+ * 任何 Products 寫入(含拖曳排序、tagline 編輯、刪除)都清掉前台
+ * 相關頁面的 ISR 快取,F5 立即反映。
+ *
+ * 用 route pattern + 'page' type 一次清所有動態路徑實例
+ * (每個 series / model slug / lang 組合),不需一頁頁列。
+ */
+function revalidateAllProductPaths() {
+  revalidatePath("/[lang]", "page");
+  revalidatePath("/[lang]/products", "page");
+  revalidatePath("/[lang]/products/[series]", "page");
+  revalidatePath("/[lang]/products/model/[slug]", "page");
+}
 
 /**
  * 型號家族（PLANNING.md 第六章）：
@@ -40,6 +63,16 @@ export const Products: CollectionConfig = {
   },
   versions: {
     drafts: true,
+  },
+  hooks: {
+    afterOperation: [
+      ({ operation, result }) => {
+        if (MUTATING_OPS.has(operation)) {
+          revalidateAllProductPaths();
+        }
+        return result;
+      },
+    ],
   },
   fields: [
     {
